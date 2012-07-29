@@ -21,6 +21,11 @@ authors:
     email : eduardo@algorich.com.br
     github: eduardohertz
 
+# Facebook info
+facebook:
+  app_id: '181157615346244'
+  locale: 'pt_BR'
+
 # Translate month names to Portuguese
 #
 months:
@@ -142,4 +147,3 @@ JB :
   # and include your custom code. Your custom file must be defined at:
   #   ./_includes/custom/[HELPER]
   # where [HELPER] is the name of the helper you are overriding.
-

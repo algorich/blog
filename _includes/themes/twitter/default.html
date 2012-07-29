@@ -6,6 +6,16 @@
     {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
     <meta name="author" content="Algorich Desenvolvimento de Software">
 
+    <!-- Le facebook tags -->
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="{{ site.title }}" />
+    <meta property="fb:app_id" content="{{ site.facebook.app_id }}" />
+    <meta property="og:locale" content="{{ site.facebook.locale }}" />
+    <meta property="og:title" content="{{ page.title }}" />
+    <meta property="og:url" content="{{ site.production_url }}{{ page.url }}" />
+    {% if page.facebook_image %}<meta property="og:image" content="{{ site.production_url }}{{ page.facebook_image }}" />{% endif %}
+    {% if page.description %}<meta property="og:description" content="{{ page.description }}" />{% endif %}
+
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
