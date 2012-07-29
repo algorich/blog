@@ -3,9 +3,7 @@ layout: post
 title: Configurar ssh com acesso por chave pública
 category : segurança
 tags : [ssh]
-author:
-  name : Eduardo Hertz
-  email : eduardo@algorich.com.br
+author: eduardo
 ---
 {% include JB/setup %}
 

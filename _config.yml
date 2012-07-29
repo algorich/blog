@@ -10,7 +10,32 @@ pygments: true
 # so be sure to set them if your theme uses them.
 #
 title : Algorich Blog
-tagline: Site Tagline
+
+authors:
+  hugo:
+    name: Hugo Maia Vieira
+    email: hugo@algorich.com.br
+    github: hugomaiavieira
+  eduardo:
+    name : Eduardo Hertz
+    email : eduardo@algorich.com.br
+    github: eduardohertz
+
+# Translate month names to Portuguese
+#
+months:
+  January: Janeiro
+  February: Fevereiro
+  March: Março
+  April: Abril
+  May: Maio
+  June: Junho
+  July: Julho
+  August: Agosto
+  September: Setembro
+  October: Outubro
+  November: Novembro
+  December: Dezembro
 
 # The production_url is only used when full-domain names are needed
 # such as sitemap.txt
@@ -64,8 +89,8 @@ JB :
   # These paths are to the main pages Jekyll-Bootstrap ships with.
   # Some JB helpers refer to these paths; change theme here if needed.
   #
-  archive_path: /archive.html
-  categories_path : /categories.html
+  archive_path: /arquivo.html
+  categories_path : /categorias.html
   tags_path : /tags.html
 
   # Settings for comments helper
@@ -93,7 +118,7 @@ JB :
   analytics :
     provider : google
     google :
-        tracking_id : 'UA-123-12'
+        tracking_id : 'UA-23447419-6'
     getclicky :
       site_id :
     mixpanel :
