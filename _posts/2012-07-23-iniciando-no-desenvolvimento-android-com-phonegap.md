@@ -52,7 +52,7 @@ android sdk
 
 O SDK Manager irá abrir. Você deve escolher uma (ou mais) versão do Android para instalar. Você só precisa instalar o pacote *SDK Platform*, sendo o restante opcional. Como é apresentado na figura 1, no meu caso, escolhi instalar apenas a versão 2.3.3 que é a versão que roda no meu celular.
 
-<img class="aligncenter" title="SDK Manager" src="/assets/images/2012/07/sdk-manager.png" alt="SDK Manager" width="824" height="464" />
+<img class="aligncenter" title="SDK Manager" src="/assets/images/2012/07/sdk-manager.png" alt="SDK Manager" width="620" height="349" />
 <span class="caption">Figura 1: Instalando pacotes Android com o SDK Manager</span>
 
 Depois de instalar os pacotes, pode fechar o SDK Manager.
@@ -119,7 +119,7 @@ android create project \
 
 Com isso, será criada a estrutura do projeto Android, como apresentada na figura 4.
 
-<img class="size-full wp-image-114" title="Estrutura do projeto Android" src="/assets/images/2012/07/project-tree.png" alt="Estrutura do projeto Android" width="439" height="396" />
+<img class="size-full wp-image-114" title="Estrutura do projeto Android" src="/assets/images/2012/07/project-tree.png" alt="Estrutura do projeto Android" width="370" height="334" />
 <span class="caption">Figura 4: Estrutura de arquivos e diretórios do projeto Android</span>
 
 Se você utilizar um sistema de controle de versão (se não utiliza, deveria) como o <a href="http://git-scm.com/" target="_blank">git</a>, faça com que o arquivo *local.properties* e os diretórios *bin* e *gen* sejam ignorados pelo controle de versão.
@@ -226,7 +226,7 @@ emulator @nome_do_avd
 
 Uma janela com o Emulador será aberta como mostrado na figura 5. É normal o emulador demorar alguns segundos até terminar de carregar.
 
-<img class="aligncenter" title="Emulador Android" src="/assets/images/2012/07/emulator.png" alt="Emulador Android" width="765" height="714" />
+<img class="aligncenter" title="Emulador Android" src="/assets/images/2012/07/emulator.png" alt="Emulador Android" width="620" height="579" />
 <span class="caption">Figura 5: Emulador Android</span>
 
 Para encerrar o Emulador, basta fechar a janela. O Emulador é uma ferramenta muito completa. Você pode interconectar diferentes instâncias do Emulador, manipular o cartão SD, simular envio de sms, entre outras diversas coisas. Veja na <a href="http://developer.android.com/tools/devices/emulator.html" target="_blank">documentação</a> todas as funcionalidades do Emulador.
@@ -259,7 +259,7 @@ ant debug install
 
 Após ter sido instalado, o app pode ser encontrado no menu de apps do dispositivo emulado. Na figura 6 podemos ver o Hello World sendo executado no Emulador.
 
-<img class="aligncenter" title="Hello World no Emulador" src="/assets/images/2012/07/hello-world.png" alt="Hello World no Emulador" width="765" height="714" />
+<img class="aligncenter" title="Hello World no Emulador" src="/assets/images/2012/07/hello-world.png" alt="Hello World no Emulador" width="620" height="579" />
 <span class="caption">Figura 6: HelloWorld sendo executado no Emulador</span>
 
 ## Usando dispositivos reais
@@ -299,7 +299,7 @@ Para executar o app em dispositivos reais você usar o mesmos comandos apresenta
 
 Assim como no Emulador, após ter sido instalado, o app pode ser encontrado no menu de apps do dispositivo. Na figura 7 podemos ver o Hello World sendo executado no meu telefone.
 
-<img class="aligncenter" title="Hello World no dispositivo" src="/assets/images/2012/07/hello-world-device.png" alt="Hello World no dispositivo" width="854" height="480" />
+<img class="aligncenter" title="Hello World no dispositivo" src="/assets/images/2012/07/hello-world-device.png" alt="Hello World no dispositivo" width="620" height="348" />
 <span class="caption">Figura 7: Hello World sendo executado no dispositivo</span>
 
 ## PhoneGap Command Line Tooling
@@ -347,7 +347,7 @@ Para construir o app:
 
 Na figura 9 podemos ver o Hello World criado pelo `create` do PhoneGap sendo executado no Emulador.
 
-<img class="size-full wp-image-159" title="Hello World criado pelo PhoneGap sendo executado no Emulador" src="/assets/images/2012/07/hello_world_phonegap.png" alt="Hello World criado pelo PhoneGap sendo executado no Emulador" width="813" height="744" />
+<img class="size-full wp-image-159" title="Hello World criado pelo PhoneGap sendo executado no Emulador" src="/assets/images/2012/07/hello_world_phonegap.png" alt="Hello World criado pelo PhoneGap sendo executado no Emulador" width="620" height="567" />
 <span class="caption">Figura 9: Hello World criado pelo PhoneGap sendo executado no Emulador</span>
 
 O legal desse app padrão criado é que ele tem vários exemplos de utilização da API do PhoneGap que você pode ver, modificar e testar.
