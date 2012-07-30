@@ -27,6 +27,13 @@ code {
   height: 28px;
 }
 
+.icon-feed {
+  background: url(/assets/images/feed.png) no-repeat left center;
+  padding-right: 4px;
+  width: 12px;
+  height: 12px;
+}
+
 /* The white background content wrapper */
 .content {
   background-color: #fff;
