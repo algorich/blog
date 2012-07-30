@@ -38,7 +38,11 @@ Cada post deve ter os seguintes dados:
     facebook_image: '/assets/images/<ano>/<mes>/arquivo.extensão'
     ---
 
-Para criar um novo post, use o comando `rake post`.
+Para criar um novo post, use o comando `rake post` que deve ser usado da seguinte maneira:
+
+    rake post title="A Title" [date="2012-02-09"]
+
+Se não for passada a data, é adicionada a data de hoje.
 
 ### Blocos de código
 
