@@ -3,7 +3,6 @@ layout: post
 author: eduardo
 title: "Dia, horário e local definidos! #horaextra Campos"
 category: '#horaextra'
-tags: []
 description: 'Dia, horário e local do #horaextra Campos definido. Venha participar!'
 keywords: 'horaextra, campos, computação, desenvolvimento, horaextra campos, reunião'
 ---
