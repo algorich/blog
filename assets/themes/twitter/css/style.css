@@ -11,11 +11,20 @@ html, body {
 .container > footer p {
   text-align: center; /* center align it with the container */
 }
+ul.nav {
+  margin-top: 5px !important;
+}
 
 code {
   padding: 1px;
   color: #333;
   border: none;
+}
+
+.brand {
+  background: url(/assets/images/algorich-logo-inline-blank.png) no-repeat center center;
+  width: 121px;
+  height: 28px;
 }
 
 /* The white background content wrapper */
