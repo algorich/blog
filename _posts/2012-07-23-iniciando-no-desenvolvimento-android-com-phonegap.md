@@ -5,6 +5,7 @@ title: Iniciando no desenvolvimento Android com PhoneGap
 category : mobile
 tags : [phonegap, cordova, android]
 description: 'Aprenda como começar a desenvolver apps para Android utilizando o PhoneGap, um framework que te dá liberdade de criar apps mobile usando as tecnologias da web que você conhece e adora: HTML, CSS e Javascript.'
+keywords: 'mobile, dispositivos, móvel, móveis, phonegap, android, ubuntu, linux'
 facebook_image: '/assets/images/2012/07/phonegap.png'
 ---
 {% include JB/setup %}
