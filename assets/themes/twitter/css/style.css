@@ -167,10 +167,7 @@ code {
 
 /* Facebook plugins ====================================================== */
 
-.fb-like {
-  margin-bottom: 30px;
-}
-
+.fb-like,
 .fb-like-box {
-  margin-top: 30px;
+  margin-top: 15px;
 }
