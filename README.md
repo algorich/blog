@@ -59,3 +59,11 @@ Para fazer o highlighting, é utilizado o pygments. Para ver as linguagens supor
     ApacheConf (filenames .htaccess, apache.conf, apache2.conf)
 
 Neste caso você pode utilizar `apacheconf`, `aconf` ou `apache` para fazer o highlighting de arquivos de configuração do Apache.
+
+### Iframe
+
+Para adicionar um iframe, deve-se adicionar algo entre as tags:
+
+    <iframe src="source">alguma coisa</iframe>
+
+Se não for adicionado algum conteúdo entre as tags, o conteúdo da página após o iframe não será renderizado.
