@@ -40,6 +40,9 @@ code {
   border: 0;
 }
 
+.page-header #logo {
+  text-align: center;
+}
 
 /* published_box ================================================== */
 
