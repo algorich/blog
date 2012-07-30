@@ -38,15 +38,17 @@
 
   <div class="span4">
     <h4>Publicado</h4>
-    <div class="date">
+    <div class="published_box">
+      {% capture this_month %}{{ page.date | date: "%B" }}{% endcapture %}
       <p>
-        <span>{{ page.date | date: '%d/%m/%Y' }}</span>
-        por {{ site.authors[page.author]['name'] }}
+        <i class="icon-calendar"></i> {{ page.date | date: "%d" }} de {{site.months[this_month] | downcase }} de {{ page.date | date: "%Y" }}
+        <br />
+        <i class="icon-user"></i> {{ site.authors[page.author]['name'] }}
       </p>
     </div>
 
   {% unless page.tags == empty %}
-    <h4>Tags</h4>
+    <h4><i class="icon-tags"></i> Tags</h4>
     <ul class="tag_box">
     {% assign tags_list = page.tags %}
     {% include JB/tags_list %}
