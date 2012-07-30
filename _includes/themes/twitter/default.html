@@ -43,10 +43,17 @@
       <div class="navbar-inner">
         <div class="container">
           <a class="brand" href="{{ HOME_PATH }}">{{ site.title }}</a>
-          <div class="container nav-collapse">
+          <div class="nav-collapse">
             <ul class="nav">
               {% assign pages_list = site.pages %}
               {% assign group = 'navigation' %}
+              {% include JB/pages_list %}
+            </ul>
+          </div><!--/.nav-collapse -->
+          <div class="nav-collapse pull-right">
+            <ul class="nav">
+              {% assign pages_list = site.pages %}
+              {% assign group = 'share' %}
               {% include JB/pages_list %}
             </ul>
           </div><!--/.nav-collapse -->
