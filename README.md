@@ -23,6 +23,8 @@ Devem ser salvas seguindo o seguinte padrão:
 
     /assets/images/<ano>/<mês>
 
+Para centralizar uma imagem, ela deve estar dentro de uma tag `<div class="aligncenter">`.
+
 ### Dados do post
 
 Cada post deve ter os seguintes dados:

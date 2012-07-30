@@ -9,13 +9,11 @@ index: true
   <div class="span8">
     {% for post in site.posts limit:5 %}
       <h2><a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></h2>
-      <div class="published_box">
+      <p>
         {% capture month %}{{ post.date | date: "%B" }}{% endcapture %}
-        <p>
-          <i class="icon-calendar"></i> {{ post.date | date: "%d" }} de {{post.months[month] | downcase }} de {{ post.date | date: "%Y" }} |
-          <i class="icon-user"></i> {{ site.authors[post.author]['name'] }}
-        </p>
-      </div>
+        <i class="icon-calendar"></i> {{ post.date | date: "%d" }} de {{post.months[month] | downcase }} de {{ post.date | date: "%Y" }} |
+        <i class="icon-user"></i> {{ site.authors[post.author]['name'] }}
+      </p>
       <div class="post_content">
         {% capture truncated_content  %}{{ post.content | truncatewords: 250 }}{% endcapture %}
         {{ truncated_content }}
