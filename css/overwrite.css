@@ -1,0 +1,248 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
+
+* {
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+body {
+  padding-bottom: 0 !important;
+}
+
+ul, ol { margin: 15px; }
+
+.title { margin-bottom: 20px; }
+
+.clients li { width: 144px }
+/* remover o 'blur' que fica na imagem quando tem o max-width: 100% do default */
+.clients li img { max-width: none; }
+
+.team-name {
+  padding: 15px 0 5px 0;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+#new-team-member-box {
+  width: 170px;
+  height: 170px;
+  cursor: pointer;
+}
+
+#new-team-member-wrapper * {
+  text-align: center;
+}
+
+#team-take-picture {
+  padding: 10px 0;
+}
+
+.social-bookmarks {
+  text-align: center;
+}
+
+.social-bookmarks > li {
+  float: none !important;
+  display: inline-block !important;
+}
+
+.testimonials {
+  min-height: 126px;
+}
+
+.title h1, .title h2, .title h3, .title h4, .title h5, .title h6 {
+  padding: 0 !important;
+  margin-left: 0 !important;
+
+  border-bottom-color: #005be4 !important;
+}
+
+#info-social {
+  text-align: left !important;
+}
+
+.title {
+  border: 0;
+}
+
+.circle-color-full {
+  background-color: #2ca02c;
+  box-shadow: 0px 0px 0px 3px #ccc;
+}
+
+.row, #footer-menu, #footer, #app-address, #app-join-us, #app-form {
+  margin-left: 0 !important;
+  padding: 0 40px;
+}
+
+.testimonials {
+  background: #fff;
+  border: 0;
+  box-shadow: none;
+}
+
+.testimonials-author {
+  font-size: 16px;
+}
+
+#page-title-inner {
+  background: #005be4;
+}
+
+/*
+** Main navigation
+*/
+
+.navbar .nav > li > a {
+  padding-top: 14px;
+
+  border-top: 10px solid #fff !important;
+}
+
+.navbar .nav > li > a:hover,
+.navbar .nav > li.active > a,
+.navbar .nav > li.active > a:hover {
+  color: #333 !important;
+  border-top: 10px solid #2ca02c !important;
+  background: #fff !important;
+}
+
+/* Para a mudança de seção da home parar no lugar correto */
+#home-page .title {
+  padding-top: 90px;
+}
+
+#home-page #app-banner {
+  background: #005be4;
+}
+
+#home-page .app-moto {
+  height: 500px;
+
+  background: url("../img/banner_dt2.png") no-repeat right top;
+}
+
+#home-page .app-moto h1, #home-page .app-moto h2 {
+  margin-left: 20px;
+
+  color: #fff;
+  font-weight: 300 !important;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+#home-page .app-moto h1 {
+  padding-top: 200px;
+
+  font-size: 42px;
+  text-transform: uppercase;
+}
+
+#home-page .app-moto h2 {
+  margin-top: 10px;
+
+  font-size: 18px;
+}
+
+.social-bookmarks li a {
+  border: 0;
+}
+
+#video-capture-box {
+  background: #C3C3C3 url('../img/loading.gif') no-repeat center center;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+#footer-menu, #copyright {
+  border-color: #2ca02c;
+  background-color: #2ca02c;
+}
+
+#footer-menu-links li, #footer-menu-links ul li a {
+  color: #fff;
+}
+
+#footer {
+  border: 0;
+  background-color: #2ca02c !important;
+}
+
+#footer, #footer p, #footer a, #footer h3, #copyright p, #copyright a {
+  color: #fff !important;
+}
+
+#copyright a {
+  text-decoration: underline;
+}
+
+#copyright a:hover {
+  text-decoration: none;
+}
+
+#footer h3 {
+  margin-top: 40px;
+
+  font-size: 28px !important;
+  font-weight: 300 !important;
+  border: 0 !important;
+}
+
+#footer-menu-back-to-top a {
+  background-color: #fff;
+}
+
+#footer-menu-links ul li a:hover {
+  text-decoration: underline;
+}
+
+#app-map {
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+#app-chapolin {
+  float: left;
+}
+
+.social-grid {
+  margin-top: 40px;
+}
+
+.social-info > div {
+  border-color: #2ca02c;
+}
+
+#footer-menu-back-to-top a:hover {
+  background: #fff url("../img/scroll-top-top.png") no-repeat center 5px;
+}
+
+#app-form {
+  margin-bottom: -40px;
+  padding: 40px;
+
+  background: #eee;
+}
+
+#app-form textarea {
+  height: 189px;
+}
+
+#app-services {
+  background: url("../img/banner_dt3.png") no-repeat right -500px;
+}
+
+.navbar .brand {
+  margin-top: 0;
+  padding: 10px 0;
+}
+
+#footer-menu-logo a {
+  line-height: normal;
+}
+
+#footer-menu-logo img {
+  margin: 0;
+}
+
+#page-title {
+	background: none;
+}

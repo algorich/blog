@@ -2,17 +2,15 @@
 layout: post
 author: hugo
 title: Iniciando no desenvolvimento Android com PhoneGap
-category : mobile
-tags : [phonegap, cordova, android]
 description: 'Aprenda como começar a desenvolver apps para Android utilizando o PhoneGap, um framework que te dá liberdade de criar apps mobile usando as tecnologias da web que você conhece e adora: HTML, CSS e Javascript.'
 keywords: 'mobile, dispositivos, móvel, móveis, phonegap, android, ubuntu, linux'
-facebook_image: '/assets/images/2012/07/phonegap.png'
+facebook_image: '/posts-assets/images/2012/07/phonegap.png'
 ---
 {% include JB/setup %}
 
 Aqui na Algorich nós utilizamo o <a href="http://phonegap.com/" target="_blank">PhoneGap</a> para desenvolver aplicações mobile. Como diz no site, desenvolver com PhoneGap te dá a liberdade de criar aplicações mobile para <a href="http://phonegap.com/about/feature" target="_blank">7 plataformas diferentes</a> (com suporte completo à Android, iOS e Windows Phone) usando as tecnologias da web que você conhece e adora: HTML, CSS e Javascript.
 
-<img class="alignright" title="PhoneGap" src="/assets/images/2012/07/phonegap.png" alt="PhoneGap" width="216" height="250" />
+<img class="alignright" title="PhoneGap" src="/posts-assets/images/2012/07/phonegap.png" alt="PhoneGap" width="216" height="250" />
 
 Os apps criados com o <a href="http://phonegap.com/" target="_blank">PhoneGap</a> não são nativos, porém, se comportam como tal. Eles são instalados no dispositivo e rodam em uma instância do browser padrão do sistema, ocupando 100% da tela. Além disso, o <a href="http://phonegap.com/" target="_blank">PhoneGap</a> fornece uma API que te possibilita acessar funcionalidades nativas do sistema operacional (como a câmera, acelerômetro e etc) usando JavaScript. Os apps são criados utilizando o modelo <a href="http://en.wikipedia.org/wiki/Single-page_application" target="_blank">single-page</a>, onde a lógica do app fica em uma única página HTML que nunca é eliminada da memória, e todas as transições e apresentação dos dados são feitas através de atualizações no HTML <a href="http://www.w3.org/DOM" target="_blank">DOM</a>. Um exemplo de app criado com o <a href="http://phonegap.com/" target="_blank">PhoneGap</a> é o <a href="http://phonegap.com/app/wikipedia/" target="_blank">app do Wikipedia</a>.
 
@@ -54,7 +52,7 @@ android sdk
 O SDK Manager irá abrir. Você deve escolher uma (ou mais) versão do Android para instalar. Você só precisa instalar o pacote *SDK Platform*, sendo o restante opcional. Como é apresentado na figura 1, no meu caso, escolhi instalar apenas a versão 2.3.3 que é a versão que roda no meu celular.
 
 <div class="aligncenter">
-  <img title="SDK Manager" src="/assets/images/2012/07/sdk-manager.png" alt="SDK Manager" width="620" height="349" />
+  <img title="SDK Manager" src="/posts-assets/images/2012/07/sdk-manager.png" alt="SDK Manager" width="620" height="349" />
   <span class="caption">Figura 1: Instalando pacotes Android com o SDK Manager</span>
 </div>
 
@@ -71,14 +69,14 @@ android avd
 Em seguida crie um novo AVD como apresentado na figura 2.
 
 <div class="aligncenter">
-  <img title="AVD Manager" src="/assets/images/2012/07/avd-manager-new.png" alt="AVD Manager" width="399" height="643" />
+  <img title="AVD Manager" src="/posts-assets/images/2012/07/avd-manager-new.png" alt="AVD Manager" width="399" height="643" />
   <span class="caption">Figura 2: Criando um novo AVD com o AVD Manager</span>
 </div>
 
 **Obs**: Caso você esteja rodando o Ubuntu 64 bits pode ser que você tenha o problema apresentado na figura 3 ao criar o AVD.
 
 <div class="aligncenter">
-  <img title="Problema ao criar um AVD" src="/assets/images/2012/07/avd-manager-problem.png" alt="Problema ao criar um AVD" width="613" height="191" />
+  <img title="Problema ao criar um AVD" src="/posts-assets/images/2012/07/avd-manager-problem.png" alt="Problema ao criar um AVD" width="613" height="191" />
   <span class="caption">Figura 3: Problema ao criar um AVD</span>
 </div>
 
@@ -127,7 +125,7 @@ android create project \
 Com isso, será criada a estrutura do projeto Android, como apresentada na figura 4.
 
 <div class="aligncenter">
-  <img title="Estrutura do projeto Android" src="/assets/images/2012/07/project-tree.png" alt="Estrutura do projeto Android" width="370" height="334" />
+  <img title="Estrutura do projeto Android" src="/posts-assets/images/2012/07/project-tree.png" alt="Estrutura do projeto Android" width="370" height="334" />
   <span class="caption">Figura 4: Estrutura de arquivos e diretórios do projeto Android</span>
 </div>
 
@@ -236,7 +234,7 @@ emulator @nome_do_avd
 Uma janela com o Emulador será aberta como mostrado na figura 5. É normal o emulador demorar alguns segundos até terminar de carregar.
 
 <div class="aligncenter">
-  <img title="Emulador Android" src="/assets/images/2012/07/emulator.png" alt="Emulador Android" width="620" height="579" />
+  <img title="Emulador Android" src="/posts-assets/images/2012/07/emulator.png" alt="Emulador Android" width="620" height="579" />
   <span class="caption">Figura 5: Emulador Android</span>
 </div>
 
@@ -271,7 +269,7 @@ ant debug install
 Após ter sido instalado, o app pode ser encontrado no menu de apps do dispositivo emulado. Na figura 6 podemos ver o Hello World sendo executado no Emulador.
 
 <div class="aligncenter">
-  <img title="Hello World no Emulador" src="/assets/images/2012/07/hello-world.png" alt="Hello World no Emulador" width="620" height="579" />
+  <img title="Hello World no Emulador" src="/posts-assets/images/2012/07/hello-world.png" alt="Hello World no Emulador" width="620" height="579" />
   <span class="caption">Figura 6: HelloWorld sendo executado no Emulador</span>
 </div>
 
@@ -313,7 +311,7 @@ Para executar o app em dispositivos reais você usar o mesmos comandos apresenta
 Assim como no Emulador, após ter sido instalado, o app pode ser encontrado no menu de apps do dispositivo. Na figura 7 podemos ver o Hello World sendo executado no meu telefone.
 
 <div class="aligncenter">
-  <img title="Hello World no dispositivo" src="/assets/images/2012/07/hello-world-device.png" alt="Hello World no dispositivo" width="620" height="348" />
+  <img title="Hello World no dispositivo" src="/posts-assets/images/2012/07/hello-world-device.png" alt="Hello World no dispositivo" width="620" height="348" />
   <span class="caption">Figura 7: Hello World sendo executado no dispositivo</span>
 </div>
 
@@ -344,7 +342,7 @@ No caso do nosso exemplo seria o seguinte:
 Com isso, será criada a estrutura do projeto Android, como apresentada na figura 8.
 
 <div class="aligncenter">
-  <img title="Estrutura do projeto Android criado pelo PhoneGap" src="/assets/images/2012/07/tree-phonegap-create.png" alt="Estrutura do projeto Android criado pelo PhoneGap" width="314" height="708" />
+  <img title="Estrutura do projeto Android criado pelo PhoneGap" src="/posts-assets/images/2012/07/tree-phonegap-create.png" alt="Estrutura do projeto Android criado pelo PhoneGap" width="314" height="708" />
   <span class="caption">Figura 8: Estrutura de arquivos e diretórios do projeto Android criado pelo PhoneGap</span>
 </div>
 
@@ -365,7 +363,7 @@ Para construir o app:
 Na figura 9 podemos ver o Hello World criado pelo `create` do PhoneGap sendo executado no Emulador.
 
 <div class="aligncenter">
-  <img title="Hello World criado pelo PhoneGap sendo executado no Emulador" src="/assets/images/2012/07/hello_world_phonegap.png" alt="Hello World criado pelo PhoneGap sendo executado no Emulador" width="620" height="567" />
+  <img title="Hello World criado pelo PhoneGap sendo executado no Emulador" src="/posts-assets/images/2012/07/hello_world_phonegap.png" alt="Hello World criado pelo PhoneGap sendo executado no Emulador" width="620" height="567" />
   <span class="caption">Figura 9: Hello World criado pelo PhoneGap sendo executado no Emulador</span>
 </div>
 

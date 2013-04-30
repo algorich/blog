@@ -2,8 +2,6 @@
 layout: post
 author: eduardo
 title: Configurar ssh com acesso por chave pública
-category : segurança
-tags : [ssh]
 description: 'Aprenda a configurar SSH para liberar o acesso por chave pública.'
 keywords: 'ssh, chave pública, segurança, algorich, debian, ubuntu, software, desenvolvimento, chave, pública'
 facebook_image: '/assets/images/2012/07/phonegap.png'

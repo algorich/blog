@@ -1,0 +1,65 @@
+<head>
+
+  <!-- start: Meta -->
+  <meta charset="utf-8">
+  <title>{{ page.title }} &mdash; Blog da Algorich</title>
+  <meta name="copyright" content="© 2013 Algorich" />
+  <meta name="robots" content="index, follow" />
+  {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
+  {% if page.keywords %}<meta name="keywords" content="{{ page.keywords }}">{% endif %}
+  {% if page.author %}
+    <meta name="author" content="{{ site.authors[page.author]['name'] }}">
+  {% else %}
+    <meta name="author" content="Algorich - http://algorich.com.br" />
+  {% endif %}
+  <!-- end: Meta -->
+
+  <!-- start: Config -->
+  <meta http-equiv="content-language" content="pt-br" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png"  href="/favicon.png" />
+  <!-- end: Config -->
+
+  <!-- start: Mobile Specific -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- end: Mobile Specific -->
+
+  <!-- start: Facebook Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="fb:app_id" content="{{ site.facebook.app_id }}" />
+  <meta property="og:locale" content="{{ site.facebook.locale }}" />
+  <meta property="og:title" content="{{ page.title }} - Blog da Algorich"/>
+  <meta property="og:site_name" content="algorich.com.br"/>
+  {% if page.facebook_image %}
+    <meta property="og:image" content="{{ site.production_url }}{{ page.facebook_image }}" />
+  {% else %}
+    <meta property="og:image" content="{{ site.production_url }}/img/algorich-logo-quadrado.png"/>
+  {% endif %}
+  {% if page.description %}<meta property="og:description" content="{{ page.description }}" />{% endif %}
+  <!-- end: Facebook Open Graph -->
+
+  <!-- start: CSS -->
+  <link href="/css/bootstrap.css" rel="stylesheet" />
+  <link href="/css/bootstrap-responsive.css" rel="stylesheet" />
+  <link href="/css/style.css" rel="stylesheet" />
+  <link href="/css/overwrite.css" rel="stylesheet" />
+  <link href="/css/blog.css" rel="stylesheet" />
+
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Serif">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Boogaloo">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Economica:700,400italic">
+  <!-- end: CSS -->
+
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <!--[if IE 9]>
+    <link href="css/styleie9.css" rel="stylesheet">
+  <![endif]-->
+
+  {% include JB/analytics %}
+</head>
