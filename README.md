@@ -1,6 +1,8 @@
-# algorich.github.com
+# Blog
 
-Este é o código do Blog da [Algorich][http://algorich.com.br], que utiliza o [Jekyll bootstrap](http://jekyllbootstrap.com/) e é hospedado pelo github.
+Este é o código do [Blog da Algorich](http://blog.algorich.com.br), que
+utiliza o [Jekyll bootstrap](http://jekyllbootstrap.com/) e é hospedado
+aqui como um github page.
 
 ## Instalação
 
