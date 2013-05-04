@@ -4,6 +4,11 @@ author: eduardo
 title: "Dia, horário e local definidos! #horaextra Campos"
 description: 'Dia, horário e local do #horaextra Campos definido. Venha participar!'
 keywords: 'horaextra, campos, computação, desenvolvimento, horaextra campos, reunião'
+resume: |
+  <p>O feedback de vocês em relação ao
+  <a href="2012/05/28/profissionais-da-regiao-apresentem-se">post passado</a>
+  foi sensacional e muita gente está a fim de participar do #horaextra Campos.
+  Então ele acontecerá na terça-feira (dia 05/06/12) às 19h no Bar da Boa!</p>
 ---
 {% include JB/setup %}
 

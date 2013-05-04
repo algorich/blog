@@ -4,6 +4,14 @@ author: eduardo
 title: "Profissionais da região, apresentem-se!"
 description: 'O início do blog da Algorich e a criação do #horaextra Campos.'
 keywords: 'horaextra, campos, algorich, desenvolvedores, empreendedores, web design, blog'
+resume: |
+  <p>Hoje, oficialmente, inauguramos o blog da
+  <a title="Algorich" href="http://algorich.com.br" target="_blank">Algorich</a>!
+  Nosso objetivo é compartilhar conhecimento e ter um canal de interação com
+  todos os desenvolvedores, programadores, web designers e empreendedores da
+  região.</p>
+  <p>Assim, como queremos contribuir e ajudar a criar um ambiente colaborativo e
+  conhecer melhor os profissionais da região, vamos criar o #horaextra Campos!</p>
 ---
 {% include JB/setup %}
 

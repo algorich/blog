@@ -35,12 +35,9 @@ index: true
     <!-- end: post meta -->
 
     <div class="post-description">
-      {% capture truncated_content  %}{{ post.content | truncatewords: 250 }}{% endcapture %}
-      {{ truncated_content }}
+      {{ post.resume }}
     </div>
-    {% if truncated_content != post.content %}
-      <a class="post-entry" href="{{ BASE_PATH }}{{ post.url }}">continue lendo &#187;</a>
-    {% endif %}
+    <a class="post-entry" href="{{ BASE_PATH }}{{ post.url }}">continue lendo &#187;</a>
   </div>
 </div>
 {% endfor %}
