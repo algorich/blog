@@ -1,0 +1,34 @@
+---
+layout: default
+single: true
+---
+
+<div>
+<article class="hentry" role="article">
+  {% include article.html %}
+  <footer>
+    {% unless page.sharing == false %}
+      {% include post/sharing.html %}
+    {% endunless %}
+
+    <ul class="pagination clear">
+      {% if page.previous.url %}
+        <div class="alignleft">
+          <a href="{{page.previous.url}}" title="Post anterior: {{page.previous.title}}"><li>&laquo; {{page.previous.title}}</li></a>
+        </div>
+      {% endif %}
+      {% if page.next.url %}
+        <div class="alignright">
+          <a href="{{page.next.url}}" title="Post posterior: {{page.next.title}}"><li>{{page.next.title}} &raquo;</li></a>
+        </div>
+      {% endif %}
+    </ul>
+  </footer>
+</article>
+
+{% if site.disqus_short_name %}
+  <section>
+    <div id="disqus_thread" aria-live="polite">{% include post/disqus_thread.html %}</div>
+  </section>
+{% endif %}
+</div>

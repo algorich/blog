@@ -1,0 +1,27 @@
+---
+layout: default
+keywords: "aad, some, keywords"
+description: some description
+---
+
+{% assign index = true %}
+{% for post in paginator.posts %}
+{% assign content = post.content %}
+  <article>
+    {% include article.html %}
+  </article>
+{% endfor %}
+
+<ul class="pagination clear">
+  {% if paginator.next_page %}
+  <div class="alignright">
+    <a href="{{paginator.next_page}}"><li>&larr; Mais antigos</li></a>
+  </div>
+  {% endif %}
+  <a href="/archives"><li>Histórico do blog</li></a>
+  {% if paginator.previous_page %}
+  <div class="alignleft">
+    <a href="{{paginator.previous_page}}"><li>Mais novos &rarr;</li></a>
+  </div>
+  {% endif %}
+</ul>

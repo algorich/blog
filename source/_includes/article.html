@@ -1,0 +1,50 @@
+<div class="post">
+  <div class="post-content">
+    {% unless page.no_header %}
+      <header>
+        {% if index %}
+          <div class="title">
+            <h2><a href="{{ root_url }}{{ post.url }}">{% if site.titlecase %}{{ post.title | titlecase }}{% else %}{{ post.title }}{% endif %}</a></h2>
+          </div>
+        {% else %}
+          <div class="title">
+            <h2>{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}</h2>
+          </div>
+        {% endif %}
+        {% unless page.meta == false %}
+          <!-- start: post meta -->
+          <div class="post-meta">
+            <span>
+              <i class="mini-ico-calendar"></i>
+              {% include post/date.html %}{{ time }}
+            </span>
+
+            <span>
+              <i class="mini-ico-user"></i>
+              {{ post.author }}
+            </span>
+
+            {% if site.disqus_short_name and page.comments != false and post.comments != false and site.disqus_show_comment_count == true %}
+            <span>
+               <i class="mini-ico-comment"></i>
+               <a href="{% if index %}{{ root_url }}{{ post.url }}{% endif %}#disqus_thread">Comentários</a>
+            </span>
+            {% endif %}
+          </div>
+          <!-- end: post meta -->
+        {% endunless %}
+      </header>
+    {% endunless %}
+    {% if index %}
+      <div class="entry-content">{{ content | excerpt }}</div>
+      {% capture excerpted %}{{ content | has_excerpt }}{% endcapture %}
+      {% if excerpted == 'true' %}
+        <footer>
+          <a rel="full-article" href="{{ root_url }}{{ post.url }}">{{ site.excerpt_link }}</a>
+        </footer>
+      {% endif %}
+    {% else %}
+    <div class="entry-content">{{ content }}</div>
+    {% endif %}
+  </dib>
+</dib>

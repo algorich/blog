@@ -1,0 +1,44 @@
+{% capture root_url %}{{ site.root | strip_slash }}{% endcapture %}
+{% include head.html %}
+<body {% if page.body_id %} id="{{ page.body_id }}" {% endif %} {% if page.sidebar == false %} class="no-sidebar" {% endif %} {% if page.sidebar == 'collapse' or site.sidebar == 'collapse' %} class="collapse-sidebar sidebar-footer" {% endif %}>
+
+  {% include header.html %}
+
+  <!--start: Wrapper-->
+  <div id="wrapper">
+
+    <!--start: Container -->
+    <div class="container">
+      <!--start: Row -->
+      <div class="row">
+        <div class="span7">
+          {{ content | expand_urls: root_url }}
+        </div>
+
+        <div class="span3 hidden-phone sidebar">
+          <ul class="social-bookmarks">
+            <li class="rss"><a href="{{ root_url }}/atom.xml">rss</a></li>
+            <li class="github"><a href="//github.com/algorich">github</a></li>
+            <li class="facebook"><a href="//facebook.com/algorich">facebook</a></li>
+            <li class="twitter"><a href="//twitter.com/algorich">twitter</a></li>
+          </ul>
+
+          <aside>
+            {% if site.blog_index_asides.size %}
+              {% include_array blog_index_asides %}
+            {% else %}
+              {% include_array default_asides %}
+            {% endif %}
+          </aside>
+        </div>
+      </div>
+      <!-- end: Row -->
+    </div>
+    <!--end: Container-->
+  </div>
+  <!-- end: Wrapper  -->
+
+  <footer>{% include footer.html %}</footer>
+  {% include after_footer.html %}
+</body>
+</html>
