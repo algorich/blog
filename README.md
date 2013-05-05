@@ -17,7 +17,7 @@ Devem ter o atributo `target="_blank"`.
 
 Devem ser salvas seguindo o seguinte padrão:
 
-    /assets/images/<ano>/<mês>
+    /posts-assets/images/<ano>/<mês>
 
 Para centralizar uma imagem, ela deve estar dentro de uma tag `<div class="aligncenter">`.
 
