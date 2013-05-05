@@ -1,13 +1,7 @@
 # Blog
 
-Este é o código do [Blog da Algorich](http://blog.algorich.com.br), que
-utiliza o [Jekyll bootstrap](http://jekyllbootstrap.com/) e é hospedado
-aqui como um github page.
-
-## Instalação
-
-    gem install jekyll
-    sudo apt-get install python-pygments
+Este é o código do [Blog da Algorich](http://blog.algorich.com.br), que utiliza
+o [octopress](http://octopress.org/) e é hospedado aqui como um github page.
 
 ## Padrões
 
