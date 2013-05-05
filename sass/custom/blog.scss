@@ -86,6 +86,24 @@ article ul, article ol {
   margin: 20px;
 }
 
+ul#tweets li > p {
+  position: relative;
+  padding-right: 1.5em;
+}
+
+ul#tweets li > p > a:first-child {
+  position: absolute;
+  right: 0;
+  font-size: 10px;
+  color: #C9C9C9;
+  text-shadow: #FFF 0px 1px;
+}
+
+ul#tweets li > p > a:first-child:hover {
+  color: #08C;
+}
+
+/* archive page =========================================================== */
 
 #blog-archives {
   article {
@@ -150,7 +168,6 @@ article ul, article ol {
   }
   .year { display: inline; }
 }
-
 
 
 /* align =========================================================== */

@@ -65,7 +65,7 @@ github_skip_forks: true
 
 # Twitter
 twitter_user: algorich
-twitter_tweet_count: 5
+twitter_tweet_count: 4
 twitter_show_replies: false
 twitter_follow_button: true
 twitter_show_follower_count: false
