@@ -21,7 +21,7 @@
 
             <span>
               <i class="mini-ico-user"></i>
-              {{ post.author }}
+              {% include post/author.html %}
             </span>
 
             {% if site.disqus_short_name and page.comments != false and post.comments != false and site.disqus_show_comment_count == true %}
