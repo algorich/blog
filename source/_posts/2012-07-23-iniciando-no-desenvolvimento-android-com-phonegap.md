@@ -27,15 +27,15 @@ Neste post irei mostrar como começar a desenvolver apps para Android utilizand
 
 Primeiro, você deve ter o java instalado. Caso não tenha, instale assim:
 
-{% highlight bash %}
+``` bash
 sudo apt-get install openjdk-7-jdk
-{% endhighlight %}
+```
 
 Após instalar o java, baixe o Android SDK no <a href="http://developer.android.com/sdk/index.html" target="_blank">site de desenvolvedores do android</a>. Para instalar descompacte o tar.gz em algum diretório de sua escolha. No meu caso, eu utilizo o diretório *~/install/*. Em seguida, adicione a seguinte linha no seu arquivo *~/.bashrc*:
 
-{% highlight bash %}
+``` bash
 PATH=$PATH:~/install/android-sdk-linux/tools:~/install/android-sdk-linux/platform-tools
-{% endhighlight %}
+```
 
 Isso irá adicionar os diretórios onde estão as ferramentas do SDK (tools e plataform-tools) ao path de executáveis. Desta forma, será possível invocar as ferramentas sem necessidade de colocar todo o caminho onde elas estão, como comandos padrão do shell.
 
@@ -52,9 +52,9 @@ Faz a interface com seu emulador ou dispositivo conectado. Entre outas coisas, �
 
 Você deve baixar pacotes (packages) com imagens de sistemas Android, também chamadas de plataformas. Para abrir o SDK Manager use o comando `android` com a opção `sdk`.
 
-{% highlight bash %}
+``` bash
 android sdk
-{% endhighlight %}
+```
 
 O SDK Manager irá abrir. Você deve escolher uma (ou mais) versão do Android para instalar. Você só precisa instalar o pacote *SDK Platform*, sendo o restante opcional. Como é apresentado na figura 1, no meu caso, escolhi instalar apenas a versão 2.3.3 que é a versão que roda no meu celular.
 
@@ -69,9 +69,9 @@ Depois de instalar os pacotes, pode fechar o SDK Manager.
 
 Um AVD (Android Virtual Device) é um emulador de configurações que te permite criar um modelo virtual de dispositivo, definindo o hardware e o software que serão emulados pelo Android Emulator. Desta forma, você pode emular diferentes configurações de dispositivos que rodam Android. Você pode criar quantos AVDs você precisar, de acordo com as configurações dos dispositivos os quais seu app é compatível (por exemplo, com diferentes tamanhos de tela e versões do Android), para testar seu app em cada uma delas. Você pode <a href="http://developer.android.com/guide/developing/devices/managing-avds-cmdline.html">criar um AVD pela linha de comando</a>, contudo, existe o AVD Manager que facilita um pouco. Para abrir o AVD Manager use o comando `android` com a opção `avd`:
 
-{% highlight bash %}
+``` bash
 android avd
-{% endhighlight %}
+```
 
 Em seguida crie um novo AVD como apresentado na figura 2.
 
@@ -89,9 +89,9 @@ Em seguida crie um novo AVD como apresentado na figura 2.
 
 Caso isso ocorra, é porque você não tem o pacote `ia32-libs` instalado. Para instalá-lo:
 
-{% highlight bash %}
+``` bash
 sudo apt-get install ia32-libs
-{% endhighlight %}
+```
 
 Depois de criado o AVD corretamente, pode frechar o AVD Manager.
 
@@ -101,14 +101,14 @@ O Android SDK espera que seu projeto siga uma estrutura específica de arquivos 
 
 Para criar um projeto Android, rode o seguinte comando:
 
-{% highlight bash %}
+``` bash
 android create project \
         --target <target_ID> \
         --name <nome_do_seu_projeto> \
         --path caminho/para/seu/projeto \
         --activity <nome_da_sua_activity> \
         --package <namespace_do_seu_package>
-{% endhighlight %}
+```
 
 Onde:
 
@@ -120,14 +120,14 @@ Onde:
 
 Para este artigo, vou criar um app HelloWorld:
 
-{% highlight bash %}
+``` bash
 android create project \
         --target 1 \
         --name HelloWorld \
         --path ~/projetos/hello_world \
         --activity HelloWorldActivity \
         --package br.com.algorich.hello_world
-{% endhighlight %}
+```
 
 Com isso, será criada a estrutura do projeto Android, como apresentada na figura 4.
 
@@ -142,13 +142,13 @@ Se você utilizar um sistema de controle de versão (se não utiliza, deveria) c
 
 Com a estrutura do projeto criada, é hora de adicionar o PhoneGap. Para isso, faça o <a href="http://phonegap.com/download" target="_blank">download do PhoneGap</a> e descompacte o .zip em algum diretório de sua escolha. No meu caso, eu utilizo o diretório *~/install/*. Em seguida, no terminal, entre no diretório da sua aplicação e execute os seguintes comandos:
 
-{% highlight bash %}
+``` bash
 # cria o diretório assets e dentro dele o diretório www
 mkdir -p assets/www
 cp ~/install/phonegap/lib/android/cordova-2.0.0.js assets/www/
 cp ~/install/phonegap/lib/android/cordova-2.0.0.jar libs/
 cp -r ~/install/phonegap/lib/android/xml/ res/
-{% endhighlight %}
+```
 
 Abra o arquivo da classe `Activity` (arquivo java contido no último subdiretório do diretório *src*), que no exemplo é o arquivo *HelloWorldActivity.java*, e edite o seguinte:
 
@@ -158,7 +158,7 @@ Abra o arquivo da classe `Activity` (arquivo java contido no último subdiretór
   <li>Adicione o import <code>import org.apache.cordova.*;</code></li>
   <li>Remova o import <code>import android.app.Activity;</code></li>
   <li>Adicione o trexo de código seguinte ao arquivo <em>AndroidManifest.xml</em>, abaixo da linha que contém <code>android:versionName</code>:
-{% highlight xml %}
+``` xml
 <supports-screens
   android:largeScreens="true"
   android:normalScreens="true"
@@ -182,11 +182,11 @@ Abra o arquivo da classe `Activity` (arquivo java contido no último subdiretór
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-{% endhighlight %}
+```
   </li>
   <li>Adicione <code>android:configChanges="orientation|keyboardHidden"</code> a tag <code>activity</code> no <em>AndroidManifest.xml</em></li>
   <li>Crie o arquivo <em>assets/www/index.html</em> e adicione o seguinte conteúdo:
-{% highlight html %}
+``` html
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -199,14 +199,14 @@ Abra o arquivo da classe `Activity` (arquivo java contido no último subdiretór
     <h1>Hello World! =)</h1>
   </body>
 </html>
-{% endhighlight %}
+```
   </li>
 </ol>
 
 **Obs**: A única permissão realmente necessária para iniciar um hello world com o PhoneGap é a seguinte:
-{% highlight xml %}
+``` xml
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-{% endhighlight %}
+```
 
 O restante pode ser adicionado quando/se houver necessidade.
 
@@ -216,15 +216,15 @@ Você pode mudar o nome de apresentação do seu app alterando a tag `<string>`�
 
 Existem duas formas de construir o seu app: release e debug. Neste post vou mostrar apenas como construir em modo debug, ficando o modo release para um outro post. Para construir o app, é utilizado o <a href="http://ant.apache.org/" target="_blank">Ant</a>. Para instalar o Ant faça o seguinte:
 
-{% highlight bash %}
+``` bash
 sudo apt-get install ant
-{% endhighlight %}
+```
 
 Com o Ant instalado, basta usá-lo para construir seu app:
 
-{% highlight bash %}
+``` bash
 ant debug
-{% endhighlight %}
+```
 
 Isto irá criar seu arquivo .apk de debug no diretório *bin*, *chamado nome_do_app-debug.apk*. Este arquivo será utilizado para instalar o app no emulador ou no dispositivo real, como veremos a seguir. Recomendo a leitura da <a href="http://developer.android.com/tools/building/building-cmdline.html" target="_blank">documentação</a> para entender os passos que o Ant executa internamente para a construção do app.
 
@@ -232,11 +232,11 @@ Isto irá criar seu arquivo .apk de debug no diretório *bin*, *chamado nome_do_
 
 O Emulador te permite prototipar, desenvolver e testar dois apps sem a necessidade de utilizar um dispositivo real, através da simulação das configurações dos AVDs existentes. Assim, para iniciar o Emulador, você deve especificar qual AVD deseja carregar. Cada AVD funciona como um dispositivo independente, com seu banco de dados privado de informações de usuário, cartão SD e etc. Quando você inicia o Emulador com um AVD, ele automaticamente carrega todas as informações do diretório do AVD, onde estas informações são salvas por padrão. Para iniciar uma instância do Emulador, basta usar o comando `emulator` definindo qual AVD será utilizado:
 
-{% highlight bash %}
+``` bash
 emulator -avd nome_do_avd
 # ou, de forma simplificada:
 emulator @nome_do_avd
-{% endhighlight %}
+```
 
 Uma janela com o Emulador será aberta como mostrado na figura 5. É normal o emulador demorar alguns segundos até terminar de carregar.
 
@@ -251,27 +251,27 @@ Para encerrar o Emulador, basta fechar a janela. O Emulador é uma ferramenta mu
 
 Para executar o app no Emulador, você deve primeiro estar com uma instância do Emulador rodando, como mostrado acima, e ter construído seu app com o Ant. Em seguida, basta usar a ferramenta adb para instalar o app no Emulador:
 
-{% highlight bash %}
+``` bash
 adb install bin/nome_do_app-debug.apk
-{% endhighlight %}
+```
 
 Após estar instalado, para atualizar (reinstalar), deve-se utilizar o parâmetro -r:
 
-{% highlight bash %}
+``` bash
 adb install -r bin/nome_do_app-debug.apk
-{% endhighlight %}
+```
 
 Para (re)compilar e (re)instalar ao mesmo tempo usando você poderia concatenar os comandos:
 
-{% highlight bash %}
+``` bash
 ant debug; adb install -r bin/nome_do_app-debug.apk
-{% endhighlight %}
+```
 
 Contudo, você pode fazer isso diretamente com o Ant da seguinte maneira:
 
-{% highlight bash %}
+``` bash
 ant debug install
-{% endhighlight %}
+```
 
 Após ter sido instalado, o app pode ser encontrado no menu de apps do dispositivo emulado. Na figura 6 podemos ver o Hello World sendo executado no Emulador.
 
@@ -332,19 +332,19 @@ Contudo, para executar no Ubuntu devemos fazer uma alteração no script, pois e
 
 Para criar o projeto basta rodar o script `create` encontrado no diretório do PhoneGap:
 
-{% highlight bash %}
+``` bash
 /install/phonegap/lib/android/bin/create caminho_para_o_projeto \
                                           namespace_do_seu_package \
                                           nome_do_seu_projeto
-{% endhighlight %}
+```
 
 No caso do nosso exemplo seria o seguinte:
 
-{% highlight bash %}
+``` bash
 ./install/phonegap/lib/android/bin/create ~/projetos/hello_world \
                                           br.com.algorich.hello_workd \
                                           HelloWorld
-{% endhighlight %}
+```
 
 Com isso, será criada a estrutura do projeto Android, como apresentada na figura 8.
 
@@ -357,15 +357,15 @@ Repare que é criado um diretório cordova com alguns scripts. Para saber o que 
 
 Para iniciar o Emulador:
 
-{% highlight bash %}
+``` bash
 ./cordova/emulate
-{% endhighlight %}
+```
 
 Para construir o app:
 
-{% highlight bash %}
+``` bash
 ./cordova/debug
-{% endhighlight %}
+```
 
 Na figura 9 podemos ver o Hello World criado pelo `create` do PhoneGap sendo executado no Emulador.
 

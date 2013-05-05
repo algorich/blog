@@ -21,32 +21,32 @@ Lembrando que essa configuração foi testada no Debian/Ubuntu.
 
 Antes de configurar o SSH, copie a sua chave pública para uma pasta qualquer no servidor.
 
-{% highlight bash %}
+``` bash
 scp ~/.ssh/id_rsa.pub usuario@meuservidor:~/.ssh/minha_chave.pub
-{% endhighlight %}
+```
 
 E quando estiver logado no servidor:
 
-{% highlight bash %}
+``` bash
 cat ~/.ssh/minha_chave.pub >> ~/.ssh/authorized_keys
-{% endhighlight %}
+```
 
 Com isso feito, podemos configurar o SSH. Para isso, como root, abra o arquivo */etc/ssh/sshd_config* e altere as seguintes opções:
 
-{% highlight lighttpd %}
+``` lighttpd
 # isso evita que alguém tente se logar como root
 PermitRootLogin no
 # permite a autenticação por chave pública
 PubkeyAuthentication yes
 # impede a autenticação por senha
 PasswordAuthentication no
-{% endhighlight %}
+```
 
 Em seguida, reinicie o SSH:
 
-{% highlight bash %}
+``` bash
 service ssh restart
-{% endhighlight %}
+```
 
 Pronto! Sempre que você acessar o servidor, a autenticação será por chave pública. Caso queira que mais pessoas tenham acesso ao servidor, basta adicionar as chaves públicas no arquivo */home/.ssh/authorized_keys*.
 
