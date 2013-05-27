@@ -192,7 +192,6 @@ _rake() {
             rake -s -P | grep '^rake' | cut -d ' ' -f 2 > $cache_file
         fi
         COMPREPLY=($(compgen -W "`cat $cache_file`" $current))
-        return 0
     fi
 }
 
