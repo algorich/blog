@@ -22,8 +22,9 @@
   <!-- start: Facebook Open Graph -->
   <meta property="og:type" content="article" />
   <meta property="og:locale" content="pt_BR" />
-  <meta property="og:title" content="{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}"/>
   <meta property="og:site_name" content="algorich.com.br"/>
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}"/>
+  <meta property="og:title" content="{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}"/>
   {% if page.description %}
     <meta property="og:description" content="{{ page.description }}" />
   {% endif %}
