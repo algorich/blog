@@ -28,9 +28,9 @@
     <meta property="og:description" content="{{ page.description }}" />
   {% endif %}
   {% if page.facebook_image %}
-    <meta property="og:image" content="{{ root_url }}{{ page.facebook_image }}" />
+    <meta property="og:image" content="{{ site.url }}{{ page.facebook_image }}" />
   {% else %}
-    <meta property="og:image" content="{{ root_url }}/img/logo-square.png"/>
+    <meta property="og:image" content="{{ site.url }}/img/logo-square.png"/>
   {% endif %}
   <!-- end: Facebook Open Graph -->
 
