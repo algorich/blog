@@ -61,7 +61,7 @@ Este exemplo mostra a implicação do uso inconsequente da FactoryGirl. Imagine 
 ----------
 # Alto acoplamento
 ___
-Testes rápidos são sempre bom, porém este não é o argumento principal para evitar o uso do FactoryGirl em testes unitários.
+Testes rápidos são sempre bons, porém este não é o argumento principal para evitar o uso do FactoryGirl em testes unitários.
 
 Ambientes de teste crescem, ficam complexos (assim como a aplicação), e chegam no ponto de visível lentidão para a prática de TDD por motivos citados acima. Quando isto acontece em testes unitários, algo está errado. Acabamos aceitando uma certa comodidade criada pelo alto acoplamento dos objetos gerados pelo FactoryGirl, e perdemos a especificidade do teste em questão.
 
