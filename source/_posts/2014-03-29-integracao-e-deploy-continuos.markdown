@@ -2,7 +2,7 @@
 layout: post
 author: Douglas Oliveira Camata
 title: "Integração e Deploy Contínuos (Parte 1)"
-date: 2014-03-29 16:41
+date: 2014-04-30 16:00
 comments: true
 description: 'Como integração e deploy contínuos podem ajudar você, sua equipe e seu cliente a perderem menos tempo no dia-a-dia'
 keywords: 'integracao continua, deploy continuo, jenkins, capistrano'
@@ -26,7 +26,9 @@ O ideal, seria que você construísse um novo ambiente, do zero, realizasse todo
 processo de preparação dele para rodar a aplicação e então rodasse os testes.
 Mas se o projeto é grande, rodar todos os testes já deve tomar um tempo
 considerável, imagina então montar o ambiente do zero... Para nos ajudar com
-este problema, nós usamos na Algorich a **integração contínua**.
+este problema, nós, na Algorich a técnica de **integração contínua**.
+
+<!-- more -->
 
 ## Integração Contínua
 
@@ -76,8 +78,9 @@ durante este processo delicado e repetitivo dentro da metodologia ágil, por que
 não automatizar o deploy também? Para cada caso, cada linguagem e até framework,
 existe a ferramenta de automatização de deploy adequada. Para nossos projetos
 web, onde usamos Ruby on Rails, utilizamos o <a href="http://capistranorb.com/">Capistrano</a>
-para esta tarefa: com um simples comando, podemos fazer um deploy para o servidor
-de staging ou produção, quando necessário, sem qualquer preocupação, sem erros.
+para esta tarefa, que com os scripts e recipes pré-definidos, basta um simples
+comando para fazermos um deploy para o servidor de staging ou produção, quando
+necessário, sem qualquer preocupação, sem erros.
 
 ## Colocando tudo isso pra funcionar
 
@@ -108,9 +111,9 @@ quando aconteceu algum erro e evitar manualmente que o deploy seja iniciado.
 O Jenkins é uma ferramenta completíssima e com inúmeros plugins, então pensamos:
 vamos integrar isso com o Trello? Vamos! E qual é a alternativa mais simples?
 Não sei se vocês sabem, mas é possível criar cards em um quadro do Trello
-via email. Dito e feito. Após nosso build rodar, caso ele falhe, é enviado um
-email para um board do Trello específico para nossa builds, que transforma-o
-em um card na lista correta, bingo!
+via email. Dito e feito. Após a execução do build, em caso de falha, um email é
+enviado para um board do Trello específico para nossas builds (previamente
+criado por nós), que transforma-o em um card na lista correta, bingo!
 
 ## Conclusão
 

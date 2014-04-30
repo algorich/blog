@@ -8,6 +8,7 @@ keywords: 'rails, factorygirl, oswaldo ferreira'
 date: 2014-04-10 23:01
 categories: [testes, oswaldo ferreira]
 comments: true
+published: false
 ---
 
 *FactoryGirl* é uma das melhores opções para criação de factories no Rails. Seu uso contínuo se torna conveniênte em equipes, já que esta aplicação
