@@ -6,10 +6,12 @@ description: Blog da equipe da Algorich, onde falamos sobre as técnicas, tecnol
 
 {% assign index = true %}
 {% for post in paginator.posts %}
-{% assign content = post.content %}
-  <article>
-    {% include article.html %}
-  </article>
+  {% if post.published %}
+    {% assign content = post.content %}
+      <article>
+        {% include article.html %}
+      </article>
+  {% endif %}
 {% endfor %}
 
 <ul class="pagination clear">

@@ -4,6 +4,7 @@ author: Eduardo Hertz
 title: "Dia, horário e local definidos! #horaextra Campos"
 description: 'Dia, horário e local do #horaextra Campos definido. Venha participar!'
 keywords: 'horaextra, campos, computação, desenvolvimento, horaextra campos, reunião'
+published: true
 ---
 
 O feedback de vocês em relação ao

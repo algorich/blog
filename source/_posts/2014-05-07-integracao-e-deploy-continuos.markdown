@@ -8,6 +8,7 @@ description: 'Como integração e deploy contínuos podem ajudar você, sua equi
 keywords: 'integracao continua, deploy continuo, jenkins, capistrano'
 categories: [gerencial, douglas oliveira camata]
 facebook_image: '/posts-assets/images/2014/05/jenkins.png'
+published: true
 ---
 
 Quando se tem projetos com uma grande quantidade de desenvolvedores é comum nos

@@ -4,6 +4,7 @@ author: Eduardo Hertz
 title: "Profissionais da região, apresentem-se!"
 description: 'O início do blog da Algorich e a criação do #horaextra Campos.'
 keywords: 'horaextra, campos, algorich, desenvolvedores, empreendedores, web design, blog'
+published: true
 ---
 
 Hoje, oficialmente, inauguramos o blog da

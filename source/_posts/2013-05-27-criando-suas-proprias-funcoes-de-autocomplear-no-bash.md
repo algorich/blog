@@ -6,6 +6,7 @@ description: 'Um dos melhores amigo de quem usa a linha de comando é o TAB. Mas
 keywords: 'bash, shell script, autocompletar, completion'
 comments: true
 categories: [shell script, hugo maia vieira]
+published: true
 ---
 
 Um dos melhores amigo de quem usa a linha de comando é o TAB. Além de ajudar a

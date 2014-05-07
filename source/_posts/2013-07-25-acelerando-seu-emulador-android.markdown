@@ -7,6 +7,7 @@ description: 'Cansado da lentidão do emulador Android? Veja nesse post como dei
 keywords: 'android, emulador, phonegap,lentidão, lento'
 comments: true
 categories: [android, hugo maia vieira]
+published: true
 ---
 
 Todo mundo que desenvolve apps para o Android sabe que o emulador é bem lento.
