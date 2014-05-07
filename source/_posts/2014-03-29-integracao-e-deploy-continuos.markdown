@@ -2,7 +2,7 @@
 layout: post
 author: Douglas Oliveira Camata
 title: "Integração e Deploy Contínuos (Parte 1)"
-date: 2014-04-30 16:00
+date: 2014-05-07 9:00
 comments: true
 description: 'Como integração e deploy contínuos podem ajudar você, sua equipe e seu cliente a perderem menos tempo no dia-a-dia'
 keywords: 'integracao continua, deploy continuo, jenkins, capistrano'
