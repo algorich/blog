@@ -101,9 +101,10 @@
         <div class="span7">
           
 
-
-  <article>
-    <div class="post">
+  
+    
+      <article>
+        <div class="post">
   <div class="post-content">
     
       <header>
@@ -182,232 +183,15 @@ este problema, nós, na Algorich a técnica de <strong>integração contínua</s
     
   </dib>
 </dib>
-  </article>
-
-
-  <article>
-    <div class="post">
-  <div class="post-content">
-    
-      <header>
-        
-          <div class="title">
-            <h2><a href="/2014/04/10/cuidados-no-uso-de-factories-factorygirl/">Boa prática em testes & cuidados com FactoryGirl</a></h2>
-          </div>
-        
-        
-          <!-- start: post meta -->
-          <div class="post-meta">
-            <span>
-              <i class="mini-ico-calendar"></i>
-              
-
-
-
-
-
-
-
+      </article>
+  
 
   
 
-
-<time datetime="2014-04-10T23:01:00-03:00" pubdate data-updated="true">10/04/2014</time>
-            </span>
-
-            <span>
-              <i class="mini-ico-user"></i>
-              
   
-
-Oswaldo Ferreira
-
-            </span>
-
-            
-            <span>
-               <i class="mini-ico-comment"></i>
-               <a href="/2014/04/10/cuidados-no-uso-de-factories-factorygirl/#disqus_thread">Comentários</a>
-            </span>
-            
-          </div>
-          <!-- end: post meta -->
-        
-      </header>
     
-    
-      <div class="entry-content"><p><em>FactoryGirl</em> é uma das melhores opções para criação de factories no Rails. Seu uso contínuo se torna conveniênte em equipes, já que esta aplicação
-gera objetos carregados de dados de maneira simples, prontos para serem utilizados num ambiente de teste. No entanto, tal comodidade pode vir a ser a futura dor de cabeça no quesito performance.</p>
-
-<p>Irei mostrar os principais motivos pelo qual devemos ter cuidado ao utilizar o FactoryGirl.</p>
-
-<p><strong>Existiria grande diferença entre estes dois exemplos?</strong></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@event</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span> <span class="ss">:event</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@event</span> <span class="o">=</span> <span class="no">Event</span><span class="o">.</span><span class="n">new</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Tudo depende de nossa definição na factory Event:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">FactoryGirl</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">factory</span> <span class="ss">:event</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">organizer</span>
-</span><span class='line'>    <span class="nb">name</span> <span class="s1">&#39;Corrida&#39;</span>
-</span><span class='line'>    <span class="n">sequence</span><span class="p">(</span><span class="ss">:slug</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="s2">&quot;corrida</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="n">address</span> <span class="s1">&#39;Avenida 123 - n 12&#39;</span>
-</span><span class='line'>    <span class="n">phone</span> <span class="s1">&#39;(22) 2734-0503&#39;</span>
-</span><span class='line'>    <span class="n">email</span> <span class="s1">&#39;hi@mail.com&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Utilizando esta factory nós não iremos apenas criar um novo objeto Event. Criaremos também um objeto Organizer, que é uma <strong>dependência</strong> de Event. Ou seja, estamos acessando a factory de organizer e definindo um objeto que muitas vezes nem iremos utilizar no teste.</p>
-
-<hr />
-
-<h1>Performance</h1>
-
-<hr />
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Benchmark</span><span class="o">.</span><span class="n">realtime</span> <span class="p">{</span> <span class="mi">100</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">build</span> <span class="ss">:event</span> <span class="p">}</span> <span class="p">}</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="mi">12</span><span class="o">.</span><span class="mi">933986</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Benchmark</span><span class="o">.</span><span class="n">realtime</span> <span class="p">{</span> <span class="mi">100</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="no">Event</span><span class="o">.</span><span class="n">new</span> <span class="p">}</span> <span class="p">}</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="mi">0</span><span class="o">.</span><span class="mo">02112</span><span class="mi">9</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Este exemplo mostra a implicação do uso inconsequente da FactoryGirl. Imagine quanto tempo acabamos perdendo em testes unitários que devem ser rodados constantemente. O principal fator causador de problemas de performance no primeiro caso é o acesso ao banco de dados. O FactoryGirl#build, apesar de não salvar o próprio objeto Event, ele possui um comportamento que sempre salva as dependências do objeto passado para este método, neste caso, o objeto Organizer.</p>
-
-<hr />
-
-<h1>Alto acoplamento</h1>
-
-<hr />
-
-<p>Testes rápidos são sempre bons, porém este não é o argumento principal para evitar o uso do FactoryGirl em testes unitários.</p>
-
-<p>Ambientes de teste crescem, ficam complexos (assim como a aplicação), e chegam no ponto de visível lentidão para a prática de TDD por motivos citados acima. Quando isto acontece em testes unitários, algo está errado. Acabamos aceitando uma certa comodidade criada pelo alto acoplamento dos objetos gerados pelo FactoryGirl, e perdemos a especificidade do teste em questão.</p>
-
-<h2>Exemplo:</h2>
-
-<p>Imagine a utilização desta factory:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">FactoryGirl</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">factory</span> <span class="ss">:event</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">organizer</span>
-</span><span class='line'>    <span class="n">expired</span> <span class="kp">false</span>
-</span><span class='line'>    <span class="n">open_to_enrollment</span> <span class="kp">true</span>
-</span><span class='line'>    <span class="nb">name</span> <span class="s1">&#39;Corrida&#39;</span>
-</span><span class='line'>    <span class="n">email</span> <span class="s1">&#39;hi@mail.com&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Facilmente percebemos que caso alguém
-tente descobrir a utilização do método Event#can_enroll? pelo primeiro exemplo
-(utilizando FactoryGirl), não entenderá de fato o que o método faz.</p>
-
-<p>Ou seja, além de ser muito mais custoso, estamos sendo implícitos.</p>
-
-<p><strong>Com FactoryGirl</strong></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Event</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;#can_enroll?&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">event</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">build</span> <span class="ss">:event</span><span class="p">,</span> <span class="n">open_to_enrollments</span><span class="p">:</span> <span class="kp">true</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">can_enroll?</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_true</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Sem FactoryGirl</strong></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Event</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;#can_enroll?&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">event</span> <span class="o">=</span> <span class="no">Event</span><span class="o">.</span><span class="n">new</span> <span class="n">open_to_enrollments</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">expired</span><span class="p">:</span> <span class="kp">false</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">can_enroll?</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_true</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Definição do método</strong></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Event</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">can_enroll?</span>
-</span><span class='line'>    <span class="n">open_to_enrollments</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">expired</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>A questão é que sempre haverão mais validações, e mais dependências, causando um custo muito maior a médio/longo prazo, onde técnicas como Mocking &amp; Stubbing se encaixam perfeitamente, tornando os testes específicos e principalmente unitários novamente.</p>
-</div>
-      
-      
-    
-  </dib>
-</dib>
-  </article>
-
-
-  <article>
-    <div class="post">
+      <article>
+        <div class="post">
   <div class="post-content">
     
       <header>
@@ -481,11 +265,13 @@ o Linux Mint 15, mas provavelmente funciona da mesma maneira no Ubuntu.</p>
     
   </dib>
 </dib>
-  </article>
+      </article>
+  
 
-
-  <article>
-    <div class="post">
+  
+    
+      <article>
+        <div class="post">
   <div class="post-content">
     
       <header>
@@ -555,11 +341,13 @@ completar! =)</p>
     
   </dib>
 </dib>
-  </article>
+      </article>
+  
 
-
-  <article>
-    <div class="post">
+  
+    
+      <article>
+        <div class="post">
   <div class="post-content">
     
       <header>
@@ -625,11 +413,13 @@ e adora: HTML, CSS e Javascript.</p>
     
   </dib>
 </dib>
-  </article>
+      </article>
+  
 
-
-  <article>
-    <div class="post">
+  
+    
+      <article>
+        <div class="post">
   <div class="post-content">
     
       <header>
@@ -692,11 +482,13 @@ aceitando   apenas conexões através de chaves de autenticação SSH.</p>
     
   </dib>
 </dib>
-  </article>
+      </article>
+  
 
-
-  <article>
-    <div class="post">
+  
+    
+      <article>
+        <div class="post">
   <div class="post-content">
     
       <header>
@@ -761,11 +553,13 @@ Então ele acontecerá na terça-feira (dia 05/06/12) às 19h no Bar da Boa!</p>
     
   </dib>
 </dib>
-  </article>
+      </article>
+  
 
-
-  <article>
-    <div class="post">
+  
+    
+      <article>
+        <div class="post">
   <div class="post-content">
     
       <header>
@@ -834,7 +628,8 @@ conhecer melhor os profissionais da região, vamos criar o #horaextra Campos!</p
     
   </dib>
 </dib>
-  </article>
+      </article>
+  
 
 
 <ul class="pagination clear">
