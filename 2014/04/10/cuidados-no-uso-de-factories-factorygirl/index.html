@@ -5,17 +5,17 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="pt-BR"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Acelerando seu emulador Android - Blog da Algorich</title>
+  <title>Boa prática em testes & cuidados com FactoryGirl - Blog da Algorich</title>
   
-    <meta name="author" content="Hugo Maia Vieira">
-  
-
-  
-    <meta name="description" content="Cansado da lentidão do emulador Android? Veja nesse post como deixá-lo mais rápido utilizando um processador Intel no seu AVD.">
+    <meta name="author" content="Oswaldo Ferreira">
   
 
   
-    <meta name="keywords" content="android, emulador, phonegap,lentidão, lento">
+    <meta name="description" content="Evitando a lentidão generalizada em testes causada pelo FactoryGirl">
+  
+
+  
+    <meta name="keywords" content="rails, factorygirl, oswaldo ferreira">
   
 
   <!-- start: Facebook Open Graph -->
@@ -23,10 +23,10 @@
   <meta property="og:type" content="article" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:site_name" content="algorich.com.br"/>
-  <meta property="og:url" content="http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/"/>
-  <meta property="og:title" content="Acelerando seu emulador Android - Blog da Algorich"/>
+  <meta property="og:url" content="http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/"/>
+  <meta property="og:title" content="Boa prática em testes & cuidados com FactoryGirl - Blog da Algorich"/>
   
-    <meta property="og:description" content="Cansado da lentidão do emulador Android? Veja nesse post como deixá-lo mais rápido utilizando um processador Intel no seu AVD." />
+    <meta property="og:description" content="Evitando a lentidão generalizada em testes causada pelo FactoryGirl" />
   
   
     <meta property="og:image" content="http://blog.algorich.com.br/img/logo-square.png"/>
@@ -39,7 +39,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/">
+  <link rel="canonical" href="http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/">
   <link href="/favicon.png" rel="icon">
 
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -107,7 +107,7 @@
       <header>
         
           <div class="title">
-            <h2>Acelerando seu emulador Android</h2>
+            <h2>Boa prática em testes & cuidados com FactoryGirl</h2>
           </div>
         
         
@@ -127,7 +127,7 @@
   
 
 
-<time datetime="2013-07-25T15:50:00-03:00" pubdate data-updated="true">25/07/2013</time>
+<time datetime="2014-04-10T23:01:00-03:00" pubdate data-updated="true">10/04/2014</time>
             </span>
 
             <span>
@@ -135,7 +135,7 @@
               
   
 
-Hugo Maia Vieira
+Oswaldo Ferreira
 
             </span>
 
@@ -151,156 +151,26 @@ Hugo Maia Vieira
       </header>
     
     
-    <div class="entry-content"><p>Todo mundo que desenvolve apps para o Android sabe que o emulador é bem lento.
-No entanto, isso pode mudar se você utiliza um computador com um processador da
-Intel que tenha a tecnologia Intel Virtualization.</p>
+    <div class="entry-content"><p><em>FactoryGirl</em> é uma das melhores opções para criação de factories no Rails. Seu uso contínuo se torna conveniênte em equipes, já que esta aplicação
+gera objetos carregados de dados de maneira simples, prontos para serem utilizados num ambiente de teste. No entanto, tal comodidade pode vir a ser a futura dor de cabeça no quesito performance.</p>
 
-<p>A melhoria é muito grande. Só para dar uma ideia, no meu notebook a lockscreen
-abriu em 10 segundos usando o AVD com o processador Intel e em 57 segundos
-usando o AVD com o processador ARM-based!</p>
+<p>Irei mostrar os principais motivos pelo qual devemos ter cuidado ao utilizar o FactoryGirl.</p>
 
-<p>No site da Intel você encontra a
-<a href="http://goo.gl/8tI7u" target="_blank">documentação</a> mostrando
-como fazer isso em ambientes Windows, Mac OS e Linux. Contudo, fiz minha versão
-em português, com algumas outras dicas e específica para <strong>Linux</strong>. Eu utilizei
-o Linux Mint 15, mas provavelmente funciona da mesma maneira no Ubuntu.</p>
-
-<!-- more -->
-
-
-<p>Em primeiro lugar, você tem que ter a SDK do Android instalada é claro. Se não
-for o caso, veja como fazê-lo <a href="http://goo.gl/HD9yka" href="_blank">neste post</a>.</p>
-
-<h2>Instalando a KVM (Kernel-based Virtual Machine)</h2>
-
-<p>A <a href="http://www.linux-kvm.org/" target="_blank">KVM</a> é uma solução
-completa de virtualização para Linux que roda em máquinas com processador Intel
-(x86). Para instalar e rodar a KVM primeiro você precisa checar se sua CPU
-suporta a virtualização de hardware, o que pode ser feito com o seguinte
-comando:</p>
+<p><strong>Existiria grande diferença entre estes dois exemplos?</strong></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>egrep -c <span class="s1">&#39;(vmx|svm)&#39;</span> /proc/cpuinfo
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@event</span> <span class="o">=</span> <span class="no">Factory</span><span class="o">.</span><span class="n">build</span> <span class="ss">:event</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Se a resposta desse comando for 0, seu CPU não tem suporte. Se a resposta for 1
-ou mais, beleza, mas ainda tem que ver se está habilitado na BIOS. Primeiro
-instale o pacote cpu-checker:</p>
+
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install cpu-checker
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@event</span> <span class="o">=</span> <span class="no">Event</span><span class="o">.</span><span class="n">new</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Em seguida, faça a verificação:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>kvm-ok
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Sua resposta deve ser algo desse tipo:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>INFO: Your CPU supports KVM extensions
-</span><span class='line'>INFO: /dev/kvm exists
-</span><span class='line'>KVM acceleration can be used
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Se não, sua resposta será algo como apresentado abaixo e você terá que entrar na
-BIOS para ativar a Intel Virtualization Technology:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>INFO: KVM is disabled by your BIOS
-</span><span class='line'>HINT: Enter your BIOS setup and enable Virtualization Technology (VT),
-</span><span class='line'>and then hard poweroff/poweron your system
-</span><span class='line'>KVM acceleration can NOT be used
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>O próximo passo é instalar a KVM e alguns outros pacotes necessários:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Depois, você deve adicionar seu usuário aos grupos <em>kvm</em> e <em>libvirtd</em>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo adduser seu_usuario kvm
-</span><span class='line'><span class="nv">$ </span>sudo adduser seu_usuario libvirtd
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Em seguida, faça logout e login novamente para que as alterações tenham efeito.</p>
-
-<h2>Criando um AVD (Android Virtual Device) com o processador Intel</h2>
-
-<p>Primeiro, vamos intalar o pacote que dá suporte a escolha da CPU da Intel na
-criação do AVD. Abra o SDK Manager com o comando <code>android</code> e instale o pacote
-&#8220;Intel x86 Atom System Image&#8221; para a versão do Android que pretende usar (Figura
-1). No meu caso escolhi a versão 4.2.2 porque o 4.3, que saiu ontem, ainda não
-tinha suporte.</p>
-
-<div class="aligncenter">
-  <img title="SDK Manager" src="/posts-assets/images/2013/07/sdk-manager-intel.png" alt="Instalando o pacote da Intel com o SDK Manager" width="694" height="412" />
-  <span class="caption">Figura 1: Instalando o pacote da Intel com o SDK Manager</span>
-</div>
-
-
-<p>Em seguida, vamos criar um AVD normalmente, porém, com o processador da Intel.
-Abra o AVD Managet com o comando <code>android avd</code>. Para facilitar, usei uma
-definição de dispositivo da aba &#8220;Device Definitions&#8221;, no caso, o Nexus 4. Basta
-clicar na definição, depois em &#8220;Create ADV&#8230;&#8221;, escolher o target &#8220;4.2.2&#8221; e o
-CPU &#8220;Intel Atom (x86)&#8221;. Além disso, para facilitar na hora de usar com o
-emulador, troquei o nome do ADV para &#8220;nexus4&#8221; como pode ser visto na Figura 2.</p>
-
-<div class="aligncenter">
-  <img title="SDK Manager" src="/posts-assets/images/2013/07/avd-intel.png" alt="Criando um AVD com processador Intel" width="448" height="632" />
-  <span class="caption">Figura 2: Criando um AVD com processador Intel</span>
-</div>
-
-
-<p>Ponto, agora você tem seu dispositivo virtual com o processador Intel. Agora
-vamos utilizá-lo no emulador:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>emulator @nexus4
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Se você quiser ver a diferença entre utilizar o processador Intel e o ARM, feche
-o emulador, edite seu AVD trocando a CPU dele para AMR e inicie o emulador
-novamente. A diferença é grande, né? =)</p>
-
-<h2>Corrigindo o erro da libGL.so</h2>
-
-<p>Inicie seu emulador e veja se acontece erro abaixo:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>emulator @nexus4
-</span><span class='line'>Failed to load libGL.so
-</span><span class='line'>error libGL.so: cannot open shared object file: No such file or directory
-</span><span class='line'>Failed to load libGL.so
-</span><span class='line'>error libGL.so: cannot open shared object file: No such file or directory
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Se sim, para corrigí-lo basta encontrar o arquivo em sua máquina e criar um link
-simbólico na pasta onde está o Android SDK. Para encontra o arquivo:</p>
+<p>Tudo depende de nossa definição na factory Event:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -308,56 +178,140 @@ simbólico na pasta onde está o Android SDK. Para encontra o arquivo:</p>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo updatedb
-</span><span class='line'><span class="nv">$ </span>locate libGL.so
-</span><span class='line'>/usr/lib/i386-linux-gnu/mesa/libGL.so.1
-</span><span class='line'>/usr/lib/i386-linux-gnu/mesa/libGL.so.1.2.0
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
-</span><span class='line'>/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">FactoryGirl</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">factory</span> <span class="ss">:event</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">organizer</span>
+</span><span class='line'>    <span class="nb">name</span> <span class="s1">&#39;Corrida&#39;</span>
+</span><span class='line'>    <span class="n">sequence</span><span class="p">(</span><span class="ss">:slug</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="s2">&quot;corrida</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">address</span> <span class="s1">&#39;Avenida 123 - n 12&#39;</span>
+</span><span class='line'>    <span class="n">phone</span> <span class="s1">&#39;(22) 2734-0503&#39;</span>
+</span><span class='line'>    <span class="n">email</span> <span class="s1">&#39;hi@mail.com&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Como meu sistema é 64 bits, vou usar o aquivo
-<em>/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0</em> para fazer o link:</p>
-
-<p><strong>Obs</strong>: mude o <em>~/android</em> para o local onde está o Android SDK na sua máquina.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ln -s /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0 ~/android/sdk/tools/lib/libGL.so
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Se isso não solucionar seu problema, dê uma olhada
-<a href="http://goo.gl/lK23N" target="_blank">nessas respostas do stackoverflow</a>.</p>
-
-<h2>Turbinando ainda mais seu emulador</h2>
-
-<p>Uma outra coisa que você pode fazer para acelerar ainda mais seu emulador é
-habilitar o uso da GPU. Basta editar seu AVD e selecionar o item &#8220;Use Host GPU&#8221;.
-Isso fará com que o emulador carregue ainda mais rápido (em 8 segundos na
-minha máquina), as animações de transição sejam mais rápidas e fluidas e os
-gráficos fiquem mais bonitos e bem definidos. Repare na diferença do papel de
-parede na Figura 3.</p>
-
-<div class="aligncenter">
-  <img title="SDK Manager" src="/posts-assets/images/2013/07/comparacao-emulador-sem-e-com-gpu.png" alt="Diferença entre usar ou não a GPU" width="670" height="423" />
-  <span class="caption">Figura 3: Sem e com o uso da GPU</span>
-</div>
-
-
-<p>O único problema é que se você, assim como eu, utiliza o
-<a href="http://phonegap.com/" target="_blank">PhoneGap</a> para desenvolver seus
-apps, o uso da GPU fará com que sua aplicação não abra direito, como na Figura
-4. Não encontrei nenhuma solução para isso e eu mantive essa opção desmarcada.
-Se alguém solucionar esse problema, por favor deixe um comentário! =)</p>
-
-<div class="aligncenter">
-  <img title="SDK Manager" src="/posts-assets/images/2013/07/emulador-problema-phonegap.png" alt="Problema do uso da GPU com apps PhoneGap" width="335" height="423" />
-  <span class="caption">Figura 4: Problema do uso da GPU com apps PhoneGap</span>
-</div>
-
+<p>Utilizando esta factory nós não iremos apenas criar um novo objeto Event. Criaremos também um objeto Organizer, que é uma <strong>dependência</strong> de Event. Ou seja, estamos acessando a factory de organizer e definindo um objeto que muitas vezes nem iremos utilizar no teste.</p>
 
 <hr />
+
+<h1>Performance</h1>
+
+<hr />
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Benchmark</span><span class="o">.</span><span class="n">realtime</span> <span class="p">{</span> <span class="mi">100</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">build</span> <span class="ss">:event</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">12</span><span class="o">.</span><span class="mi">933986</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Benchmark</span><span class="o">.</span><span class="n">realtime</span> <span class="p">{</span> <span class="mi">100</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="no">Event</span><span class="o">.</span><span class="n">new</span> <span class="p">}</span> <span class="p">}</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="mi">0</span><span class="o">.</span><span class="mo">02112</span><span class="mi">9</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Este exemplo mostra a implicação do uso inconsequente da FactoryGirl. Imagine quanto tempo acabamos perdendo em testes unitários que devem ser rodados constantemente. O principal fator causador de problemas de performance no primeiro caso é o acesso ao banco de dados. O FactoryGirl#build, apesar de não salvar o próprio objeto Event, ele possui um comportamento que sempre salva as dependências do objeto passado para este método, neste caso, o objeto Organizer.</p>
+
+<hr />
+
+<h1>Alto acoplamento</h1>
+
+<hr />
+
+<p>Testes rápidos são sempre bons, porém este não é o argumento principal para evitar o uso do FactoryGirl em testes unitários.</p>
+
+<p>Ambientes de teste crescem, ficam complexos (assim como a aplicação), e chegam no ponto de visível lentidão para a prática de TDD por motivos citados acima. Quando isto acontece em testes unitários, algo está errado. Acabamos aceitando uma certa comodidade criada pelo alto acoplamento dos objetos gerados pelo FactoryGirl, e perdemos a especificidade do teste em questão.</p>
+
+<h2>Exemplo:</h2>
+
+<p>Imagine a utilização desta factory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">FactoryGirl</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">factory</span> <span class="ss">:event</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">organizer</span>
+</span><span class='line'>    <span class="n">expired</span> <span class="kp">false</span>
+</span><span class='line'>    <span class="n">open_to_enrollment</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="nb">name</span> <span class="s1">&#39;Corrida&#39;</span>
+</span><span class='line'>    <span class="n">email</span> <span class="s1">&#39;hi@mail.com&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Facilmente percebemos que caso alguém
+tente descobrir a utilização do método Event#can_enroll? pelo primeiro exemplo
+(utilizando FactoryGirl), não entenderá de fato o que o método faz.</p>
+
+<p>Ou seja, além de ser muito mais custoso, estamos sendo implícitos.</p>
+
+<p><strong>Com FactoryGirl</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Event</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;#can_enroll?&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">event</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">build</span> <span class="ss">:event</span><span class="p">,</span> <span class="n">open_to_enrollments</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">can_enroll?</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Sem FactoryGirl</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">Event</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;#can_enroll?&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">event</span> <span class="o">=</span> <span class="no">Event</span><span class="o">.</span><span class="n">new</span> <span class="n">open_to_enrollments</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">expired</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">can_enroll?</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Definição do método</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Event</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">can_enroll?</span>
+</span><span class='line'>    <span class="n">open_to_enrollments</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">expired</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A questão é que sempre haverão mais validações, e mais dependências, causando um custo muito maior a médio/longo prazo, onde técnicas como Mocking &amp; Stubbing se encaixam perfeitamente, tornando os testes específicos e principalmente unitários novamente.</p>
 </div>
     
   </dib>
@@ -366,7 +320,7 @@ Se alguém solucionar esse problema, por favor deixe um comentário! =)</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/" data-via="algorich" data-counturl="http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/" data-via="algorich" data-counturl="http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/" >Tweet</a>
   
   
   
@@ -379,12 +333,12 @@ Se alguém solucionar esse problema, por favor deixe um comentário! =)</p>
     <ul class="pagination clear">
       
         <div class="alignleft">
-          <a href="/2013/05/27/criando-suas-proprias-funcoes-de-autocomplear-no-bash/" title="Post anterior: Criando suas próprias funções de autocomplear no Bash"><li>&laquo; Criando suas próprias funções de autocomplear no Bash</li></a>
+          <a href="/2013/07/25/acelerando-seu-emulador-android/" title="Post anterior: Acelerando seu emulador Android"><li>&laquo; Acelerando seu emulador Android</li></a>
         </div>
       
       
         <div class="alignright">
-          <a href="/2014/04/10/cuidados-no-uso-de-factories-factorygirl/" title="Post posterior: Boa prática em testes & cuidados com FactoryGirl"><li>Boa prática em testes & cuidados com FactoryGirl &raquo;</li></a>
+          <a href="/2014/05/07/integracao-e-deploy-continuos/" title="Post posterior: Integração e Deploy Contínuos (Parte 1)"><li>Integração e Deploy Contínuos (Parte 1) &raquo;</li></a>
         </div>
       
     </ul>
@@ -658,8 +612,8 @@ Se alguém solucionar esse problema, por favor deixe um comentário! =)</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/';
-        var disqus_url = 'http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/';
+        var disqus_identifier = 'http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/';
+        var disqus_url = 'http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/';
         var disqus_script = 'embed.js';
       
     (function () {

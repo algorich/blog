@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: oswaldo ferreira | Blog da Algorich]]></title>
+  <link href="http://blog.algorich.com.br/categories/oswaldo-ferreira/atom.xml" rel="self"/>
+  <link href="http://blog.algorich.com.br/"/>
+  <updated>2014-05-07T16:35:03-03:00</updated>
+  <id>http://blog.algorich.com.br/</id>
+  <author>
+    <name><![CDATA[Time Algorich]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Boa prática em testes & cuidados com FactoryGirl]]></title>
+    <link href="http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/"/>
+    <updated>2014-04-10T23:01:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl</id>
+    <content type="html"><![CDATA[<p><em>FactoryGirl</em> é uma das melhores opções para criação de factories no Rails. Seu uso contínuo se torna conveniênte em equipes, já que esta aplicação
+gera objetos carregados de dados de maneira simples, prontos para serem utilizados num ambiente de teste. No entanto, tal comodidade pode vir a ser a futura dor de cabeça no quesito performance.</p>
+
+<p>Irei mostrar os principais motivos pelo qual devemos ter cuidado ao utilizar o FactoryGirl.</p>
+
+<p><strong>Existiria grande diferença entre estes dois exemplos?</strong></p>
+
+<p><code>ruby
+@event = Factory.build :event
+</code></p>
+
+<p><code>ruby
+@event = Event.new
+</code></p>
+
+<p>Tudo depende de nossa definição na factory Event:</p>
+
+<p>```ruby
+FactoryGirl.define do
+  factory :event do</p>
+
+<pre><code>organizer
+name 'Corrida'
+sequence(:slug) { |n| "corrida#{n}" }
+address 'Avenida 123 - n 12'
+phone '(22) 2734-0503'
+email 'hi@mail.com'
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Utilizando esta factory nós não iremos apenas criar um novo objeto Event. Criaremos também um objeto Organizer, que é uma <strong>dependência</strong> de Event. Ou seja, estamos acessando a factory de organizer e definindo um objeto que muitas vezes nem iremos utilizar no teste.</p>
+
+<hr />
+
+<h1>Performance</h1>
+
+<hr />
+
+<p><code>ruby
+Benchmark.realtime { 100.times { FactoryGirl.build :event } }
+=&gt; 12.933986
+</code></p>
+
+<p><code>ruby
+Benchmark.realtime { 100.times { Event.new } }
+=&gt; 0.021129
+</code></p>
+
+<p>Este exemplo mostra a implicação do uso inconsequente da FactoryGirl. Imagine quanto tempo acabamos perdendo em testes unitários que devem ser rodados constantemente. O principal fator causador de problemas de performance no primeiro caso é o acesso ao banco de dados. O FactoryGirl#build, apesar de não salvar o próprio objeto Event, ele possui um comportamento que sempre salva as dependências do objeto passado para este método, neste caso, o objeto Organizer.</p>
+
+<hr />
+
+<h1>Alto acoplamento</h1>
+
+<hr />
+
+<p>Testes rápidos são sempre bons, porém este não é o argumento principal para evitar o uso do FactoryGirl em testes unitários.</p>
+
+<p>Ambientes de teste crescem, ficam complexos (assim como a aplicação), e chegam no ponto de visível lentidão para a prática de TDD por motivos citados acima. Quando isto acontece em testes unitários, algo está errado. Acabamos aceitando uma certa comodidade criada pelo alto acoplamento dos objetos gerados pelo FactoryGirl, e perdemos a especificidade do teste em questão.</p>
+
+<h2>Exemplo:</h2>
+
+<p>Imagine a utilização desta factory:</p>
+
+<p>```ruby
+FactoryGirl.define do
+  factory :event do</p>
+
+<pre><code>organizer
+expired false
+open_to_enrollment true
+name 'Corrida'
+email 'hi@mail.com'
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Facilmente percebemos que caso alguém
+tente descobrir a utilização do método Event#can_enroll? pelo primeiro exemplo
+(utilizando FactoryGirl), não entenderá de fato o que o método faz.</p>
+
+<p>Ou seja, além de ser muito mais custoso, estamos sendo implícitos.</p>
+
+<p><strong>Com FactoryGirl</strong></p>
+
+<p>```ruby
+describe Event do
+  it '#can_enroll?' do</p>
+
+<pre><code>event = FactoryGirl.build :event, open_to_enrollments: true
+expect(event.can_enroll?).to be_true
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p><strong>Sem FactoryGirl</strong></p>
+
+<p>```ruby
+describe Event do
+  it '#can_enroll?' do</p>
+
+<pre><code>event = Event.new open_to_enrollments: true, expired: false
+expect(event.can_enroll?).to be_true
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p><strong>Definição do método</strong></p>
+
+<p>```ruby
+class Event
+  def can_enroll?</p>
+
+<pre><code>open_to_enrollments &amp;&amp; !expired
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>A questão é que sempre haverão mais validações, e mais dependências, causando um custo muito maior a médio/longo prazo, onde técnicas como Mocking &amp; Stubbing se encaixam perfeitamente, tornando os testes específicos e principalmente unitários novamente.</p>
+]]></content>
+  </entry>
+  
+</feed>

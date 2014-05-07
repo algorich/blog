@@ -4,7 +4,7 @@
   <title><![CDATA[Category: douglas oliveira camata | Blog da Algorich]]></title>
   <link href="http://blog.algorich.com.br/categories/douglas-oliveira-camata/atom.xml" rel="self"/>
   <link href="http://blog.algorich.com.br/"/>
-  <updated>2014-05-07T16:11:46-03:00</updated>
+  <updated>2014-05-07T16:35:03-03:00</updated>
   <id>http://blog.algorich.com.br/</id>
   <author>
     <name><![CDATA[Time Algorich]]></name>
@@ -44,7 +44,9 @@ este problema, nós, na Algorich a técnica de <strong>integração contínua</s
 
 <p>Mas que diabos é isso?</p>
 
-<p><blockquote><p>Integração Contínua é uma pratica de desenvolvimento de software onde os membros de um time integram seu trabalho frequentemente, geralmente cada pessoa integra pelo menos diariamente – podendo haver multiplas integrações por dia. Cada integração é verificada por um build automatizado (incluindo testes) para detectar erros de integração o mais rápido possível. Muitos times acham que essa abordagem leva a uma significante redução nos problemas de integração e permite que um time desenvolva software coeso mais rapidamente.</p><footer><strong>Martin Fowler,</strong> <cite><a href='http://martinfowler.com/articles/continuousIntegration.html'>martinfowler.com/articles/&hellip;</a></cite></footer></blockquote></p>
+<p>{% blockquote Martin Fowler, http://martinfowler.com/articles/continuousIntegration.html %}
+Integração Contínua é uma pratica de desenvolvimento de software onde os membros de um time integram seu trabalho frequentemente, geralmente cada pessoa integra pelo menos diariamente – podendo haver multiplas integrações por dia. Cada integração é verificada por um build automatizado (incluindo testes) para detectar erros de integração o mais rápido possível. Muitos times acham que essa abordagem leva a uma significante redução nos problemas de integração e permite que um time desenvolva software coeso mais rapidamente.
+{% endblockquote %}</p>
 
 <p>Resumidamente, o tal "build automatizado" é quem vai fazer aquele procedimento
 trabalhoso de montar o projeto em um ambiente limpo e então verificar se os
@@ -100,7 +102,8 @@ integração contínua, software livre, e em constante evolução),
 <a href="https://trello.com">Trello</a> (organização e gerenciamento dos
 projetos).</p>
 
-<p>E como isso tudo se junta? Bem, através do plugin
+<p><img class="alignright" title="Jenkins" src="http://blog.algorich.com.br/posts-assets/images/2014/05/jenkins.png" alt="Jenkins" width="162" height="166" />
+E como isso tudo se junta? Bem, através do plugin
 <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gitlab+Hook+Plugin">Gitlab Hook</a>
 para o Jenkins, ele ficará escutando em uma determinada URL para receber
 requests que informarão sobre novos commits enviados ao repositório remoto. Em
