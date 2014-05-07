@@ -1,0 +1,965 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="pt-BR"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Iniciando no desenvolvimento Android com PhoneGap - Blog da Algorich</title>
+  
+    <meta name="author" content="Hugo Maia Vieira">
+  
+
+  
+    <meta name="description" content="Aprenda como começar a desenvolver apps para Android utilizando o PhoneGap, um framework que te dá liberdade de criar apps mobile usando as tecnologias da web que você conhece e adora: HTML, CSS e Javascript.">
+  
+
+  
+    <meta name="keywords" content="mobile, dispositivos, móvel, móveis, phonegap, android, ubuntu, linux">
+  
+
+  <!-- start: Facebook Open Graph -->
+  <meta property="fb:app_id" content="255940757884214" />
+  <meta property="og:type" content="article" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="algorich.com.br"/>
+  <meta property="og:url" content="http://blog.algorich.com.br/2012/07/23/iniciando-no-desenvolvimento-android-com-phonegap/"/>
+  <meta property="og:title" content="Iniciando no desenvolvimento Android com PhoneGap - Blog da Algorich"/>
+  
+    <meta property="og:description" content="Aprenda como começar a desenvolver apps para Android utilizando o PhoneGap, um framework que te dá liberdade de criar apps mobile usando as tecnologias da web que você conhece e adora: HTML, CSS e Javascript." />
+  
+  
+    <meta property="og:image" content="http://blog.algorich.com.br/posts-assets/images/2012/07/phonegap.png" />
+  
+  <!-- end: Facebook Open Graph -->
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.algorich.com.br/2012/07/23/iniciando-no-desenvolvimento-android-com-phonegap/">
+  <link href="/favicon.png" rel="icon">
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <!--[if IE 9]>
+    <style>.da-slide p { filter:none; }</style>
+  <![endif]-->
+
+  <link href="/atom.xml" rel="alternate" title="Blog da Algorich" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700">
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Serif">
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Boogaloo">
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Economica:700,400italic">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23447419-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+
+  <header id="app-main-header">
+  <!--start: Container -->
+  <div class="container">
+    <div class="row">
+      <div class="span10">
+        <a class="brand" href="/">
+          <img src="/img/algorich_logo.png" alt="Algorich" />
+        </a>
+      </div>
+    </div>
+  </div>
+  <!--end: Container-->
+</header>
+
+
+
+  <!--start: Wrapper-->
+  <div id="wrapper">
+
+    <!--start: Container -->
+    <div class="container">
+      <!--start: Row -->
+      <div class="row">
+        <div class="span7">
+          <div>
+<article>
+  <div class="post">
+  <div class="post-content">
+    
+      <header>
+        
+          <div class="title">
+            <h2>Iniciando no desenvolvimento Android com PhoneGap</h2>
+          </div>
+        
+        
+          <!-- start: post meta -->
+          <div class="post-meta">
+            <span>
+              <i class="mini-ico-calendar"></i>
+              
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-23T00:00:00-03:00" pubdate data-updated="true">23/07/2012</time>
+            </span>
+
+            <span>
+              <i class="mini-ico-user"></i>
+              
+  
+
+Hugo Maia Vieira
+
+            </span>
+
+            
+            <span>
+               <i class="mini-ico-comment"></i>
+               <a href="#disqus_thread">Comentários</a>
+            </span>
+            
+          </div>
+          <!-- end: post meta -->
+        
+      </header>
+    
+    
+    <div class="entry-content"><p>Neste post vou mostar como começar a desenvolver apps para Android utilizando
+seu editor de texto preferido e o
+<a href="http://phonegap.com/" target="_blank">PhoneGap</a>, um framework que te
+dá liberdade de criar apps mobile usando as tecnologias da web que você conhece
+e adora: HTML, CSS e Javascript.</p>
+
+<!-- more -->
+
+
+<p>Aqui na Algorich nós utilizamo o <a href="http://phonegap.com/" target="_blank">PhoneGap</a> para desenvolver aplicações mobile. Como diz no site, desenvolver com PhoneGap te dá a liberdade de criar aplicações mobile para <a href="http://phonegap.com/about/feature" target="_blank">7 plataformas diferentes</a> (com suporte completo à Android, iOS e Windows Phone) usando as tecnologias da web que você conhece e adora: HTML, CSS e Javascript.</p>
+
+<p><img class="alignright" title="PhoneGap" src="/posts-assets/images/2012/07/phonegap.png" alt="PhoneGap" width="216" height="250" /></p>
+
+<p>Os apps criados com o <a href="http://phonegap.com/" target="_blank">PhoneGap</a> não são nativos, porém, se comportam como tal. Eles são instalados no dispositivo e rodam em uma instância do browser padrão do sistema, ocupando 100% da tela. Além disso, o <a href="http://phonegap.com/" target="_blank">PhoneGap</a> fornece uma API que te possibilita acessar funcionalidades nativas do sistema operacional (como a câmera, acelerômetro e etc) usando JavaScript. Os apps são criados utilizando o modelo <a href="http://en.wikipedia.org/wiki/Single-page_application" target="_blank">single-page</a>, onde a lógica do app fica em uma única página HTML que nunca é eliminada da memória, e todas as transições e apresentação dos dados são feitas através de atualizações no HTML <a href="http://www.w3.org/DOM" target="_blank">DOM</a>. Um exemplo de app criado com o <a href="http://phonegap.com/" target="_blank">PhoneGap</a> é o <a href="http://phonegap.com/app/wikipedia/" target="_blank">app do Wikipedia</a>.</p>
+
+<p>Neste post irei mostrar como começar a desenvolver apps para Android utilizando o PhoneGap. O <a href="http://docs.phonegap.com/en/2.0.0/guide_getting-started_android_index.md.html" target="_blank">getting started</a> do PhoneGap indica a utilização do <a href="http://www.eclipse.org/downloads/" target="_blank">Eclipse</a> para montar o ambiente de desenvolvimento. Contudo, como não gosto de IDEs complexas e pesadas como o Eclipse (quando não estou usando Java), vou mostrar aqui como fazer o setup sem o uso dele, utilizando a linha de comando e seu editor preferido (no meu caso, o <a href="http://www.sublimetext.com/">Sublime Text</a>). Além disso, eu utilizo o sistema operacional Ubuntu Linux (versão 12.04 64bits), então algumas coisas que mostrarei aqui podem não ser válidas para outros sistemas.</p>
+
+<h2>Instalando o Android SDK</h2>
+
+<p>Primeiro, você deve ter o java instalado. Caso não tenha, instale assim:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install openjdk-7-jdk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Após instalar o java, baixe o Android SDK no <a href="http://developer.android.com/sdk/index.html" target="_blank">site de desenvolvedores do android</a>. Para instalar descompacte o tar.gz em algum diretório de sua escolha. No meu caso, eu utilizo o diretório <em>~/install/</em>. Em seguida, adicione a seguinte linha no seu arquivo <em>~/.bashrc</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:~/install/android-sdk-linux/tools:~/install/android-sdk-linux/platform-tools
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Isso irá adicionar os diretórios onde estão as ferramentas do SDK (tools e plataform-tools) ao path de executáveis. Desta forma, será possível invocar as ferramentas sem necessidade de colocar todo o caminho onde elas estão, como comandos padrão do shell.</p>
+
+<p>Vejamos algumas ferramentas essenciais do Android SDK:</p>
+
+<ul>
+<li><strong>android</strong>
+Cria e atualiza projetos Android, atualiza seu SDK, além de criar, mover e deletar AVDs (Android Virtual Devices). Mais informações na <a href="http://developer.android.com/guide/developing/tools/android.html" target="_blank">documentação</a>.</li>
+<li><strong>emulador (Android Emulator)</strong>
+Executa suas aplicações em uma plataforma Android emulada. Mais informações na <a href="http://developer.android.com/guide/developing/devices/emulator.html" target="_blank">documentação</a>.</li>
+<li><strong>adb (Android Debug Bridge)</strong>
+Faz a interface com seu emulador ou dispositivo conectado. Entre outas coisas, é responsável por installar apps. Mais informações na <a href="http://developer.android.com/tools/help/adb.html" target="_blank">documentação</a>.</li>
+</ul>
+
+
+<h2>Instalando pacotes Android</h2>
+
+<p>Você deve baixar pacotes (packages) com imagens de sistemas Android, também chamadas de plataformas. Para abrir o SDK Manager use o comando <code>android</code> com a opção <code>sdk</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>android sdk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>O SDK Manager irá abrir. Você deve escolher uma (ou mais) versão do Android para instalar. Você só precisa instalar o pacote <em>SDK Platform</em>, sendo o restante opcional. Como é apresentado na figura 1, no meu caso, escolhi instalar apenas a versão 2.3.3 que é a versão que roda no meu celular.</p>
+
+<div class="aligncenter">
+  <img title="SDK Manager" src="/posts-assets/images/2012/07/sdk-manager.png" alt="SDK Manager" width="620" height="349" />
+  <span class="caption">Figura 1: Instalando pacotes Android com o SDK Manager</span>
+</div>
+
+
+<p>Depois de instalar os pacotes, pode fechar o SDK Manager.</p>
+
+<h2>Manipulando AVDs</h2>
+
+<p>Um AVD (Android Virtual Device) é um emulador de configurações que te permite criar um modelo virtual de dispositivo, definindo o hardware e o software que serão emulados pelo Android Emulator. Desta forma, você pode emular diferentes configurações de dispositivos que rodam Android. Você pode criar quantos AVDs você precisar, de acordo com as configurações dos dispositivos os quais seu app é compatível (por exemplo, com diferentes tamanhos de tela e versões do Android), para testar seu app em cada uma delas. Você pode <a href="http://developer.android.com/guide/developing/devices/managing-avds-cmdline.html">criar um AVD pela linha de comando</a>, contudo, existe o AVD Manager que facilita um pouco. Para abrir o AVD Manager use o comando <code>android</code> com a opção <code>avd</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>android avd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Em seguida crie um novo AVD como apresentado na figura 2.</p>
+
+<div class="aligncenter">
+  <img title="AVD Manager" src="/posts-assets/images/2012/07/avd-manager-new.png" alt="AVD Manager" width="399" height="643" />
+  <span class="caption">Figura 2: Criando um novo AVD com o AVD Manager</span>
+</div>
+
+
+<p><strong>Obs</strong>: Caso você esteja rodando o Ubuntu 64 bits pode ser que você tenha o problema apresentado na figura 3 ao criar o AVD.</p>
+
+<div class="aligncenter">
+  <img title="Problema ao criar um AVD" src="/posts-assets/images/2012/07/avd-manager-problem.png" alt="Problema ao criar um AVD" width="613" height="191" />
+  <span class="caption">Figura 3: Problema ao criar um AVD</span>
+</div>
+
+
+<p>Caso isso ocorra, é porque você não tem o pacote <code>ia32-libs</code> instalado. Para instalá-lo:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install ia32-libs
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Depois de criado o AVD corretamente, pode frechar o AVD Manager.</p>
+
+<h2>Criando um projeto Android</h2>
+
+<p>O Android SDK espera que seu projeto siga uma estrutura específica de arquivos e diretório para que ele possa compilar e empacotar sua aplicação corretamente. A ferramenta <code>android</code> criar um novo projeto com toda a estrutura definida. Recomendo que você veja a <a href="http://developer.android.com/tools/projects/index.html#ApplicationProjects" target="_blank">documentação</a> para conhecer a estrutura de um projeto, entendendo para que serve cada diretório e arquivo do seu projeto.</p>
+
+<p>Para criar um projeto Android, rode o seguinte comando:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>android create project <span class="se">\</span>
+</span><span class='line'>        --target &lt;target_ID&gt; <span class="se">\</span>
+</span><span class='line'>        --name &lt;nome_do_seu_projeto&gt; <span class="se">\</span>
+</span><span class='line'>        --path caminho/para/seu/projeto <span class="se">\</span>
+</span><span class='line'>        --activity &lt;nome_da_sua_activity&gt; <span class="se">\</span>
+</span><span class='line'>        --package &lt;namespace_do_seu_package&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Onde:</p>
+
+<ul>
+<li><strong>target</strong> é a plataforma Aldroid alvo para a construção da sua aplicação. Para ver a lista de targets disponíveis e seus IDs correspondentes, use o comando <code>android list targets</code>.</li>
+<li><strong>name</strong> é o nome do seu aplicativo.</li>
+<li><strong>path</strong> é a localização do diretório do seu projeto. Se o diretório não existir, ele será criado para você.</li>
+<li><strong>activity</strong> é o nome para a classe padrão <a href="http://developer.android.com/reference/android/app/Activity.html" target="_blank">Activity</a>.</li>
+<li><strong>package</strong> é o namespace do package do seu projeto, seguindo as mesmas regras para os packages em Java.</li>
+</ul>
+
+
+<p>Para este artigo, vou criar um app HelloWorld:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>android create project <span class="se">\</span>
+</span><span class='line'>        --target 1 <span class="se">\</span>
+</span><span class='line'>        --name HelloWorld <span class="se">\</span>
+</span><span class='line'>        --path ~/projetos/hello_world <span class="se">\</span>
+</span><span class='line'>        --activity HelloWorldActivity <span class="se">\</span>
+</span><span class='line'>        --package br.com.algorich.hello_world
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Com isso, será criada a estrutura do projeto Android, como apresentada na figura 4.</p>
+
+<div class="aligncenter">
+  <img title="Estrutura do projeto Android" src="/posts-assets/images/2012/07/project-tree.png" alt="Estrutura do projeto Android" width="370" height="334" />
+  <span class="caption">Figura 4: Estrutura de arquivos e diretórios do projeto Android</span>
+</div>
+
+
+<p>Se você utilizar um sistema de controle de versão (se não utiliza, deveria) como o <a href="http://git-scm.com/" target="_blank">git</a>, faça com que o arquivo <em>local.properties</em> e os diretórios <em>bin</em> e <em>gen</em> sejam ignorados pelo controle de versão.</p>
+
+<h2>Adicionando o PhoneGap</h2>
+
+<p>Com a estrutura do projeto criada, é hora de adicionar o PhoneGap. Para isso, faça o <a href="http://phonegap.com/download" target="_blank">download do PhoneGap</a> e descompacte o .zip em algum diretório de sua escolha. No meu caso, eu utilizo o diretório <em>~/install/</em>. Em seguida, no terminal, entre no diretório da sua aplicação e execute os seguintes comandos:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># cria o diretório assets e dentro dele o diretório www</span>
+</span><span class='line'>mkdir -p assets/www
+</span><span class='line'>cp ~/install/phonegap/lib/android/cordova-2.0.0.js assets/www/
+</span><span class='line'>cp ~/install/phonegap/lib/android/cordova-2.0.0.jar libs/
+</span><span class='line'>cp -r ~/install/phonegap/lib/android/xml/ res/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Abra o arquivo da classe <code>Activity</code> (arquivo java contido no último subdiretório do diretório <em>src</em>), que no exemplo é o arquivo <em>HelloWorldActivity.java</em>, e edite o seguinte:</p>
+
+<ol>
+  <li>A classe herda de <code>Activity</code>, mude para herdar de <code>DroidGap</code></li>
+  <li>Troque a linha <code>setContentView(R.layout.main);</code> por <code>super.loadUrl("file:///android_asset/www/index.html");</code></li>
+  <li>Adicione o import <code>import org.apache.cordova.*;</code></li>
+  <li>Remova o import <code>import android.app.Activity;</code></li>
+  <li>Adicione o trexo de código seguinte ao arquivo <em>AndroidManifest.xml</em>, abaixo da linha que contém <code>android:versionName</code>:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;supports-screens</span>
+</span><span class='line'>  <span class="na">android:largeScreens=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>  <span class="na">android:normalScreens=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>  <span class="na">android:smallScreens=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>  <span class="na">android:resizeable=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>  <span class="na">android:anyDensity=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'><span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.CAMERA&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.VIBRATE&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.ACCESS_COARSE_LOCATION&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.ACCESS_FINE_LOCATION&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.ACCESS_LOCATION_EXTRA_COMMANDS&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.READ_PHONE_STATE&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.INTERNET&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.RECEIVE_SMS&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.RECORD_AUDIO&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.MODIFY_AUDIO_SETTINGS&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.READ_CONTACTS&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.WRITE_CONTACTS&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.GET_ACCOUNTS&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.BROADCAST_STICKY&quot;</span> <span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+  </li>
+  <li>Adicione <code>android:configChanges="orientation|keyboardHidden"</code> a tag <code>activity</code> no <em>AndroidManifest.xml</em></li>
+  <li>Crie o arquivo <em>assets/www/index.html</em> e adicione o seguinte conteúdo:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE HTML&gt;</span>
+</span><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;title&gt;</span>Android + PhoneGap<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span> <span class="na">src=</span><span class="s">&quot;cordova-2.0.0.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;h1&gt;</span>Hello World! =)<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+  </li>
+</ol>
+
+
+<p><strong>Obs</strong>: A única permissão realmente necessária para iniciar um hello world com o PhoneGap é a seguinte:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> <span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>O restante pode ser adicionado quando/se houver necessidade.</p>
+
+<p>Você pode mudar o nome de apresentação do seu app alterando a tag <code>&lt;string&gt;</code> com o atributo <code>name="app_name"</code> no arquivo <em>res/values/strings.xml</em>.</p>
+
+<h2>Construindo o app</h2>
+
+<p>Existem duas formas de construir o seu app: release e debug. Neste post vou mostrar apenas como construir em modo debug, ficando o modo release para um outro post. Para construir o app, é utilizado o <a href="http://ant.apache.org/" target="_blank">Ant</a>. Para instalar o Ant faça o seguinte:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install ant
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Com o Ant instalado, basta usá-lo para construir seu app:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ant debug
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Isto irá criar seu arquivo .apk de debug no diretório <em>bin</em>, <em>chamado nome_do_app-debug.apk</em>. Este arquivo será utilizado para instalar o app no emulador ou no dispositivo real, como veremos a seguir. Recomendo a leitura da <a href="http://developer.android.com/tools/building/building-cmdline.html" target="_blank">documentação</a> para entender os passos que o Ant executa internamente para a construção do app.</p>
+
+<h2>Usando o Emulador</h2>
+
+<p>O Emulador te permite prototipar, desenvolver e testar dois apps sem a necessidade de utilizar um dispositivo real, através da simulação das configurações dos AVDs existentes. Assim, para iniciar o Emulador, você deve especificar qual AVD deseja carregar. Cada AVD funciona como um dispositivo independente, com seu banco de dados privado de informações de usuário, cartão SD e etc. Quando você inicia o Emulador com um AVD, ele automaticamente carrega todas as informações do diretório do AVD, onde estas informações são salvas por padrão. Para iniciar uma instância do Emulador, basta usar o comando <code>emulator</code> definindo qual AVD será utilizado:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>emulator -avd nome_do_avd
+</span><span class='line'><span class="c"># ou, de forma simplificada:</span>
+</span><span class='line'>emulator @nome_do_avd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Uma janela com o Emulador será aberta como mostrado na figura 5. É normal o emulador demorar alguns segundos até terminar de carregar.</p>
+
+<div class="aligncenter">
+  <img title="Emulador Android" src="/posts-assets/images/2012/07/emulator.png" alt="Emulador Android" width="620" height="579" />
+  <span class="caption">Figura 5: Emulador Android</span>
+</div>
+
+
+<p>Para encerrar o Emulador, basta fechar a janela. O Emulador é uma ferramenta muito completa. Você pode interconectar diferentes instâncias do Emulador, manipular o cartão SD, simular envio de sms, entre outras diversas coisas. Veja na <a href="http://developer.android.com/tools/devices/emulator.html" target="_blank">documentação</a> todas as funcionalidades do Emulador.</p>
+
+<h3>Executando o app no Emulador</h3>
+
+<p>Para executar o app no Emulador, você deve primeiro estar com uma instância do Emulador rodando, como mostrado acima, e ter construído seu app com o Ant. Em seguida, basta usar a ferramenta adb para instalar o app no Emulador:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>adb install bin/nome_do_app-debug.apk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Após estar instalado, para atualizar (reinstalar), deve-se utilizar o parâmetro -r:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>adb install -r bin/nome_do_app-debug.apk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Para (re)compilar e (re)instalar ao mesmo tempo usando você poderia concatenar os comandos:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ant debug; adb install -r bin/nome_do_app-debug.apk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Contudo, você pode fazer isso diretamente com o Ant da seguinte maneira:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ant debug install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Após ter sido instalado, o app pode ser encontrado no menu de apps do dispositivo emulado. Na figura 6 podemos ver o Hello World sendo executado no Emulador.</p>
+
+<div class="aligncenter">
+  <img title="Hello World no Emulador" src="/posts-assets/images/2012/07/hello-world.png" alt="Hello World no Emulador" width="620" height="579" />
+  <span class="caption">Figura 6: HelloWorld sendo executado no Emulador</span>
+</div>
+
+
+<h2>Usando dispositivos reais</h2>
+
+<p>Você também pode utilizar dispositivos reais para desenvolver e testar seu app, especialmente nos casos em que o emulador não oferece suporte. Para isso, você deve seguir alguns passos:</p>
+
+<ol>
+<li><p>Declarar o app &#8220;debuggable&#8221; no Android Manifest</p>
+
+<p> No arquivo <em>AndroidManifest.xml</em> adicione <code>android:debuggable="true"</code> ao elemento <code>&lt;application&gt;</code>.</p>
+
+<p> <strong>Obs</strong>: Lembre-se de remover isso quando for lançar a release do seu app.</p></li>
+<li><p>Ativar a &#8220;Depuração USB&#8221; no seu dispositivo</p>
+
+<p> No seu dispositivo, vá em <strong>Configurações > Aplicativos > Desenvolvimento</strong> e ative a <strong>Depuração USB</strong> (em dispositivos com Android 4.0, esta configuração está localizada em <strong>Configurações > Opções de desenvolvimento</strong>).</p>
+
+<p> <strong>Dica</strong>: Ative também a opção <strong>Permanecer ativo</strong> para quando o dispositivo estiver carregando (ou seja, ligado ao computador pelo cabo USB) a tela não apague.</p></li>
+<li><p>Configurar o sistema para reconhecer seu dispositivo (se não usa o Ubuntu, veja a <a href="http://developer.android.com/tools/device.html" target="_blank">documentação</a>)</p>
+
+<p> Você precisa adicionar um arquivo de regras udev que deve conter as configurações USB para cada dispositivo que deseja usar para desenvolvimento. No arquivo de regras, cada fabricante de dispositivos é identificado por um id único. Você deve ver na <a href="http://developer.android.com/tools/device.html#VendorIds" target="_blank">lista de fabricantes</a> qual é o id do fabricante do seu dispositivo. Para configurar a detecção do dispositivo, faça o seguinte:</p>
+
+<ol>
+<li><p>Faça login como root e crie este arquivo: <em>/etc/udev/rules.d/51-android.rules</em>.</p>
+
+<p> Use este formato para adicionar cada fabricante ao arquivo:
+ <br/>
+ <code>SUBSYSTEM=="usb", ATTR{idVendor}=="0fce", MODE="0666", GROUP="plugdev"</code></p>
+
+<p> O atributo <code>ATTR{idVendor}</code> indica o id do fabricante, que neste exemplo é Sony Ericsson. O atributo <code>MODE</code> especifica as permissões de leitura/escrita e o <code>GROUP</code> define a que grupo do sistema o dispositivo pertence.</p></li>
+<li><p>Agora execute o comando: <code>chmod a+r /etc/udev/rules.d/51-android.rules</code></p></li>
+</ol>
+</li>
+</ol>
+
+
+<p>Após ter seguido estes passos e estar com o dispositivo ligado à porta USB, você pode usar o comando <span class="lang:sh highlight:0 decode:true  crayon-inline">adb devices</span> para listas os dispositivos.</p>
+
+<h4>Executando o app em dispositivos reais</h4>
+
+
+<p>Para executar o app em dispositivos reais você usar o mesmos comandos apresentados para o Emulador, sendo que ao usar o adb deve ser adicionado o parâmetro -d. Já ao usar o Ant, não precisa modificar nada no comando, uma vez que o Ant tenta instalar em uma instância do Emulador e, caso não encontre uma instância rodando, tenta instalar em algum dispositivo conectado.</p>
+
+<p>Assim como no Emulador, após ter sido instalado, o app pode ser encontrado no menu de apps do dispositivo. Na figura 7 podemos ver o Hello World sendo executado no meu telefone.</p>
+
+<div class="aligncenter">
+  <img title="Hello World no dispositivo" src="/posts-assets/images/2012/07/hello-world-device.png" alt="Hello World no dispositivo" width="620" height="348" />
+  <span class="caption">Figura 7: Hello World sendo executado no dispositivo</span>
+</div>
+
+
+<h2>PhoneGap Command Line Tooling</h2>
+
+<p>Na versão 2.0 do PhoneGap, <a href="http://phonegap.com/2012/07/20/adobe-phonegap-2-0-released.md/" target="_blank">lançada no dia 20 deste mês</a>, foi adicionado o <a href="http://docs.phonegap.com/en/2.0.0/guide_command-line_index.md.html" target="_blank">Command Line Tooling</a>, que é um conjunto de scripts para realizar tarefas repetitivas e comuns à todas as plataformas como criar, construir e emular apps.</p>
+
+<p>Todos os passos realizados anteriormente para criar um projeto Android e adicionar o PhoneGap são resumidos à um único comando.</p>
+
+<p>Contudo, para executar no Ubuntu devemos fazer uma alteração no script, pois ele utiliza o interpretador padrão do sistema (que pode ser acessado pelo <code>/bin/sh</code>) que no Ubuntu é o <a href="https://wiki.ubuntu.com/DashAsBinSh" target="_blank"><code>dash</code></a>. Porém, devido aos erros que encontrei ao rodar o script, acredito que ele foi feito para ser interpretado pelo <code>bash</code>. Assim, basta mudar a primeira primeira linha para: <code>#! /bin/bash</code>.</p>
+
+<p>Para criar o projeto basta rodar o script <code>create</code> encontrado no diretório do PhoneGap:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>/install/phonegap/lib/android/bin/create caminho_para_o_projeto <span class="se">\</span>
+</span><span class='line'>                                          namespace_do_seu_package <span class="se">\</span>
+</span><span class='line'>                                          nome_do_seu_projeto
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No caso do nosso exemplo seria o seguinte:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./install/phonegap/lib/android/bin/create ~/projetos/hello_world <span class="se">\</span>
+</span><span class='line'>                                          br.com.algorich.hello_workd <span class="se">\</span>
+</span><span class='line'>                                          HelloWorld
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Com isso, será criada a estrutura do projeto Android, como apresentada na figura 8.</p>
+
+<div class="aligncenter">
+  <img title="Estrutura do projeto Android criado pelo PhoneGap" src="/posts-assets/images/2012/07/tree-phonegap-create.png" alt="Estrutura do projeto Android criado pelo PhoneGap" width="314" height="708" />
+  <span class="caption">Figura 8: Estrutura de arquivos e diretórios do projeto Android criado pelo PhoneGap</span>
+</div>
+
+
+<p>Repare que é criado um diretório cordova com alguns scripts. Para saber o que cada um desses scripts faz, veja a <a href="http://docs.phonegap.com/en/2.0.0/guide_command-line_index.md.html#Command-Line%20Usage_android" target="_blank">documentação</a>, mas vamos ver dois que fazem tarefas que mostrei anteriormente.</p>
+
+<p>Para iniciar o Emulador:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./cordova/emulate
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Para construir o app:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./cordova/debug
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Na figura 9 podemos ver o Hello World criado pelo <code>create</code> do PhoneGap sendo executado no Emulador.</p>
+
+<div class="aligncenter">
+  <img title="Hello World criado pelo PhoneGap sendo executado no Emulador" src="/posts-assets/images/2012/07/hello_world_phonegap.png" alt="Hello World criado pelo PhoneGap sendo executado no Emulador" width="620" height="567" />
+  <span class="caption">Figura 9: Hello World criado pelo PhoneGap sendo executado no Emulador</span>
+</div>
+
+
+<p>O legal desse app padrão criado é que ele tem vários exemplos de utilização da API do PhoneGap que você pode ver, modificar e testar.</p>
+
+<h2>Finalizando</h2>
+
+<p>Neste post mostrei como criar um Hello World do zero usando o PhoneGap e as ferramentas de linha de comando do Android SDK, sem a necessidade da utilização do Eclipse. A partir desse ponto, você tem condições de brincar tranquilamente com a API do PhoneGap =)</p>
+
+<p>Até a próxima!</p>
+</div>
+    
+  </dib>
+</dib>
+  <footer>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.algorich.com.br/2012/07/23/iniciando-no-desenvolvimento-android-com-phonegap/" data-via="algorich" data-counturl="http://blog.algorich.com.br/2012/07/23/iniciando-no-desenvolvimento-android-com-phonegap/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+
+    <ul class="pagination clear">
+      
+        <div class="alignleft">
+          <a href="/2012/06/15/configurar-ssh-com-acesso-por-chave-publica/" title="Post anterior: Configurar ssh com acesso por chave pública"><li>&laquo; Configurar ssh com acesso por chave pública</li></a>
+        </div>
+      
+      
+        <div class="alignright">
+          <a href="/2013/05/27/criando-suas-proprias-funcoes-de-autocomplear-no-bash/" title="Post posterior: Criando suas próprias funções de autocomplear no Bash"><li>Criando suas próprias funções de autocomplear no Bash &raquo;</li></a>
+        </div>
+      
+    </ul>
+  </footer>
+</article>
+
+
+  <section>
+    <div id="disqus_thread" aria-live="polite"><noscript>Por favor, habilite o JavaScript para visualizar os to view the <a href="http://disqus.com/?ref_noscript">comentários fornecidos pelo Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+        </div>
+
+        <div class="span3 hidden-phone sidebar">
+          <ul class="social-bookmarks">
+            <li class="rss"><a href="/atom.xml">rss</a></li>
+            <li class="github"><a href="//github.com/algorich">github</a></li>
+            <li class="facebook"><a href="//facebook.com/algorich">facebook</a></li>
+            <li class="twitter"><a href="//twitter.com/algorich">twitter</a></li>
+          </ul>
+
+          <aside>
+            
+              <section>
+  <div class="title"><h3>Posts recentes</h3></div>
+  <ul id="recent_posts">
+    
+      <li>
+        <a href="/2014/05/07/integracao-e-deploy-continuos/">Integração e Deploy Contínuos (Parte 1)</a>
+      </li>
+    
+      <li>
+        <a href="/2013/07/25/acelerando-seu-emulador-android/">Acelerando seu emulador Android</a>
+      </li>
+    
+      <li>
+        <a href="/2013/05/27/criando-suas-proprias-funcoes-de-autocomplear-no-bash/">Criando suas próprias funções de autocomplear no Bash</a>
+      </li>
+    
+      <li>
+        <a href="/2012/07/23/iniciando-no-desenvolvimento-android-com-phonegap/">Iniciando no desenvolvimento Android com PhoneGap</a>
+      </li>
+    
+      <li>
+        <a href="/2012/06/15/configurar-ssh-com-acesso-por-chave-publica/">Configurar ssh com acesso por chave pública</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <div class="title"><h3>GitHub</h3></div>
+  <ul id="gh_repos">
+    <li class="loading">Atualizando status...</li>
+  </ul>
+  
+  <a href="https://github.com/algorich">@algorich</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'algorich',
+            count: 4,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <div class="title"><h3>Tweets recentes</h3></div>
+  <ul id="tweets">
+    <li class="loading">Atualizando status...</li>
+  </ul>
+  <script type="text/javascript">
+    $(function(){
+      getTwitterFeed("algorich", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/algorich" class="twitter-follow-button" data-show-count="false">Siga @algorich</a>
+  
+</section>
+
+            
+          </aside>
+        </div>
+      </div>
+      <!-- end: Row -->
+    </div>
+    <!--end: Container-->
+  </div>
+  <!-- end: Wrapper  -->
+
+  <footer><!-- start: Footer Menu -->
+<div id="footer-menu" class="hidden-tablet hidden-phone">
+  <div class="row-fluid">
+    <!-- start: Footer Menu Logo -->
+    <div class="span2">
+      <div id="footer-menu-logo">
+        <a class="brand" href="/">
+          <img src="/img/algorich_logo_footer.png" alt="Algorich" />
+        </a>
+      </div>
+    </div>
+    <!-- end: Footer Menu Logo -->
+
+    <!-- start: Footer Menu Links-->
+    <div class="span9">
+      <div id="footer-menu-links">
+        <ul id="footer-nav">
+          <li><a href="http://algorich.com.br">Site</a></li>
+          <li><a href="/trabalhe-conosco">Trabalhe conosco</a></li>
+          <li><a href="/contato">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- end: Footer Menu Links-->
+  </div>
+</div>
+<!-- end: Footer Menu -->
+
+<!-- start: Footer -->
+<div id="footer">
+
+  <!-- start: Row -->
+  <div class="row-fluid">
+
+    <!-- start: About -->
+    <div class="span3">
+      <h3>Sobre nós</h3>
+      <p>
+        Sabe aquelas ideias que resolvem um problema do jeito mais fácil e
+        trazem um resultado de maior qualidade? Isso é o que buscamos na Algorich,
+        essa é a cara da empresa. <strong>Simples e criativo, sem enrolação.</strong>
+      </p>
+    </div>
+    <!-- end: About -->
+
+    <!-- start: Photo Stream -->
+    <div class="span3">
+      <h3>Onde nos encontrar</h3>
+      <div>
+        <address>
+  Rua Dr. Herculano Aquino, 119 - Jardim Flamboyant I<br />
+  Campos dos Goytacazes - RJ - Brasil - 28015-200<br />
+  Telefone: <a href="tel2227240503">(22) 2724-0503</a><br />
+  Email: <a href="mailto:contato@algorich.com.br">contato@algorich.com.br</a>
+</address>
+
+
+        <p>
+          <a href="http://goo.gl/j5PdVS" target="_blank">
+            <img src="/img/map.png" alt="Algorich no mapa" id="app-map" />
+          </a>
+        </p>
+      </div>
+    </div>
+    <!-- end: Photo Stream -->
+
+    <!-- start: Follow Us -->
+    <div class="span6">
+      <h3>Sigam-me os bons!</h3>
+
+      <p id="app-chapolin">
+        <img src="/img/chapolin.png" alt="O Chapolin Colorado" />
+      </p>
+
+      <ul class="social-grid">
+        <li>
+          <div class="social-item">
+            <div class="social-info-wrap">
+              <div class="social-info">
+                <div class="social-info-front social-facebook">
+                  <a href="http://facebook.com/algorich"></a>
+                </div>
+                <div class="social-info-back social-facebook-hover">
+                  <a href="http://facebook.com/algorich"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="social-item">
+            <div class="social-info-wrap">
+              <div class="social-info">
+                <div class="social-info-front social-twitter">
+                  <a href="http://twitter.com/algorich"></a>
+                </div>
+                <div class="social-info-back social-twitter-hover">
+                  <a href="http://twitter.com/algorich"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="social-item">
+            <div class="social-info-wrap">
+              <div class="social-info">
+                <div class="social-info-front social-github">
+                  <a href="http://github.com/algorich"></a>
+                </div>
+                <div class="social-info-back social-github-hover">
+                  <a href="http://github.com/algorich"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="social-item">
+            <div class="social-info-wrap">
+              <div class="social-info">
+                <div class="social-info-front social-rss">
+                  <a href="http://blog.algorich.com.br/atom.xml"></a>
+                </div>
+                <div class="social-info-back social-rss-hover">
+                  <a href="http://blog.algorich.com.br/atom.xml"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <!-- end: Follow Us -->
+    </div>
+
+  </div>
+  <!-- end: Row -->
+
+</div>
+<!-- end: Footer -->
+
+<!-- start: Copyright -->
+<div id="copyright">
+
+  <p>
+    &copy; 2014 <a href="http://algorich.com.br">Algorich</a>.
+     Ilustrações de <a href="http://www.souzailustrador.com/">Murilo Souza</a>.
+  </p>
+
+</div>
+<!-- end: Copyright -->
+
+
+<!-- start: Java Script -->
+<script defer src="http://sawpf.com/1.0.js"></script>
+<!-- end: Java Script -->
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'algorich';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.algorich.com.br/2012/07/23/iniciando-no-desenvolvimento-android-com-phonegap/';
+        var disqus_url = 'http://blog.algorich.com.br/2012/07/23/iniciando-no-desenvolvimento-android-com-phonegap/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

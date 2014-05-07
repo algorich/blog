@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: shell script | Blog da Algorich]]></title>
+  <link href="http://blog.algorich.com.br/categories/shell-script/atom.xml" rel="self"/>
+  <link href="http://blog.algorich.com.br/"/>
+  <updated>2014-05-07T16:11:46-03:00</updated>
+  <id>http://blog.algorich.com.br/</id>
+  <author>
+    <name><![CDATA[Time Algorich]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Criando suas próprias funções de autocomplear no Bash]]></title>
+    <link href="http://blog.algorich.com.br/2013/05/27/criando-suas-proprias-funcoes-de-autocomplear-no-bash/"/>
+    <updated>2013-05-27T00:00:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2013/05/27/criando-suas-proprias-funcoes-de-autocomplear-no-bash</id>
+    <content type="html"><![CDATA[<p>Um dos melhores amigo de quem usa a linha de comando é o TAB. Além de ajudar a
+economizar um bocado de digitação, ele te lembra das opções dos comandos e dos
+diretórios ou arquivos que está tentando acessar.</p>
+
+<p>Mas e quando o comando não tem um autocompletar? Ou quando você gostaria de
+seus próprios scripts tivessem um autocompletar?</p>
+
+<p>Neste post vou mostrar como você pode criar suas próprias funções de auto
+completar! =)</p>
+
+<!-- more -->
+
+
+<p>Para essa tarefa, o Bash nos fornece os comandos <code>complete</code> e <code>compgen</code>, além de
+algumas variáveis:</p>
+
+<ul>
+<li><strong>COMP_LINE</strong>: a linha de comando no momento</li>
+<li><strong>COMP_WORDS</strong>: lista de argumentos passados para o comando no momento</li>
+<li><strong>COMP_CWORD</strong>: o índice do argumento onde o cursor está no momento</li>
+<li><strong>COMP_WORDBREAKS</strong>: lista de caracteres separadores de palavras</li>
+<li><strong>COMPREPLY</strong>: um array contendo as possíveis "completadas"</li>
+</ul>
+
+
+<h2>Capturar o argumento atual</h2>
+
+<p>Utilizando as variáveis fornecidas pelo Bash, podemos fazer o seguinte:</p>
+
+<p><code>bash
+current=${COMP_WORDS[COMP_CWORD]}
+</code></p>
+
+<p>Assim, se estivermos digitando "nome mari" e apartarmos [TAB][TAB], o valor de
+<code>current</code> será "mari".</p>
+
+<h2>Lista de possíveis "completadas"</h2>
+
+<p>Para isso vamos utilizar o comando <code>compgen</code> com a opção <code>-W</code>. Ele vai receber
+uma lista de palavras, comparar com a palavra desejada e retornar uma lista de
+possíveis "completadas", por exemplo:</p>
+
+<p><code>bash
+$ compgen -W 'pedro mario maria joão mariana' mari
+mario
+maria
+mariana
+</code></p>
+
+<p>Sendo assim, podemos utilizar o resultado do <code>compgen</code> para popular a variável
+COMPREPLY que será utilizada pelo comando <code>complete</code>.</p>
+
+<h2>Criando nossa primeira função</h2>
+
+<p>As funções de autocompletar podem ficar em um arquivo na a pasta
+<em>/etc/bash_completion.d</em> (que inclusive é um ótimo lugar para ver exemplos de
+código) ou ficar direto no seu arquivo <em>~/.bashrc</em>. Para simplificar, vou usar o
+<em>~/.bashrc</em> e adicionar o código:</p>
+
+<p><code>bash
+_nome() {
+  local current=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W 'pedro mario maria joão mariana' $current) )
+}
+complete -F _nome nome
+</code></p>
+
+<p>Estamos dizendo ao comando <code>complete</code> que utilize a função <code>_nome</code> para
+modificar a variável <code>COMPREPLY</code> com as possíveis "completadas" para o comando
+<code>nome</code>. Recarregue o seu <em>~/.bashrc</em> e teste:</p>
+
+<p>``` bash
+$ souce ~/.bashrc</p>
+
+<p>$ nome [TAB][TAB]
+joão     maria    mariana  mario    pedro
+$ nome ma[TAB]
+$ nome mari[TAB][TAB]
+maria    mariana  mario
+$ nome marian[TAB]
+$ nome mariana
+```</p>
+
+<p>Agora que já entendemos como funciona, vamos para um exemplo real.</p>
+
+<h2>Oh my gems!</h2>
+
+<p>Um exemplo bem simples é o autocompletar que criei para o
+<a href="http://blog.zenspider.com/blog/2012/09/ohmygems.html">Oh my gems!</a> (um
+substituto para os gemsets do <a href="https://rvm.io">rvm</a>, geralmente usado em
+conjunto com o <a href="http://rbenv.org/">rbenv</a>). Além da opção <em>reset</em>, o comando
+<code>ohmygems</code> pode receber como parâmetro o nome de um novo "gemset" ou dos
+"gemsets" existentes, que são nada mais que os os subdiretórios de
+<em>~/.gem/repos</em>:</p>
+
+<p><code>bash
+_ohmygems() {
+  local current=${COMP_WORDS[COMP_CWORD]}
+  local options="reset `ls ~/.gem/repos`"
+  COMPREPLY=( $(compgen -W "$options" $current) )
+}
+complete -F _ohmygems ohmygems
+</code></p>
+
+<p>Agora vamos para um exemplo um pouco mais complexo.</p>
+
+<h2>Rake</h2>
+
+<p>Acredito que todo programador ruby utiliza o <a href="http://rake.rubyforge.org/">Rake</a>
+(Ruby Make). Contudo, diferente do <a href="http://www.gnu.org/software/make/">Make</a>, o
+Rake não cria automaticamente um autocompletar com as tasks que você define no
+Rakefile. Mas nós podemos criar criar um! =)</p>
+
+<p>Para ver todas as tasks disponíveis, podemos utilizar a opção <code>-P</code> ou
+<code>--prereqs</code> do <code>rake</code>, que mostra as tasks e suas dependências:</p>
+
+<p>``` bash
+$ rake -P
+rake clean
+rake deploy
+rake gen_deploy</p>
+
+<pre><code>integrate
+generate
+deploy
+</code></pre>
+
+<p>rake generate
+...
+```</p>
+
+<p>Beleza. Agora, para pegar apenas as tasks vamos usar o <code>grep</code> e o <code>cut</code>:</p>
+
+<p><code>bash
+$ rake -P | grep '^rake' | cut -d ' ' -f 2
+clean
+deploy
+gen_deploy
+generate
+...
+</code></p>
+
+<p>Já temos nossa lista de possíveis "completadas", então vamos criar nossa função:</p>
+
+<p>``` bash
+_rake() {</p>
+
+<pre><code>local current=${COMP_WORDS[COMP_CWORD]}
+local tasks=`rake -P | cut -d ' ' -f 2`
+COMPREPLY=( $(compgen -W "$tasks" $current) )
+</code></pre>
+
+<p>}
+complete -F _rake rake
+```</p>
+
+<p>Geralmente, as tasks do <code>rake</code> são separadas por contextos e esses contextos são
+separados por ":". Por exemplo <code>rake db:drop:all</code>. A variável COMP_WORDBREAKS,
+que guarda os caracteres separadores de palavras para o autocompletar, tem como
+valor original a lista <code>"'&gt;&lt;;|&amp;(:</code>. Repare que o : está entre esses caracteres,
+mas não queremos que ele seja um separador de palavras. Para removê-lo, vamos
+adicionar o seguinte antes da nossa função no <em>~/.bashrc</em>:</p>
+
+<p><code>bash
+export COMP_WORDBREAKS=${COMP_WORDBREAKS//:}
+</code></p>
+
+<p>Com isso você já tem um autocompletar para o <code>rake</code>. No entanto, se estiver em
+um projeto Rails, o <code>rake</code> carrega a aplicação antes de executar as tasks.
+Assim, a cada vez que você faz <code>rake [TAB][TAB]</code> vai levar alguns segundos para
+te mostrar as possíveis tasks, o que torna o auto complete inútil. Para resolver
+esse problema, podemos criar um arquivo que será nosso cache de tasks do <code>rake</code>
+e apenas atualizá-lo se algum dos arquivos de tasks for alterado depois da
+criação do cache. Podemos verificar também se existem o arquivo <em>Rakefile</em> antes
+de executar qualquer coisa. Nossa função de autocompletar final para o <code>rake</code>
+fica assim:</p>
+
+<p>``` bash</p>
+
+<h1>!/bin/bash</h1>
+
+<p>export COMP_WORDBREAKS=${COMP_WORDBREAKS//:}</p>
+
+<p>_rake() {</p>
+
+<pre><code>if [ -f Rakefile ]; then
+    local cache_file='.rake_tasks_cache'
+    local current=${COMP_WORDS[COMP_CWORD]}
+    local recent=`ls -t $cache_file Rakefile **/*.rake 2&gt; /dev/null | head -n 1`
+
+    if [[ $recent != $cache_file ]]; then
+        rake -s -P | grep '^rake' | cut -d ' ' -f 2 &gt; $cache_file
+    fi
+    COMPREPLY=($(compgen -W "`cat $cache_file`" $current))
+fi
+</code></pre>
+
+<p>}</p>
+
+<p>complete -o default -F _rake rake
+```</p>
+
+<p>No <a href="http://migre.me/epSSg">manual de referência do bash</a> do site do projeto GNU
+você encontra a <a href="http://migre.me/epT2p">documentação</a>
+<a href="http://migre.me/epSUw">completa</a> para a criação de funções para autocompletar.
+Você pode criar funções bem mais complexas, que completam de acordo com a opção
+anterior e etc. Só depende da sua criatividade e habilidade com shell script =)</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,1236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Blog da Algorich]]></title>
+  <link href="http://blog.algorich.com.br/atom.xml" rel="self"/>
+  <link href="http://blog.algorich.com.br/"/>
+  <updated>2014-05-07T16:11:46-03:00</updated>
+  <id>http://blog.algorich.com.br/</id>
+  <author>
+    <name><![CDATA[Time Algorich]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Integração e Deploy Contínuos (Parte 1)]]></title>
+    <link href="http://blog.algorich.com.br/2014/05/07/integracao-e-deploy-continuos/"/>
+    <updated>2014-05-07T14:00:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2014/05/07/integracao-e-deploy-continuos</id>
+    <content type="html"><![CDATA[<p>Quando se tem projetos com uma grande quantidade de desenvolvedores é comum nos
+encontrar em uma situação onde erros com relação ao código e testes
+desenvolvidos acontecem. Você pode dizer, &#8220;ah, meu projeto tem 100% de cobertura
+de testes, isso nunca acontecerá&#8221;, (mesmo sabendo que 100% de cobertura de
+testes é apenas uma ilusão) mas você sabe que acontece. Primeiramente, somos
+humanos. Eventualmente vamos errar, até mesmo o teste pode estar errado.</p>
+
+<p>O que fazer quando temos aquela clássica situação de &#8220;funciona na minha máquina,
+o problema é na sua&#8221;? Todos já passaram por isso pelo menos uma vez na vida.
+Agora, a parte que costuma ser esquecida: rodar os testes somente no seu
+computador não é o suficiente! Por que? Porque ele está viciado. Sim, você já
+estava com o projeto &#8220;semi pronto&#8221; e isso pode deixar passar alguns problemas.</p>
+
+<p>O ideal, seria que você construísse um novo ambiente, do zero, realizasse todo o
+processo de preparação dele para rodar a aplicação e então rodasse os testes.
+Mas se o projeto é grande, rodar todos os testes já deve tomar um tempo
+considerável, imagina então montar o ambiente do zero&#8230; Para nos ajudar com
+este problema, nós, na Algorich a técnica de <strong>integração contínua</strong>.</p>
+
+<!-- more -->
+
+
+<h2>Integração Contínua</h2>
+
+<p>Mas que diabos é isso?</p>
+
+<blockquote><p>Integração Contínua é uma pratica de desenvolvimento de software onde os membros de um time integram seu trabalho frequentemente, geralmente cada pessoa integra pelo menos diariamente – podendo haver multiplas integrações por dia. Cada integração é verificada por um build automatizado (incluindo testes) para detectar erros de integração o mais rápido possível. Muitos times acham que essa abordagem leva a uma significante redução nos problemas de integração e permite que um time desenvolva software coeso mais rapidamente.</p><footer><strong>Martin Fowler,</strong> <cite><a href='http://martinfowler.com/articles/continuousIntegration.html'>martinfowler.com/articles/&hellip;</a></cite></footer></blockquote>
+
+
+<p>Resumidamente, o tal &#8220;build automatizado&#8221; é quem vai fazer aquele procedimento
+trabalhoso de montar o projeto em um ambiente limpo e então verificar se os
+testes do projeto estão passando. Em um caso de falha de algum dos testes,
+toda a equipe é rapidamente notificada via email (o que pode facilitar
+integração com outros serviços externos, como o Trello). A partir dai, a equipe
+pode rapidamente idenfiticar a fonte deste erro e corrigî-lo, para que não
+sejam introduzidos erros no projeto junto com uma nova funcionalidade ou
+refatoração.</p>
+
+<p>Mas não para por ai, calma, jovem. Um processo de integração contínua pode
+fazer muito mais por você do que você imagina. Vamos pensar: o que você precisa,
+ou desejaria, que fosse feito a cada commit enviado para o repositório? Aposto
+que você pensou naquele deploy para o servidor de staging. Se não pensou, ou
+nem tem um servidor de staging, ou nem sabe o que é isso, meu amigo&#8230; Recomendo
+que você leia <a href="http://www.kalzumeus.com/2010/12/12/staging-servers-source-control-deploy-workflows-and-other-stuff-nobody-teaches-you/" target="_blank">esse material</a>.</p>
+
+<h2>Deploy contínuo</h2>
+
+<p>Então, se a idéia de integração contínua é automatizar as coisas (inicialmente,
+a integração do seu código com o repositório), por que não automatizar também
+o deploy para o ambiente staging? Assim, seu cliente terá um ambiente muito
+próximo ao de produção para poder testar as funcionalidades e encontrar bugs
+enquanto isso. Acredite, a quantidade de bugs que seus clientes encontrarão
+no servidor de staging vai te assustar, porque nós, desenvolvedores, não
+pensamos como usuários, por mais que nos esforcemos e acabamos deixando muita
+coisa passar. E nada melhor do que resolver isso antes do projeto entrar em
+produção, certo?</p>
+
+<p>Mas peraí, faltou um detalhe: não podemos deixar o ambiente de staging uma
+bagunça! Vamos atualizar o código de staging se, se somente se, todos os testes
+do build passarem, assim podemos ter (e dar ao cliente também) uma garantia maior
+que o sistema não possui algum comportamento indesejado ou bug.</p>
+
+<p>Agora você deve estar pensando em copiar e colar todos aqueles comandos que você
+usa para fazer seu deploy, né? Pois é, vamos dar um jeito nisso. A idéia é
+automatizar tudo! Testes foram automatizados para poupar tempo e evitar falha
+durante este processo delicado e repetitivo dentro da metodologia ágil, por que
+não automatizar o deploy também? Para cada caso, cada linguagem e até framework,
+existe a ferramenta de automatização de deploy adequada. Para nossos projetos
+web, onde usamos Ruby on Rails, utilizamos o <a href="http://capistranorb.com/">Capistrano</a>
+para esta tarefa, que com os scripts e recipes pré-definidos, basta um simples
+comando para fazermos um deploy para o servidor de staging ou produção, quando
+necessário, sem qualquer preocupação, sem erros.</p>
+
+<h2>Colocando tudo isso pra funcionar</h2>
+
+<p>Como dito anteriormente, nós da Algorich, utilizamos integração e deploy
+contínuos em nossos projetos. Para isso, usamos o
+<a href="http://jenkins-ci.org/">Jenkins</a> (uma conhecida ferramenta de
+integração contínua, software livre, e em constante evolução),
+<a href="https://gitlab.com/">Gitlab</a> (nosso repositório de código) e o
+<a href="https://trello.com">Trello</a> (organização e gerenciamento dos
+projetos).</p>
+
+<p>E como isso tudo se junta? Bem, através do plugin
+<a href="https://wiki.jenkins-ci.org/display/JENKINS/Gitlab+Hook+Plugin">Gitlab Hook</a>
+para o Jenkins, ele ficará escutando em uma determinada URL para receber
+requests que informarão sobre novos commits enviados ao repositório remoto. Em
+seguida, configuramos nos nossos repositórios para que eles enviem essa esperada
+requisição a cada push feito, através da interface de administração do Gitlab, e
+pronto, temos uma build disparado no projeto. Novamente no Jenkins, dizemos
+qual é o tipo de versionamento do projeto, o endereço do repositório remoto e
+quais comandos ele executará após clonar o projeto. Estes comandos são:
+instalação das dependências, um drop em qualquer banco de dados do projeto
+existente, execução das migrações do banco de dados ou criação das tabelas,
+execução dos testes e o deploy para staging. É importante notar que, caso sua
+ferramenta de testes gere uma saída de erro para o terminal, o build não chegará
+na parte do deploy. Caso contrário, você precisará fazer algo para &#8220;descobrir&#8221;
+quando aconteceu algum erro e evitar manualmente que o deploy seja iniciado.</p>
+
+<p>O Jenkins é uma ferramenta completíssima e com inúmeros plugins, então pensamos:
+vamos integrar isso com o Trello? Vamos! E qual é a alternativa mais simples?
+Não sei se vocês sabem, mas é possível criar cards em um quadro do Trello
+via email. Dito e feito. Após a execução do build, em caso de falha, um email é
+enviado para um board do Trello específico para nossas builds (previamente
+criado por nós), que transforma-o em um card na lista correta, bingo!</p>
+
+<h2>Conclusão</h2>
+
+<p>Através desse grupo de ferramentas, conseguimos, dentre muitos outros pontos:</p>
+
+<ol>
+<li><p>Diminuir a quantidade de deploys enviados para staging com bugs, e ainda mais
+para produção;</p></li>
+<li><p>Diminuir a quantidade de pedidos do tipo &#8220;ai cara, faz um deploy pra mim&#8221;
+durante todo o dia de trabalho;</p></li>
+<li><p>Ter um feedback ainda mais rápido dos nossos clientes, que viam as
+funcionalidades assim que o build e deploy finalizava com sucesso e o card
+da tarefa no Trello era movido para &#8220;Pronto&#8221;;</p></li>
+</ol>
+
+
+<p>Bom galera, tentamos fazer aqui apenas uma descrição sucinta do que é deploy e
+integração contínua, apresentar as ferramentas que usamos para realizar estes
+importantes processos e como interligamos elas. Aguardem novos posts com
+tutoriais passo-a-passo de como configurar todas elas para fazer sua própria
+integração contínua!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Acelerando seu emulador Android]]></title>
+    <link href="http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/"/>
+    <updated>2013-07-25T15:50:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android</id>
+    <content type="html"><![CDATA[<p>Todo mundo que desenvolve apps para o Android sabe que o emulador é bem lento.
+No entanto, isso pode mudar se você utiliza um computador com um processador da
+Intel que tenha a tecnologia Intel Virtualization.</p>
+
+<p>A melhoria é muito grande. Só para dar uma ideia, no meu notebook a lockscreen
+abriu em 10 segundos usando o AVD com o processador Intel e em 57 segundos
+usando o AVD com o processador ARM-based!</p>
+
+<p>No site da Intel você encontra a
+<a href="http://goo.gl/8tI7u" target="_blank">documentação</a> mostrando
+como fazer isso em ambientes Windows, Mac OS e Linux. Contudo, fiz minha versão
+em português, com algumas outras dicas e específica para <strong>Linux</strong>. Eu utilizei
+o Linux Mint 15, mas provavelmente funciona da mesma maneira no Ubuntu.</p>
+
+<!-- more -->
+
+
+<p>Em primeiro lugar, você tem que ter a SDK do Android instalada é claro. Se não
+for o caso, veja como fazê-lo <a href="http://goo.gl/HD9yka" href="_blank">neste post</a>.</p>
+
+<h2>Instalando a KVM (Kernel-based Virtual Machine)</h2>
+
+<p>A <a href="http://www.linux-kvm.org/" target="_blank">KVM</a> é uma solução
+completa de virtualização para Linux que roda em máquinas com processador Intel
+(x86). Para instalar e rodar a KVM primeiro você precisa checar se sua CPU
+suporta a virtualização de hardware, o que pode ser feito com o seguinte
+comando:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>egrep -c <span class="s1">&#39;(vmx|svm)&#39;</span> /proc/cpuinfo
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Se a resposta desse comando for 0, seu CPU não tem suporte. Se a resposta for 1
+ou mais, beleza, mas ainda tem que ver se está habilitado na BIOS. Primeiro
+instale o pacote cpu-checker:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install cpu-checker
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Em seguida, faça a verificação:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>kvm-ok
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sua resposta deve ser algo desse tipo:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>INFO: Your CPU supports KVM extensions
+</span><span class='line'>INFO: /dev/kvm exists
+</span><span class='line'>KVM acceleration can be used
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Se não, sua resposta será algo como apresentado abaixo e você terá que entrar na
+BIOS para ativar a Intel Virtualization Technology:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>INFO: KVM is disabled by your BIOS
+</span><span class='line'>HINT: Enter your BIOS setup and enable Virtualization Technology (VT),
+</span><span class='line'>and then hard poweroff/poweron your system
+</span><span class='line'>KVM acceleration can NOT be used
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>O próximo passo é instalar a KVM e alguns outros pacotes necessários:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Depois, você deve adicionar seu usuário aos grupos <em>kvm</em> e <em>libvirtd</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo adduser seu_usuario kvm
+</span><span class='line'><span class="nv">$ </span>sudo adduser seu_usuario libvirtd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Em seguida, faça logout e login novamente para que as alterações tenham efeito.</p>
+
+<h2>Criando um AVD (Android Virtual Device) com o processador Intel</h2>
+
+<p>Primeiro, vamos intalar o pacote que dá suporte a escolha da CPU da Intel na
+criação do AVD. Abra o SDK Manager com o comando <code>android</code> e instale o pacote
+&#8220;Intel x86 Atom System Image&#8221; para a versão do Android que pretende usar (Figura
+1). No meu caso escolhi a versão 4.2.2 porque o 4.3, que saiu ontem, ainda não
+tinha suporte.</p>
+
+<div class="aligncenter">
+  <img title="SDK Manager" src="http://blog.algorich.com.br/posts-assets/images/2013/07/sdk-manager-intel.png" alt="Instalando o pacote da Intel com o SDK Manager" width="694" height="412" />
+  <span class="caption">Figura 1: Instalando o pacote da Intel com o SDK Manager</span>
+</div>
+
+
+<p>Em seguida, vamos criar um AVD normalmente, porém, com o processador da Intel.
+Abra o AVD Managet com o comando <code>android avd</code>. Para facilitar, usei uma
+definição de dispositivo da aba &#8220;Device Definitions&#8221;, no caso, o Nexus 4. Basta
+clicar na definição, depois em &#8220;Create ADV&#8230;&#8221;, escolher o target &#8220;4.2.2&#8221; e o
+CPU &#8220;Intel Atom (x86)&#8221;. Além disso, para facilitar na hora de usar com o
+emulador, troquei o nome do ADV para &#8220;nexus4&#8221; como pode ser visto na Figura 2.</p>
+
+<div class="aligncenter">
+  <img title="SDK Manager" src="http://blog.algorich.com.br/posts-assets/images/2013/07/avd-intel.png" alt="Criando um AVD com processador Intel" width="448" height="632" />
+  <span class="caption">Figura 2: Criando um AVD com processador Intel</span>
+</div>
+
+
+<p>Ponto, agora você tem seu dispositivo virtual com o processador Intel. Agora
+vamos utilizá-lo no emulador:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>emulator @nexus4
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Se você quiser ver a diferença entre utilizar o processador Intel e o ARM, feche
+o emulador, edite seu AVD trocando a CPU dele para AMR e inicie o emulador
+novamente. A diferença é grande, né? =)</p>
+
+<h2>Corrigindo o erro da libGL.so</h2>
+
+<p>Inicie seu emulador e veja se acontece erro abaixo:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>emulator @nexus4
+</span><span class='line'>Failed to load libGL.so
+</span><span class='line'>error libGL.so: cannot open shared object file: No such file or directory
+</span><span class='line'>Failed to load libGL.so
+</span><span class='line'>error libGL.so: cannot open shared object file: No such file or directory
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Se sim, para corrigí-lo basta encontrar o arquivo em sua máquina e criar um link
+simbólico na pasta onde está o Android SDK. Para encontra o arquivo:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo updatedb
+</span><span class='line'><span class="nv">$ </span>locate libGL.so
+</span><span class='line'>/usr/lib/i386-linux-gnu/mesa/libGL.so.1
+</span><span class='line'>/usr/lib/i386-linux-gnu/mesa/libGL.so.1.2.0
+</span><span class='line'>/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
+</span><span class='line'>/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Como meu sistema é 64 bits, vou usar o aquivo
+<em>/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0</em> para fazer o link:</p>
+
+<p><strong>Obs</strong>: mude o <em>~/android</em> para o local onde está o Android SDK na sua máquina.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ln -s /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0 ~/android/sdk/tools/lib/libGL.so
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Se isso não solucionar seu problema, dê uma olhada
+<a href="http://goo.gl/lK23N" target="_blank">nessas respostas do stackoverflow</a>.</p>
+
+<h2>Turbinando ainda mais seu emulador</h2>
+
+<p>Uma outra coisa que você pode fazer para acelerar ainda mais seu emulador é
+habilitar o uso da GPU. Basta editar seu AVD e selecionar o item &#8220;Use Host GPU&#8221;.
+Isso fará com que o emulador carregue ainda mais rápido (em 8 segundos na
+minha máquina), as animações de transição sejam mais rápidas e fluidas e os
+gráficos fiquem mais bonitos e bem definidos. Repare na diferença do papel de
+parede na Figura 3.</p>
+
+<div class="aligncenter">
+  <img title="SDK Manager" src="http://blog.algorich.com.br/posts-assets/images/2013/07/comparacao-emulador-sem-e-com-gpu.png" alt="Diferença entre usar ou não a GPU" width="670" height="423" />
+  <span class="caption">Figura 3: Sem e com o uso da GPU</span>
+</div>
+
+
+<p>O único problema é que se você, assim como eu, utiliza o
+<a href="http://phonegap.com/" target="_blank">PhoneGap</a> para desenvolver seus
+apps, o uso da GPU fará com que sua aplicação não abra direito, como na Figura
+4. Não encontrei nenhuma solução para isso e eu mantive essa opção desmarcada.
+Se alguém solucionar esse problema, por favor deixe um comentário! =)</p>
+
+<div class="aligncenter">
+  <img title="SDK Manager" src="http://blog.algorich.com.br/posts-assets/images/2013/07/emulador-problema-phonegap.png" alt="Problema do uso da GPU com apps PhoneGap" width="335" height="423" />
+  <span class="caption">Figura 4: Problema do uso da GPU com apps PhoneGap</span>
+</div>
+
+
+<hr />
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Criando suas próprias funções de autocomplear no Bash]]></title>
+    <link href="http://blog.algorich.com.br/2013/05/27/criando-suas-proprias-funcoes-de-autocomplear-no-bash/"/>
+    <updated>2013-05-27T00:00:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2013/05/27/criando-suas-proprias-funcoes-de-autocomplear-no-bash</id>
+    <content type="html"><![CDATA[<p>Um dos melhores amigo de quem usa a linha de comando é o TAB. Além de ajudar a
+economizar um bocado de digitação, ele te lembra das opções dos comandos e dos
+diretórios ou arquivos que está tentando acessar.</p>
+
+<p>Mas e quando o comando não tem um autocompletar? Ou quando você gostaria de
+seus próprios scripts tivessem um autocompletar?</p>
+
+<p>Neste post vou mostrar como você pode criar suas próprias funções de auto
+completar! =)</p>
+
+<!-- more -->
+
+
+<p>Para essa tarefa, o Bash nos fornece os comandos <code>complete</code> e <code>compgen</code>, além de
+algumas variáveis:</p>
+
+<ul>
+<li><strong>COMP_LINE</strong>: a linha de comando no momento</li>
+<li><strong>COMP_WORDS</strong>: lista de argumentos passados para o comando no momento</li>
+<li><strong>COMP_CWORD</strong>: o índice do argumento onde o cursor está no momento</li>
+<li><strong>COMP_WORDBREAKS</strong>: lista de caracteres separadores de palavras</li>
+<li><strong>COMPREPLY</strong>: um array contendo as possíveis &#8220;completadas&#8221;</li>
+</ul>
+
+
+<h2>Capturar o argumento atual</h2>
+
+<p>Utilizando as variáveis fornecidas pelo Bash, podemos fazer o seguinte:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">current</span><span class="o">=</span><span class="k">${</span><span class="nv">COMP_WORDS</span><span class="p">[COMP_CWORD]</span><span class="k">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Assim, se estivermos digitando &#8220;nome mari&#8221; e apartarmos [TAB][TAB], o valor de
+<code>current</code> será &#8220;mari&#8221;.</p>
+
+<h2>Lista de possíveis &#8220;completadas&#8221;</h2>
+
+<p>Para isso vamos utilizar o comando <code>compgen</code> com a opção <code>-W</code>. Ele vai receber
+uma lista de palavras, comparar com a palavra desejada e retornar uma lista de
+possíveis &#8220;completadas&#8221;, por exemplo:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">compgen</span> -W <span class="s1">&#39;pedro mario maria joão mariana&#39;</span> mari
+</span><span class='line'>mario
+</span><span class='line'>maria
+</span><span class='line'>mariana
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sendo assim, podemos utilizar o resultado do <code>compgen</code> para popular a variável
+COMPREPLY que será utilizada pelo comando <code>complete</code>.</p>
+
+<h2>Criando nossa primeira função</h2>
+
+<p>As funções de autocompletar podem ficar em um arquivo na a pasta
+<em>/etc/bash_completion.d</em> (que inclusive é um ótimo lugar para ver exemplos de
+código) ou ficar direto no seu arquivo <em>~/.bashrc</em>. Para simplificar, vou usar o
+<em>~/.bashrc</em> e adicionar o código:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>_nome<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nb">local </span><span class="nv">current</span><span class="o">=</span><span class="k">${</span><span class="nv">COMP_WORDS</span><span class="p">[COMP_CWORD]</span><span class="k">}</span>
+</span><span class='line'>  <span class="nv">COMPREPLY</span><span class="o">=(</span> <span class="k">$(</span><span class="nb">compgen</span> -W <span class="s1">&#39;pedro mario maria joão mariana&#39;</span> <span class="nv">$current</span><span class="k">)</span> <span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="nb">complete</span> -F _nome nome
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Estamos dizendo ao comando <code>complete</code> que utilize a função <code>_nome</code> para
+modificar a variável <code>COMPREPLY</code> com as possíveis &#8220;completadas&#8221; para o comando
+<code>nome</code>. Recarregue o seu <em>~/.bashrc</em> e teste:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>souce ~/.bashrc
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>nome <span class="o">[</span>TAB<span class="o">][</span>TAB<span class="o">]</span>
+</span><span class='line'>joão     maria    mariana  mario    pedro
+</span><span class='line'><span class="nv">$ </span>nome ma<span class="o">[</span>TAB<span class="o">]</span>
+</span><span class='line'><span class="nv">$ </span>nome mari<span class="o">[</span>TAB<span class="o">][</span>TAB<span class="o">]</span>
+</span><span class='line'>maria    mariana  mario
+</span><span class='line'><span class="nv">$ </span>nome marian<span class="o">[</span>TAB<span class="o">]</span>
+</span><span class='line'><span class="nv">$ </span>nome mariana
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Agora que já entendemos como funciona, vamos para um exemplo real.</p>
+
+<h2>Oh my gems!</h2>
+
+<p>Um exemplo bem simples é o autocompletar que criei para o
+<a href="http://blog.zenspider.com/blog/2012/09/ohmygems.html">Oh my gems!</a> (um
+substituto para os gemsets do <a href="https://rvm.io">rvm</a>, geralmente usado em
+conjunto com o <a href="http://rbenv.org/">rbenv</a>). Além da opção <em>reset</em>, o comando
+<code>ohmygems</code> pode receber como parâmetro o nome de um novo &#8220;gemset&#8221; ou dos
+&#8220;gemsets&#8221; existentes, que são nada mais que os os subdiretórios de
+<em>~/.gem/repos</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>_ohmygems<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="nb">local </span><span class="nv">current</span><span class="o">=</span><span class="k">${</span><span class="nv">COMP_WORDS</span><span class="p">[COMP_CWORD]</span><span class="k">}</span>
+</span><span class='line'>  <span class="nb">local </span><span class="nv">options</span><span class="o">=</span><span class="s2">&quot;reset `ls ~/.gem/repos`&quot;</span>
+</span><span class='line'>  <span class="nv">COMPREPLY</span><span class="o">=(</span> <span class="k">$(</span><span class="nb">compgen</span> -W <span class="s2">&quot;$options&quot;</span> <span class="nv">$current</span><span class="k">)</span> <span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="nb">complete</span> -F _ohmygems ohmygems
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Agora vamos para um exemplo um pouco mais complexo.</p>
+
+<h2>Rake</h2>
+
+<p>Acredito que todo programador ruby utiliza o <a href="http://rake.rubyforge.org/">Rake</a>
+(Ruby Make). Contudo, diferente do <a href="http://www.gnu.org/software/make/">Make</a>, o
+Rake não cria automaticamente um autocompletar com as tasks que você define no
+Rakefile. Mas nós podemos criar criar um! =)</p>
+
+<p>Para ver todas as tasks disponíveis, podemos utilizar a opção <code>-P</code> ou
+<code>--prereqs</code> do <code>rake</code>, que mostra as tasks e suas dependências:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake -P
+</span><span class='line'>rake clean
+</span><span class='line'>rake deploy
+</span><span class='line'>rake gen_deploy
+</span><span class='line'>    integrate
+</span><span class='line'>    generate
+</span><span class='line'>    deploy
+</span><span class='line'>rake generate
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Beleza. Agora, para pegar apenas as tasks vamos usar o <code>grep</code> e o <code>cut</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake -P | grep <span class="s1">&#39;^rake&#39;</span> | cut -d <span class="s1">&#39; &#39;</span> -f 2
+</span><span class='line'>clean
+</span><span class='line'>deploy
+</span><span class='line'>gen_deploy
+</span><span class='line'>generate
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Já temos nossa lista de possíveis &#8220;completadas&#8221;, então vamos criar nossa função:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>_rake<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nb">local </span><span class="nv">current</span><span class="o">=</span><span class="k">${</span><span class="nv">COMP_WORDS</span><span class="p">[COMP_CWORD]</span><span class="k">}</span>
+</span><span class='line'>    <span class="nb">local </span><span class="nv">tasks</span><span class="o">=</span><span class="sb">`</span>rake -P | cut -d <span class="s1">&#39; &#39;</span> -f 2<span class="sb">`</span>
+</span><span class='line'>    <span class="nv">COMPREPLY</span><span class="o">=(</span> <span class="k">$(</span><span class="nb">compgen</span> -W <span class="s2">&quot;$tasks&quot;</span> <span class="nv">$current</span><span class="k">)</span> <span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="nb">complete</span> -F _rake rake
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Geralmente, as tasks do <code>rake</code> são separadas por contextos e esses contextos são
+separados por &#8220;:&#8221;. Por exemplo <code>rake db:drop:all</code>. A variável COMP_WORDBREAKS,
+que guarda os caracteres separadores de palavras para o autocompletar, tem como
+valor original a lista <code>"'&gt;&lt;;|&amp;(:</code>. Repare que o : está entre esses caracteres,
+mas não queremos que ele seja um separador de palavras. Para removê-lo, vamos
+adicionar o seguinte antes da nossa função no <em>~/.bashrc</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">COMP_WORDBREAKS</span><span class="o">=</span><span class="k">${</span><span class="nv">COMP_WORDBREAKS</span><span class="p">//:</span><span class="k">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Com isso você já tem um autocompletar para o <code>rake</code>. No entanto, se estiver em
+um projeto Rails, o <code>rake</code> carrega a aplicação antes de executar as tasks.
+Assim, a cada vez que você faz <code>rake [TAB][TAB]</code> vai levar alguns segundos para
+te mostrar as possíveis tasks, o que torna o auto complete inútil. Para resolver
+esse problema, podemos criar um arquivo que será nosso cache de tasks do <code>rake</code>
+e apenas atualizá-lo se algum dos arquivos de tasks for alterado depois da
+criação do cache. Podemos verificar também se existem o arquivo <em>Rakefile</em> antes
+de executar qualquer coisa. Nossa função de autocompletar final para o <code>rake</code>
+fica assim:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">COMP_WORDBREAKS</span><span class="o">=</span><span class="k">${</span><span class="nv">COMP_WORDBREAKS</span><span class="p">//:</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'>_rake<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[</span> -f Rakefile <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">        </span><span class="nb">local </span><span class="nv">cache_file</span><span class="o">=</span><span class="s1">&#39;.rake_tasks_cache&#39;</span>
+</span><span class='line'>        <span class="nb">local </span><span class="nv">current</span><span class="o">=</span><span class="k">${</span><span class="nv">COMP_WORDS</span><span class="p">[COMP_CWORD]</span><span class="k">}</span>
+</span><span class='line'>        <span class="nb">local </span><span class="nv">recent</span><span class="o">=</span><span class="sb">`</span>ls -t <span class="nv">$cache_file</span> Rakefile **/*.rake 2&gt; /dev/null | head -n 1<span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="o">[[</span> <span class="nv">$recent</span> !<span class="o">=</span> <span class="nv">$cache_file</span> <span class="o">]]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">            </span>rake -s -P | grep <span class="s1">&#39;^rake&#39;</span> | cut -d <span class="s1">&#39; &#39;</span> -f 2 &gt; <span class="nv">$cache_file</span>
+</span><span class='line'>        <span class="k">fi</span>
+</span><span class='line'><span class="k">        </span><span class="nv">COMPREPLY</span><span class="o">=(</span><span class="k">$(</span><span class="nb">compgen</span> -W <span class="s2">&quot;`cat $cache_file`&quot;</span> <span class="nv">$current</span><span class="k">)</span><span class="o">)</span>
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">complete</span> -o default -F _rake rake
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No <a href="http://migre.me/epSSg">manual de referência do bash</a> do site do projeto GNU
+você encontra a <a href="http://migre.me/epT2p">documentação</a>
+<a href="http://migre.me/epSUw">completa</a> para a criação de funções para autocompletar.
+Você pode criar funções bem mais complexas, que completam de acordo com a opção
+anterior e etc. Só depende da sua criatividade e habilidade com shell script =)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Iniciando no desenvolvimento Android com PhoneGap]]></title>
+    <link href="http://blog.algorich.com.br/2012/07/23/iniciando-no-desenvolvimento-android-com-phonegap/"/>
+    <updated>2012-07-23T00:00:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2012/07/23/iniciando-no-desenvolvimento-android-com-phonegap</id>
+    <content type="html"><![CDATA[<p>Neste post vou mostar como começar a desenvolver apps para Android utilizando
+seu editor de texto preferido e o
+<a href="http://phonegap.com/" target="_blank">PhoneGap</a>, um framework que te
+dá liberdade de criar apps mobile usando as tecnologias da web que você conhece
+e adora: HTML, CSS e Javascript.</p>
+
+<!-- more -->
+
+
+<p>Aqui na Algorich nós utilizamo o <a href="http://phonegap.com/" target="_blank">PhoneGap</a> para desenvolver aplicações mobile. Como diz no site, desenvolver com PhoneGap te dá a liberdade de criar aplicações mobile para <a href="http://phonegap.com/about/feature" target="_blank">7 plataformas diferentes</a> (com suporte completo à Android, iOS e Windows Phone) usando as tecnologias da web que você conhece e adora: HTML, CSS e Javascript.</p>
+
+<p><img class="alignright" title="PhoneGap" src="http://blog.algorich.com.br/posts-assets/images/2012/07/phonegap.png" alt="PhoneGap" width="216" height="250" /></p>
+
+<p>Os apps criados com o <a href="http://phonegap.com/" target="_blank">PhoneGap</a> não são nativos, porém, se comportam como tal. Eles são instalados no dispositivo e rodam em uma instância do browser padrão do sistema, ocupando 100% da tela. Além disso, o <a href="http://phonegap.com/" target="_blank">PhoneGap</a> fornece uma API que te possibilita acessar funcionalidades nativas do sistema operacional (como a câmera, acelerômetro e etc) usando JavaScript. Os apps são criados utilizando o modelo <a href="http://en.wikipedia.org/wiki/Single-page_application" target="_blank">single-page</a>, onde a lógica do app fica em uma única página HTML que nunca é eliminada da memória, e todas as transições e apresentação dos dados são feitas através de atualizações no HTML <a href="http://www.w3.org/DOM" target="_blank">DOM</a>. Um exemplo de app criado com o <a href="http://phonegap.com/" target="_blank">PhoneGap</a> é o <a href="http://phonegap.com/app/wikipedia/" target="_blank">app do Wikipedia</a>.</p>
+
+<p>Neste post irei mostrar como começar a desenvolver apps para Android utilizando o PhoneGap. O <a href="http://docs.phonegap.com/en/2.0.0/guide_getting-started_android_index.md.html" target="_blank">getting started</a> do PhoneGap indica a utilização do <a href="http://www.eclipse.org/downloads/" target="_blank">Eclipse</a> para montar o ambiente de desenvolvimento. Contudo, como não gosto de IDEs complexas e pesadas como o Eclipse (quando não estou usando Java), vou mostrar aqui como fazer o setup sem o uso dele, utilizando a linha de comando e seu editor preferido (no meu caso, o <a href="http://www.sublimetext.com/">Sublime Text</a>). Além disso, eu utilizo o sistema operacional Ubuntu Linux (versão 12.04 64bits), então algumas coisas que mostrarei aqui podem não ser válidas para outros sistemas.</p>
+
+<h2>Instalando o Android SDK</h2>
+
+<p>Primeiro, você deve ter o java instalado. Caso não tenha, instale assim:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install openjdk-7-jdk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Após instalar o java, baixe o Android SDK no <a href="http://developer.android.com/sdk/index.html" target="_blank">site de desenvolvedores do android</a>. Para instalar descompacte o tar.gz em algum diretório de sua escolha. No meu caso, eu utilizo o diretório <em>~/install/</em>. Em seguida, adicione a seguinte linha no seu arquivo <em>~/.bashrc</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:~/install/android-sdk-linux/tools:~/install/android-sdk-linux/platform-tools
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Isso irá adicionar os diretórios onde estão as ferramentas do SDK (tools e plataform-tools) ao path de executáveis. Desta forma, será possível invocar as ferramentas sem necessidade de colocar todo o caminho onde elas estão, como comandos padrão do shell.</p>
+
+<p>Vejamos algumas ferramentas essenciais do Android SDK:</p>
+
+<ul>
+<li><strong>android</strong>
+Cria e atualiza projetos Android, atualiza seu SDK, além de criar, mover e deletar AVDs (Android Virtual Devices). Mais informações na <a href="http://developer.android.com/guide/developing/tools/android.html" target="_blank">documentação</a>.</li>
+<li><strong>emulador (Android Emulator)</strong>
+Executa suas aplicações em uma plataforma Android emulada. Mais informações na <a href="http://developer.android.com/guide/developing/devices/emulator.html" target="_blank">documentação</a>.</li>
+<li><strong>adb (Android Debug Bridge)</strong>
+Faz a interface com seu emulador ou dispositivo conectado. Entre outas coisas, é responsável por installar apps. Mais informações na <a href="http://developer.android.com/tools/help/adb.html" target="_blank">documentação</a>.</li>
+</ul>
+
+
+<h2>Instalando pacotes Android</h2>
+
+<p>Você deve baixar pacotes (packages) com imagens de sistemas Android, também chamadas de plataformas. Para abrir o SDK Manager use o comando <code>android</code> com a opção <code>sdk</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>android sdk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>O SDK Manager irá abrir. Você deve escolher uma (ou mais) versão do Android para instalar. Você só precisa instalar o pacote <em>SDK Platform</em>, sendo o restante opcional. Como é apresentado na figura 1, no meu caso, escolhi instalar apenas a versão 2.3.3 que é a versão que roda no meu celular.</p>
+
+<div class="aligncenter">
+  <img title="SDK Manager" src="http://blog.algorich.com.br/posts-assets/images/2012/07/sdk-manager.png" alt="SDK Manager" width="620" height="349" />
+  <span class="caption">Figura 1: Instalando pacotes Android com o SDK Manager</span>
+</div>
+
+
+<p>Depois de instalar os pacotes, pode fechar o SDK Manager.</p>
+
+<h2>Manipulando AVDs</h2>
+
+<p>Um AVD (Android Virtual Device) é um emulador de configurações que te permite criar um modelo virtual de dispositivo, definindo o hardware e o software que serão emulados pelo Android Emulator. Desta forma, você pode emular diferentes configurações de dispositivos que rodam Android. Você pode criar quantos AVDs você precisar, de acordo com as configurações dos dispositivos os quais seu app é compatível (por exemplo, com diferentes tamanhos de tela e versões do Android), para testar seu app em cada uma delas. Você pode <a href="http://developer.android.com/guide/developing/devices/managing-avds-cmdline.html">criar um AVD pela linha de comando</a>, contudo, existe o AVD Manager que facilita um pouco. Para abrir o AVD Manager use o comando <code>android</code> com a opção <code>avd</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>android avd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Em seguida crie um novo AVD como apresentado na figura 2.</p>
+
+<div class="aligncenter">
+  <img title="AVD Manager" src="http://blog.algorich.com.br/posts-assets/images/2012/07/avd-manager-new.png" alt="AVD Manager" width="399" height="643" />
+  <span class="caption">Figura 2: Criando um novo AVD com o AVD Manager</span>
+</div>
+
+
+<p><strong>Obs</strong>: Caso você esteja rodando o Ubuntu 64 bits pode ser que você tenha o problema apresentado na figura 3 ao criar o AVD.</p>
+
+<div class="aligncenter">
+  <img title="Problema ao criar um AVD" src="http://blog.algorich.com.br/posts-assets/images/2012/07/avd-manager-problem.png" alt="Problema ao criar um AVD" width="613" height="191" />
+  <span class="caption">Figura 3: Problema ao criar um AVD</span>
+</div>
+
+
+<p>Caso isso ocorra, é porque você não tem o pacote <code>ia32-libs</code> instalado. Para instalá-lo:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install ia32-libs
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Depois de criado o AVD corretamente, pode frechar o AVD Manager.</p>
+
+<h2>Criando um projeto Android</h2>
+
+<p>O Android SDK espera que seu projeto siga uma estrutura específica de arquivos e diretório para que ele possa compilar e empacotar sua aplicação corretamente. A ferramenta <code>android</code> criar um novo projeto com toda a estrutura definida. Recomendo que você veja a <a href="http://developer.android.com/tools/projects/index.html#ApplicationProjects" target="_blank">documentação</a> para conhecer a estrutura de um projeto, entendendo para que serve cada diretório e arquivo do seu projeto.</p>
+
+<p>Para criar um projeto Android, rode o seguinte comando:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>android create project <span class="se">\</span>
+</span><span class='line'>        --target &lt;target_ID&gt; <span class="se">\</span>
+</span><span class='line'>        --name &lt;nome_do_seu_projeto&gt; <span class="se">\</span>
+</span><span class='line'>        --path caminho/para/seu/projeto <span class="se">\</span>
+</span><span class='line'>        --activity &lt;nome_da_sua_activity&gt; <span class="se">\</span>
+</span><span class='line'>        --package &lt;namespace_do_seu_package&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Onde:</p>
+
+<ul>
+<li><strong>target</strong> é a plataforma Aldroid alvo para a construção da sua aplicação. Para ver a lista de targets disponíveis e seus IDs correspondentes, use o comando <code>android list targets</code>.</li>
+<li><strong>name</strong> é o nome do seu aplicativo.</li>
+<li><strong>path</strong> é a localização do diretório do seu projeto. Se o diretório não existir, ele será criado para você.</li>
+<li><strong>activity</strong> é o nome para a classe padrão <a href="http://developer.android.com/reference/android/app/Activity.html" target="_blank">Activity</a>.</li>
+<li><strong>package</strong> é o namespace do package do seu projeto, seguindo as mesmas regras para os packages em Java.</li>
+</ul>
+
+
+<p>Para este artigo, vou criar um app HelloWorld:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>android create project <span class="se">\</span>
+</span><span class='line'>        --target 1 <span class="se">\</span>
+</span><span class='line'>        --name HelloWorld <span class="se">\</span>
+</span><span class='line'>        --path ~/projetos/hello_world <span class="se">\</span>
+</span><span class='line'>        --activity HelloWorldActivity <span class="se">\</span>
+</span><span class='line'>        --package br.com.algorich.hello_world
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Com isso, será criada a estrutura do projeto Android, como apresentada na figura 4.</p>
+
+<div class="aligncenter">
+  <img title="Estrutura do projeto Android" src="http://blog.algorich.com.br/posts-assets/images/2012/07/project-tree.png" alt="Estrutura do projeto Android" width="370" height="334" />
+  <span class="caption">Figura 4: Estrutura de arquivos e diretórios do projeto Android</span>
+</div>
+
+
+<p>Se você utilizar um sistema de controle de versão (se não utiliza, deveria) como o <a href="http://git-scm.com/" target="_blank">git</a>, faça com que o arquivo <em>local.properties</em> e os diretórios <em>bin</em> e <em>gen</em> sejam ignorados pelo controle de versão.</p>
+
+<h2>Adicionando o PhoneGap</h2>
+
+<p>Com a estrutura do projeto criada, é hora de adicionar o PhoneGap. Para isso, faça o <a href="http://phonegap.com/download" target="_blank">download do PhoneGap</a> e descompacte o .zip em algum diretório de sua escolha. No meu caso, eu utilizo o diretório <em>~/install/</em>. Em seguida, no terminal, entre no diretório da sua aplicação e execute os seguintes comandos:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># cria o diretório assets e dentro dele o diretório www</span>
+</span><span class='line'>mkdir -p assets/www
+</span><span class='line'>cp ~/install/phonegap/lib/android/cordova-2.0.0.js assets/www/
+</span><span class='line'>cp ~/install/phonegap/lib/android/cordova-2.0.0.jar libs/
+</span><span class='line'>cp -r ~/install/phonegap/lib/android/xml/ res/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Abra o arquivo da classe <code>Activity</code> (arquivo java contido no último subdiretório do diretório <em>src</em>), que no exemplo é o arquivo <em>HelloWorldActivity.java</em>, e edite o seguinte:</p>
+
+<ol>
+  <li>A classe herda de <code>Activity</code>, mude para herdar de <code>DroidGap</code></li>
+  <li>Troque a linha <code>setContentView(R.layout.main);</code> por <code>super.loadUrl("file:///android_asset/www/index.html");</code></li>
+  <li>Adicione o import <code>import org.apache.cordova.*;</code></li>
+  <li>Remova o import <code>import android.app.Activity;</code></li>
+  <li>Adicione o trexo de código seguinte ao arquivo <em>AndroidManifest.xml</em>, abaixo da linha que contém <code>android:versionName</code>:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;supports-screens</span>
+</span><span class='line'>  <span class="na">android:largeScreens=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>  <span class="na">android:normalScreens=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>  <span class="na">android:smallScreens=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>  <span class="na">android:resizeable=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'>  <span class="na">android:anyDensity=</span><span class="s">&quot;true&quot;</span>
+</span><span class='line'><span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.CAMERA&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.VIBRATE&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.ACCESS_COARSE_LOCATION&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.ACCESS_FINE_LOCATION&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.ACCESS_LOCATION_EXTRA_COMMANDS&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.READ_PHONE_STATE&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.INTERNET&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.RECEIVE_SMS&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.RECORD_AUDIO&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.MODIFY_AUDIO_SETTINGS&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.READ_CONTACTS&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.WRITE_CONTACTS&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.GET_ACCOUNTS&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.BROADCAST_STICKY&quot;</span> <span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+  </li>
+  <li>Adicione <code>android:configChanges="orientation|keyboardHidden"</code> a tag <code>activity</code> no <em>AndroidManifest.xml</em></li>
+  <li>Crie o arquivo <em>assets/www/index.html</em> e adicione o seguinte conteúdo:
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE HTML&gt;</span>
+</span><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;title&gt;</span>Android + PhoneGap<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span> <span class="na">src=</span><span class="s">&quot;cordova-2.0.0.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;h1&gt;</span>Hello World! =)<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+  </li>
+</ol>
+
+
+<p><strong>Obs</strong>: A única permissão realmente necessária para iniciar um hello world com o PhoneGap é a seguinte:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> <span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>O restante pode ser adicionado quando/se houver necessidade.</p>
+
+<p>Você pode mudar o nome de apresentação do seu app alterando a tag <code>&lt;string&gt;</code> com o atributo <code>name="app_name"</code> no arquivo <em>res/values/strings.xml</em>.</p>
+
+<h2>Construindo o app</h2>
+
+<p>Existem duas formas de construir o seu app: release e debug. Neste post vou mostrar apenas como construir em modo debug, ficando o modo release para um outro post. Para construir o app, é utilizado o <a href="http://ant.apache.org/" target="_blank">Ant</a>. Para instalar o Ant faça o seguinte:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install ant
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Com o Ant instalado, basta usá-lo para construir seu app:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ant debug
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Isto irá criar seu arquivo .apk de debug no diretório <em>bin</em>, <em>chamado nome_do_app-debug.apk</em>. Este arquivo será utilizado para instalar o app no emulador ou no dispositivo real, como veremos a seguir. Recomendo a leitura da <a href="http://developer.android.com/tools/building/building-cmdline.html" target="_blank">documentação</a> para entender os passos que o Ant executa internamente para a construção do app.</p>
+
+<h2>Usando o Emulador</h2>
+
+<p>O Emulador te permite prototipar, desenvolver e testar dois apps sem a necessidade de utilizar um dispositivo real, através da simulação das configurações dos AVDs existentes. Assim, para iniciar o Emulador, você deve especificar qual AVD deseja carregar. Cada AVD funciona como um dispositivo independente, com seu banco de dados privado de informações de usuário, cartão SD e etc. Quando você inicia o Emulador com um AVD, ele automaticamente carrega todas as informações do diretório do AVD, onde estas informações são salvas por padrão. Para iniciar uma instância do Emulador, basta usar o comando <code>emulator</code> definindo qual AVD será utilizado:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>emulator -avd nome_do_avd
+</span><span class='line'><span class="c"># ou, de forma simplificada:</span>
+</span><span class='line'>emulator @nome_do_avd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Uma janela com o Emulador será aberta como mostrado na figura 5. É normal o emulador demorar alguns segundos até terminar de carregar.</p>
+
+<div class="aligncenter">
+  <img title="Emulador Android" src="http://blog.algorich.com.br/posts-assets/images/2012/07/emulator.png" alt="Emulador Android" width="620" height="579" />
+  <span class="caption">Figura 5: Emulador Android</span>
+</div>
+
+
+<p>Para encerrar o Emulador, basta fechar a janela. O Emulador é uma ferramenta muito completa. Você pode interconectar diferentes instâncias do Emulador, manipular o cartão SD, simular envio de sms, entre outras diversas coisas. Veja na <a href="http://developer.android.com/tools/devices/emulator.html" target="_blank">documentação</a> todas as funcionalidades do Emulador.</p>
+
+<h3>Executando o app no Emulador</h3>
+
+<p>Para executar o app no Emulador, você deve primeiro estar com uma instância do Emulador rodando, como mostrado acima, e ter construído seu app com o Ant. Em seguida, basta usar a ferramenta adb para instalar o app no Emulador:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>adb install bin/nome_do_app-debug.apk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Após estar instalado, para atualizar (reinstalar), deve-se utilizar o parâmetro -r:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>adb install -r bin/nome_do_app-debug.apk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Para (re)compilar e (re)instalar ao mesmo tempo usando você poderia concatenar os comandos:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ant debug; adb install -r bin/nome_do_app-debug.apk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Contudo, você pode fazer isso diretamente com o Ant da seguinte maneira:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ant debug install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Após ter sido instalado, o app pode ser encontrado no menu de apps do dispositivo emulado. Na figura 6 podemos ver o Hello World sendo executado no Emulador.</p>
+
+<div class="aligncenter">
+  <img title="Hello World no Emulador" src="http://blog.algorich.com.br/posts-assets/images/2012/07/hello-world.png" alt="Hello World no Emulador" width="620" height="579" />
+  <span class="caption">Figura 6: HelloWorld sendo executado no Emulador</span>
+</div>
+
+
+<h2>Usando dispositivos reais</h2>
+
+<p>Você também pode utilizar dispositivos reais para desenvolver e testar seu app, especialmente nos casos em que o emulador não oferece suporte. Para isso, você deve seguir alguns passos:</p>
+
+<ol>
+<li><p>Declarar o app &#8220;debuggable&#8221; no Android Manifest</p>
+
+<p> No arquivo <em>AndroidManifest.xml</em> adicione <code>android:debuggable="true"</code> ao elemento <code>&lt;application&gt;</code>.</p>
+
+<p> <strong>Obs</strong>: Lembre-se de remover isso quando for lançar a release do seu app.</p></li>
+<li><p>Ativar a &#8220;Depuração USB&#8221; no seu dispositivo</p>
+
+<p> No seu dispositivo, vá em <strong>Configurações > Aplicativos > Desenvolvimento</strong> e ative a <strong>Depuração USB</strong> (em dispositivos com Android 4.0, esta configuração está localizada em <strong>Configurações > Opções de desenvolvimento</strong>).</p>
+
+<p> <strong>Dica</strong>: Ative também a opção <strong>Permanecer ativo</strong> para quando o dispositivo estiver carregando (ou seja, ligado ao computador pelo cabo USB) a tela não apague.</p></li>
+<li><p>Configurar o sistema para reconhecer seu dispositivo (se não usa o Ubuntu, veja a <a href="http://developer.android.com/tools/device.html" target="_blank">documentação</a>)</p>
+
+<p> Você precisa adicionar um arquivo de regras udev que deve conter as configurações USB para cada dispositivo que deseja usar para desenvolvimento. No arquivo de regras, cada fabricante de dispositivos é identificado por um id único. Você deve ver na <a href="http://developer.android.com/tools/device.html#VendorIds" target="_blank">lista de fabricantes</a> qual é o id do fabricante do seu dispositivo. Para configurar a detecção do dispositivo, faça o seguinte:</p>
+
+<ol>
+<li><p>Faça login como root e crie este arquivo: <em>/etc/udev/rules.d/51-android.rules</em>.</p>
+
+<p> Use este formato para adicionar cada fabricante ao arquivo:
+ <br/>
+ <code>SUBSYSTEM=="usb", ATTR{idVendor}=="0fce", MODE="0666", GROUP="plugdev"</code></p>
+
+<p> O atributo <code>ATTR{idVendor}</code> indica o id do fabricante, que neste exemplo é Sony Ericsson. O atributo <code>MODE</code> especifica as permissões de leitura/escrita e o <code>GROUP</code> define a que grupo do sistema o dispositivo pertence.</p></li>
+<li><p>Agora execute o comando: <code>chmod a+r /etc/udev/rules.d/51-android.rules</code></p></li>
+</ol>
+</li>
+</ol>
+
+
+<p>Após ter seguido estes passos e estar com o dispositivo ligado à porta USB, você pode usar o comando <span class="lang:sh highlight:0 decode:true  crayon-inline">adb devices</span> para listas os dispositivos.</p>
+
+<h4>Executando o app em dispositivos reais</h4>
+
+
+<p>Para executar o app em dispositivos reais você usar o mesmos comandos apresentados para o Emulador, sendo que ao usar o adb deve ser adicionado o parâmetro -d. Já ao usar o Ant, não precisa modificar nada no comando, uma vez que o Ant tenta instalar em uma instância do Emulador e, caso não encontre uma instância rodando, tenta instalar em algum dispositivo conectado.</p>
+
+<p>Assim como no Emulador, após ter sido instalado, o app pode ser encontrado no menu de apps do dispositivo. Na figura 7 podemos ver o Hello World sendo executado no meu telefone.</p>
+
+<div class="aligncenter">
+  <img title="Hello World no dispositivo" src="http://blog.algorich.com.br/posts-assets/images/2012/07/hello-world-device.png" alt="Hello World no dispositivo" width="620" height="348" />
+  <span class="caption">Figura 7: Hello World sendo executado no dispositivo</span>
+</div>
+
+
+<h2>PhoneGap Command Line Tooling</h2>
+
+<p>Na versão 2.0 do PhoneGap, <a href="http://phonegap.com/2012/07/20/adobe-phonegap-2-0-released.md/" target="_blank">lançada no dia 20 deste mês</a>, foi adicionado o <a href="http://docs.phonegap.com/en/2.0.0/guide_command-line_index.md.html" target="_blank">Command Line Tooling</a>, que é um conjunto de scripts para realizar tarefas repetitivas e comuns à todas as plataformas como criar, construir e emular apps.</p>
+
+<p>Todos os passos realizados anteriormente para criar um projeto Android e adicionar o PhoneGap são resumidos à um único comando.</p>
+
+<p>Contudo, para executar no Ubuntu devemos fazer uma alteração no script, pois ele utiliza o interpretador padrão do sistema (que pode ser acessado pelo <code>/bin/sh</code>) que no Ubuntu é o <a href="https://wiki.ubuntu.com/DashAsBinSh" target="_blank"><code>dash</code></a>. Porém, devido aos erros que encontrei ao rodar o script, acredito que ele foi feito para ser interpretado pelo <code>bash</code>. Assim, basta mudar a primeira primeira linha para: <code>#! /bin/bash</code>.</p>
+
+<p>Para criar o projeto basta rodar o script <code>create</code> encontrado no diretório do PhoneGap:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>/install/phonegap/lib/android/bin/create caminho_para_o_projeto <span class="se">\</span>
+</span><span class='line'>                                          namespace_do_seu_package <span class="se">\</span>
+</span><span class='line'>                                          nome_do_seu_projeto
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No caso do nosso exemplo seria o seguinte:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./install/phonegap/lib/android/bin/create ~/projetos/hello_world <span class="se">\</span>
+</span><span class='line'>                                          br.com.algorich.hello_workd <span class="se">\</span>
+</span><span class='line'>                                          HelloWorld
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Com isso, será criada a estrutura do projeto Android, como apresentada na figura 8.</p>
+
+<div class="aligncenter">
+  <img title="Estrutura do projeto Android criado pelo PhoneGap" src="http://blog.algorich.com.br/posts-assets/images/2012/07/tree-phonegap-create.png" alt="Estrutura do projeto Android criado pelo PhoneGap" width="314" height="708" />
+  <span class="caption">Figura 8: Estrutura de arquivos e diretórios do projeto Android criado pelo PhoneGap</span>
+</div>
+
+
+<p>Repare que é criado um diretório cordova com alguns scripts. Para saber o que cada um desses scripts faz, veja a <a href="http://docs.phonegap.com/en/2.0.0/guide_command-line_index.md.html#Command-Line%20Usage_android" target="_blank">documentação</a>, mas vamos ver dois que fazem tarefas que mostrei anteriormente.</p>
+
+<p>Para iniciar o Emulador:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./cordova/emulate
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Para construir o app:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./cordova/debug
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Na figura 9 podemos ver o Hello World criado pelo <code>create</code> do PhoneGap sendo executado no Emulador.</p>
+
+<div class="aligncenter">
+  <img title="Hello World criado pelo PhoneGap sendo executado no Emulador" src="http://blog.algorich.com.br/posts-assets/images/2012/07/hello_world_phonegap.png" alt="Hello World criado pelo PhoneGap sendo executado no Emulador" width="620" height="567" />
+  <span class="caption">Figura 9: Hello World criado pelo PhoneGap sendo executado no Emulador</span>
+</div>
+
+
+<p>O legal desse app padrão criado é que ele tem vários exemplos de utilização da API do PhoneGap que você pode ver, modificar e testar.</p>
+
+<h2>Finalizando</h2>
+
+<p>Neste post mostrei como criar um Hello World do zero usando o PhoneGap e as ferramentas de linha de comando do Android SDK, sem a necessidade da utilização do Eclipse. A partir desse ponto, você tem condições de brincar tranquilamente com a API do PhoneGap =)</p>
+
+<p>Até a próxima!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Configurar ssh com acesso por chave pública]]></title>
+    <link href="http://blog.algorich.com.br/2012/06/15/configurar-ssh-com-acesso-por-chave-publica/"/>
+    <updated>2012-06-15T00:00:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2012/06/15/configurar-ssh-com-acesso-por-chave-publica</id>
+    <content type="html"><![CDATA[<p>Neste post vamos mostrar com deixar o seu servidor com acesso SSH mais seguro
+aceitando   apenas conexões através de chaves de autenticação SSH.</p>
+
+<!-- more -->
+
+
+<p>Olá pessoal,</p>
+
+<p>Hoje vamos mostrar como deixar o seu servidor com acesso SSH mais seguro. Por padrão, o SSH aceita conexão através de senha em texto livre. Quem souber a senha, pode se logar no servidor. Isso é bastante perigoso, pois se a senha não for muito complicada, um <em>bot</em> pode descobri-la através da força bruta.</p>
+
+<p>Uma forma de evitar isso é configurar o SSH para aceitar apenas conexões através da chave pública (<a title="Como criar chave SSH" href="http://en.wikipedia.org/wiki/Ssh-keygen" target="_blank">saiba como criar uma chave</a>). Funciona da seguinte forma: você envia sua chave pública para o servidor (na pasta home do usuário que você quer logar) e configura o SSH. Quando você tentar fazer o login, ele vai realizar a verificação da sua chave pública e requisitar que você digite a senha. Caso esteja tudo OK, você se loga normalmente.</p>
+
+<p>Lembrando que essa configuração foi testada no Debian/Ubuntu.</p>
+
+<p>Antes de configurar o SSH, copie a sua chave pública para uma pasta qualquer no servidor.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>scp ~/.ssh/id_rsa.pub usuario@meuservidor:~/.ssh/minha_chave.pub
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>E quando estiver logado no servidor:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>cat ~/.ssh/minha_chave.pub &gt;&gt; ~/.ssh/authorized_keys
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Com isso feito, podemos configurar o SSH. Para isso, como root, abra o arquivo <em>/etc/ssh/sshd_config</em> e altere as seguintes opções:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='lighttpd'><span class='line'><span class="c1"># isso evita que alguém tente se logar como root</span>
+</span><span class='line'><span class="k">PermitRootLogin</span> <span class="k">no</span>
+</span><span class='line'><span class="c1"># permite a autenticação por chave pública</span>
+</span><span class='line'><span class="k">PubkeyAuthentication</span> <span class="k">yes</span>
+</span><span class='line'><span class="c1"># impede a autenticação por senha</span>
+</span><span class='line'><span class="k">PasswordAuthentication</span> <span class="k">no</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Em seguida, reinicie o SSH:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>service ssh restart
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pronto! Sempre que você acessar o servidor, a autenticação será por chave pública. Caso queira que mais pessoas tenham acesso ao servidor, basta adicionar as chaves públicas no arquivo <em>/home/.ssh/authorized_keys</em>.</p>
+
+<p>Abraços e até a próxima!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dia, horário e local definidos! #horaextra Campos]]></title>
+    <link href="http://blog.algorich.com.br/2012/05/31/dia-horario-e-local-definidos-horaextra-campos/"/>
+    <updated>2012-05-31T00:00:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2012/05/31/dia-horario-e-local-definidos-horaextra-campos</id>
+    <content type="html"><![CDATA[<p>O feedback de vocês em relação ao
+<a href="2012/05/28/profissionais-da-regiao-apresentem-se">post passado</a>
+foi sensacional e muita gente está a fim de participar do #horaextra Campos.
+Então ele acontecerá na terça-feira (dia 05/06/12) às 19h no Bar da Boa!</p>
+
+<!-- more -->
+
+
+<p>Fala pessoal, tudo certo?</p>
+
+<p>O feedback de vocês em relação ao <a href="http://blog.algorich.com.br/2012/05/28/profissionais-da-regiao-apresentem-se">post passado</a> foi sensacional e muita gente está a fim de participar do #horaextra Campos. Então ele acontecerá!</p>
+
+<p>O primeiro #horaextra Campos ocorrerá na terça-feira (dia 05/06/12) às 19h no Bar da Boa. A ideia é manter esse dia da semana, horário e local. Para quem não conhece o local, ele fica em uma esquina da Avenida Pelinca com a Formosa <a href="http://goo.gl/maps/9J03M">mapa no google</a>.</p>
+
+<p>Conto com a presença de TODOS lá!</p>
+
+<p>Abraços!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Profissionais da região, apresentem-se!]]></title>
+    <link href="http://blog.algorich.com.br/2012/05/28/profissionais-da-regiao-apresentem-se/"/>
+    <updated>2012-05-28T00:00:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2012/05/28/profissionais-da-regiao-apresentem-se</id>
+    <content type="html"><![CDATA[<p>Hoje, oficialmente, inauguramos o blog da
+<a title="Algorich" href="http://algorich.com.br" target="_blank">Algorich</a>!
+Nosso objetivo é compartilhar conhecimento e ter um canal de interação com
+todos os desenvolvedores, programadores, web designers e empreendedores da
+região.</p>
+
+<p>Assim, como queremos contribuir e ajudar a criar um ambiente colaborativo e
+conhecer melhor os profissionais da região, vamos criar o #horaextra Campos!</p>
+
+<!-- more -->
+
+
+<p>Olá pessoal,</p>
+
+<p>Hoje, oficialmente, inauguramos o blog da <a title="Algorich" href="http://algorich.com.br" target="_blank">Algorich</a>! Nosso objetivo é compartilhar conhecimento e ter um canal de interação com todos os desenvolvedores, programadores, web designers e empreendedores da região.</p>
+
+<p>Neste espaço falaremos de diversos assuntos como Ruby on Rails, Empreendedorismo, Ruby, Python, Shell, Linux, HTML, CSS, JavaScript, jQuery, desenvolvimento mobile, entre outros. Além disso, iremos mostrar também como trabalhamos aqui na Algorich e algumas das experiências que passamos em nosso dia a dia.</p>
+
+<p>Assim, como queremos contribuir e ajudar a criar um ambiente colaborativo e conhecer melhor os profissionais da região, vamos criar o #horaextra Campos! Para quem não conhece,  o #horaextra surgiu no Rio de Janeiro e tem o objetivo de reunir amigos e profissionais de tecnologia em um dia da semana após o expediente. Para mais detalhes, acesse <a title="#horaextra" href="http://horaextra.org" target="_blank">horaextra.org</a>.</p>
+
+<p>E então? Quem topa? Que tal vocês se apresentarem nos comentários? Vamos lá, dê-nos esse feedback e apareça! Nosso #horaextra será toda quinta-feira às 19:30h. O local ainda será definido e informado pelo blog e redes sociais (<a title="Algorich" href="http://www.facebook.com/algorich" target="_blank">Facebook</a> e <a title="Algorich" href="http://twiter.com/algorich" target="_blank">Twitter</a>)</p>
+
+<p>Para nos conhecer, basta acessar a página da <a title="Nossa equipe" href="http://algorich.com.br/team?locale=p" target="_blank">nossa equipe</a>.</p>
+
+<p>Esperamos que vocês curtam o nosso espaço e o #horaextra!</p>
+
+<p>Abraços!</p>
+]]></content>
+  </entry>
+  
+</feed>

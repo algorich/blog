@@ -1,0 +1,702 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="pt-BR"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Acelerando seu emulador Android - Blog da Algorich</title>
+  
+    <meta name="author" content="Hugo Maia Vieira">
+  
+
+  
+    <meta name="description" content="Cansado da lentidão do emulador Android? Veja nesse post como deixá-lo mais rápido utilizando um processador Intel no seu AVD.">
+  
+
+  
+    <meta name="keywords" content="android, emulador, phonegap,lentidão, lento">
+  
+
+  <!-- start: Facebook Open Graph -->
+  <meta property="fb:app_id" content="255940757884214" />
+  <meta property="og:type" content="article" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="algorich.com.br"/>
+  <meta property="og:url" content="http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/"/>
+  <meta property="og:title" content="Acelerando seu emulador Android - Blog da Algorich"/>
+  
+    <meta property="og:description" content="Cansado da lentidão do emulador Android? Veja nesse post como deixá-lo mais rápido utilizando um processador Intel no seu AVD." />
+  
+  
+    <meta property="og:image" content="http://blog.algorich.com.br/img/logo-square.png"/>
+  
+  <!-- end: Facebook Open Graph -->
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/">
+  <link href="/favicon.png" rel="icon">
+
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <!--[if IE 9]>
+    <style>.da-slide p { filter:none; }</style>
+  <![endif]-->
+
+  <link href="/atom.xml" rel="alternate" title="Blog da Algorich" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700">
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Serif">
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Boogaloo">
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Economica:700,400italic">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23447419-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+
+  <header id="app-main-header">
+  <!--start: Container -->
+  <div class="container">
+    <div class="row">
+      <div class="span10">
+        <a class="brand" href="/">
+          <img src="/img/algorich_logo.png" alt="Algorich" />
+        </a>
+      </div>
+    </div>
+  </div>
+  <!--end: Container-->
+</header>
+
+
+
+  <!--start: Wrapper-->
+  <div id="wrapper">
+
+    <!--start: Container -->
+    <div class="container">
+      <!--start: Row -->
+      <div class="row">
+        <div class="span7">
+          <div>
+<article>
+  <div class="post">
+  <div class="post-content">
+    
+      <header>
+        
+          <div class="title">
+            <h2>Acelerando seu emulador Android</h2>
+          </div>
+        
+        
+          <!-- start: post meta -->
+          <div class="post-meta">
+            <span>
+              <i class="mini-ico-calendar"></i>
+              
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-25T15:50:00-03:00" pubdate data-updated="true">25/07/2013</time>
+            </span>
+
+            <span>
+              <i class="mini-ico-user"></i>
+              
+  
+
+Hugo Maia Vieira
+
+            </span>
+
+            
+            <span>
+               <i class="mini-ico-comment"></i>
+               <a href="#disqus_thread">Comentários</a>
+            </span>
+            
+          </div>
+          <!-- end: post meta -->
+        
+      </header>
+    
+    
+    <div class="entry-content"><p>Todo mundo que desenvolve apps para o Android sabe que o emulador é bem lento.
+No entanto, isso pode mudar se você utiliza um computador com um processador da
+Intel que tenha a tecnologia Intel Virtualization.</p>
+
+<p>A melhoria é muito grande. Só para dar uma ideia, no meu notebook a lockscreen
+abriu em 10 segundos usando o AVD com o processador Intel e em 57 segundos
+usando o AVD com o processador ARM-based!</p>
+
+<p>No site da Intel você encontra a
+<a href="http://goo.gl/8tI7u" target="_blank">documentação</a> mostrando
+como fazer isso em ambientes Windows, Mac OS e Linux. Contudo, fiz minha versão
+em português, com algumas outras dicas e específica para <strong>Linux</strong>. Eu utilizei
+o Linux Mint 15, mas provavelmente funciona da mesma maneira no Ubuntu.</p>
+
+<!-- more -->
+
+
+<p>Em primeiro lugar, você tem que ter a SDK do Android instalada é claro. Se não
+for o caso, veja como fazê-lo <a href="http://goo.gl/HD9yka" href="_blank">neste post</a>.</p>
+
+<h2>Instalando a KVM (Kernel-based Virtual Machine)</h2>
+
+<p>A <a href="http://www.linux-kvm.org/" target="_blank">KVM</a> é uma solução
+completa de virtualização para Linux que roda em máquinas com processador Intel
+(x86). Para instalar e rodar a KVM primeiro você precisa checar se sua CPU
+suporta a virtualização de hardware, o que pode ser feito com o seguinte
+comando:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>egrep -c <span class="s1">&#39;(vmx|svm)&#39;</span> /proc/cpuinfo
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Se a resposta desse comando for 0, seu CPU não tem suporte. Se a resposta for 1
+ou mais, beleza, mas ainda tem que ver se está habilitado na BIOS. Primeiro
+instale o pacote cpu-checker:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install cpu-checker
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Em seguida, faça a verificação:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>kvm-ok
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sua resposta deve ser algo desse tipo:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>INFO: Your CPU supports KVM extensions
+</span><span class='line'>INFO: /dev/kvm exists
+</span><span class='line'>KVM acceleration can be used
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Se não, sua resposta será algo como apresentado abaixo e você terá que entrar na
+BIOS para ativar a Intel Virtualization Technology:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>INFO: KVM is disabled by your BIOS
+</span><span class='line'>HINT: Enter your BIOS setup and enable Virtualization Technology (VT),
+</span><span class='line'>and then hard poweroff/poweron your system
+</span><span class='line'>KVM acceleration can NOT be used
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>O próximo passo é instalar a KVM e alguns outros pacotes necessários:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Depois, você deve adicionar seu usuário aos grupos <em>kvm</em> e <em>libvirtd</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo adduser seu_usuario kvm
+</span><span class='line'><span class="nv">$ </span>sudo adduser seu_usuario libvirtd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Em seguida, faça logout e login novamente para que as alterações tenham efeito.</p>
+
+<h2>Criando um AVD (Android Virtual Device) com o processador Intel</h2>
+
+<p>Primeiro, vamos intalar o pacote que dá suporte a escolha da CPU da Intel na
+criação do AVD. Abra o SDK Manager com o comando <code>android</code> e instale o pacote
+&#8220;Intel x86 Atom System Image&#8221; para a versão do Android que pretende usar (Figura
+1). No meu caso escolhi a versão 4.2.2 porque o 4.3, que saiu ontem, ainda não
+tinha suporte.</p>
+
+<div class="aligncenter">
+  <img title="SDK Manager" src="/posts-assets/images/2013/07/sdk-manager-intel.png" alt="Instalando o pacote da Intel com o SDK Manager" width="694" height="412" />
+  <span class="caption">Figura 1: Instalando o pacote da Intel com o SDK Manager</span>
+</div>
+
+
+<p>Em seguida, vamos criar um AVD normalmente, porém, com o processador da Intel.
+Abra o AVD Managet com o comando <code>android avd</code>. Para facilitar, usei uma
+definição de dispositivo da aba &#8220;Device Definitions&#8221;, no caso, o Nexus 4. Basta
+clicar na definição, depois em &#8220;Create ADV&#8230;&#8221;, escolher o target &#8220;4.2.2&#8221; e o
+CPU &#8220;Intel Atom (x86)&#8221;. Além disso, para facilitar na hora de usar com o
+emulador, troquei o nome do ADV para &#8220;nexus4&#8221; como pode ser visto na Figura 2.</p>
+
+<div class="aligncenter">
+  <img title="SDK Manager" src="/posts-assets/images/2013/07/avd-intel.png" alt="Criando um AVD com processador Intel" width="448" height="632" />
+  <span class="caption">Figura 2: Criando um AVD com processador Intel</span>
+</div>
+
+
+<p>Ponto, agora você tem seu dispositivo virtual com o processador Intel. Agora
+vamos utilizá-lo no emulador:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>emulator @nexus4
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Se você quiser ver a diferença entre utilizar o processador Intel e o ARM, feche
+o emulador, edite seu AVD trocando a CPU dele para AMR e inicie o emulador
+novamente. A diferença é grande, né? =)</p>
+
+<h2>Corrigindo o erro da libGL.so</h2>
+
+<p>Inicie seu emulador e veja se acontece erro abaixo:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>emulator @nexus4
+</span><span class='line'>Failed to load libGL.so
+</span><span class='line'>error libGL.so: cannot open shared object file: No such file or directory
+</span><span class='line'>Failed to load libGL.so
+</span><span class='line'>error libGL.so: cannot open shared object file: No such file or directory
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Se sim, para corrigí-lo basta encontrar o arquivo em sua máquina e criar um link
+simbólico na pasta onde está o Android SDK. Para encontra o arquivo:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo updatedb
+</span><span class='line'><span class="nv">$ </span>locate libGL.so
+</span><span class='line'>/usr/lib/i386-linux-gnu/mesa/libGL.so.1
+</span><span class='line'>/usr/lib/i386-linux-gnu/mesa/libGL.so.1.2.0
+</span><span class='line'>/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1
+</span><span class='line'>/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Como meu sistema é 64 bits, vou usar o aquivo
+<em>/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0</em> para fazer o link:</p>
+
+<p><strong>Obs</strong>: mude o <em>~/android</em> para o local onde está o Android SDK na sua máquina.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ln -s /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0 ~/android/sdk/tools/lib/libGL.so
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Se isso não solucionar seu problema, dê uma olhada
+<a href="http://goo.gl/lK23N" target="_blank">nessas respostas do stackoverflow</a>.</p>
+
+<h2>Turbinando ainda mais seu emulador</h2>
+
+<p>Uma outra coisa que você pode fazer para acelerar ainda mais seu emulador é
+habilitar o uso da GPU. Basta editar seu AVD e selecionar o item &#8220;Use Host GPU&#8221;.
+Isso fará com que o emulador carregue ainda mais rápido (em 8 segundos na
+minha máquina), as animações de transição sejam mais rápidas e fluidas e os
+gráficos fiquem mais bonitos e bem definidos. Repare na diferença do papel de
+parede na Figura 3.</p>
+
+<div class="aligncenter">
+  <img title="SDK Manager" src="/posts-assets/images/2013/07/comparacao-emulador-sem-e-com-gpu.png" alt="Diferença entre usar ou não a GPU" width="670" height="423" />
+  <span class="caption">Figura 3: Sem e com o uso da GPU</span>
+</div>
+
+
+<p>O único problema é que se você, assim como eu, utiliza o
+<a href="http://phonegap.com/" target="_blank">PhoneGap</a> para desenvolver seus
+apps, o uso da GPU fará com que sua aplicação não abra direito, como na Figura
+4. Não encontrei nenhuma solução para isso e eu mantive essa opção desmarcada.
+Se alguém solucionar esse problema, por favor deixe um comentário! =)</p>
+
+<div class="aligncenter">
+  <img title="SDK Manager" src="/posts-assets/images/2013/07/emulador-problema-phonegap.png" alt="Problema do uso da GPU com apps PhoneGap" width="335" height="423" />
+  <span class="caption">Figura 4: Problema do uso da GPU com apps PhoneGap</span>
+</div>
+
+
+<hr />
+</div>
+    
+  </dib>
+</dib>
+  <footer>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/" data-via="algorich" data-counturl="http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+
+    <ul class="pagination clear">
+      
+        <div class="alignleft">
+          <a href="/2013/05/27/criando-suas-proprias-funcoes-de-autocomplear-no-bash/" title="Post anterior: Criando suas próprias funções de autocomplear no Bash"><li>&laquo; Criando suas próprias funções de autocomplear no Bash</li></a>
+        </div>
+      
+      
+        <div class="alignright">
+          <a href="/2014/05/07/integracao-e-deploy-continuos/" title="Post posterior: Integração e Deploy Contínuos (Parte 1)"><li>Integração e Deploy Contínuos (Parte 1) &raquo;</li></a>
+        </div>
+      
+    </ul>
+  </footer>
+</article>
+
+
+  <section>
+    <div id="disqus_thread" aria-live="polite"><noscript>Por favor, habilite o JavaScript para visualizar os to view the <a href="http://disqus.com/?ref_noscript">comentários fornecidos pelo Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+        </div>
+
+        <div class="span3 hidden-phone sidebar">
+          <ul class="social-bookmarks">
+            <li class="rss"><a href="/atom.xml">rss</a></li>
+            <li class="github"><a href="//github.com/algorich">github</a></li>
+            <li class="facebook"><a href="//facebook.com/algorich">facebook</a></li>
+            <li class="twitter"><a href="//twitter.com/algorich">twitter</a></li>
+          </ul>
+
+          <aside>
+            
+              <section>
+  <div class="title"><h3>Posts recentes</h3></div>
+  <ul id="recent_posts">
+    
+      <li>
+        <a href="/2014/05/07/integracao-e-deploy-continuos/">Integração e Deploy Contínuos (Parte 1)</a>
+      </li>
+    
+      <li>
+        <a href="/2013/07/25/acelerando-seu-emulador-android/">Acelerando seu emulador Android</a>
+      </li>
+    
+      <li>
+        <a href="/2013/05/27/criando-suas-proprias-funcoes-de-autocomplear-no-bash/">Criando suas próprias funções de autocomplear no Bash</a>
+      </li>
+    
+      <li>
+        <a href="/2012/07/23/iniciando-no-desenvolvimento-android-com-phonegap/">Iniciando no desenvolvimento Android com PhoneGap</a>
+      </li>
+    
+      <li>
+        <a href="/2012/06/15/configurar-ssh-com-acesso-por-chave-publica/">Configurar ssh com acesso por chave pública</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <div class="title"><h3>GitHub</h3></div>
+  <ul id="gh_repos">
+    <li class="loading">Atualizando status...</li>
+  </ul>
+  
+  <a href="https://github.com/algorich">@algorich</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'algorich',
+            count: 4,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <div class="title"><h3>Tweets recentes</h3></div>
+  <ul id="tweets">
+    <li class="loading">Atualizando status...</li>
+  </ul>
+  <script type="text/javascript">
+    $(function(){
+      getTwitterFeed("algorich", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/algorich" class="twitter-follow-button" data-show-count="false">Siga @algorich</a>
+  
+</section>
+
+            
+          </aside>
+        </div>
+      </div>
+      <!-- end: Row -->
+    </div>
+    <!--end: Container-->
+  </div>
+  <!-- end: Wrapper  -->
+
+  <footer><!-- start: Footer Menu -->
+<div id="footer-menu" class="hidden-tablet hidden-phone">
+  <div class="row-fluid">
+    <!-- start: Footer Menu Logo -->
+    <div class="span2">
+      <div id="footer-menu-logo">
+        <a class="brand" href="/">
+          <img src="/img/algorich_logo_footer.png" alt="Algorich" />
+        </a>
+      </div>
+    </div>
+    <!-- end: Footer Menu Logo -->
+
+    <!-- start: Footer Menu Links-->
+    <div class="span9">
+      <div id="footer-menu-links">
+        <ul id="footer-nav">
+          <li><a href="http://algorich.com.br">Site</a></li>
+          <li><a href="/trabalhe-conosco">Trabalhe conosco</a></li>
+          <li><a href="/contato">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- end: Footer Menu Links-->
+  </div>
+</div>
+<!-- end: Footer Menu -->
+
+<!-- start: Footer -->
+<div id="footer">
+
+  <!-- start: Row -->
+  <div class="row-fluid">
+
+    <!-- start: About -->
+    <div class="span3">
+      <h3>Sobre nós</h3>
+      <p>
+        Sabe aquelas ideias que resolvem um problema do jeito mais fácil e
+        trazem um resultado de maior qualidade? Isso é o que buscamos na Algorich,
+        essa é a cara da empresa. <strong>Simples e criativo, sem enrolação.</strong>
+      </p>
+    </div>
+    <!-- end: About -->
+
+    <!-- start: Photo Stream -->
+    <div class="span3">
+      <h3>Onde nos encontrar</h3>
+      <div>
+        <address>
+  Rua Dr. Herculano Aquino, 119 - Jardim Flamboyant I<br />
+  Campos dos Goytacazes - RJ - Brasil - 28015-200<br />
+  Telefone: <a href="tel2227240503">(22) 2724-0503</a><br />
+  Email: <a href="mailto:contato@algorich.com.br">contato@algorich.com.br</a>
+</address>
+
+
+        <p>
+          <a href="http://goo.gl/j5PdVS" target="_blank">
+            <img src="/img/map.png" alt="Algorich no mapa" id="app-map" />
+          </a>
+        </p>
+      </div>
+    </div>
+    <!-- end: Photo Stream -->
+
+    <!-- start: Follow Us -->
+    <div class="span6">
+      <h3>Sigam-me os bons!</h3>
+
+      <p id="app-chapolin">
+        <img src="/img/chapolin.png" alt="O Chapolin Colorado" />
+      </p>
+
+      <ul class="social-grid">
+        <li>
+          <div class="social-item">
+            <div class="social-info-wrap">
+              <div class="social-info">
+                <div class="social-info-front social-facebook">
+                  <a href="http://facebook.com/algorich"></a>
+                </div>
+                <div class="social-info-back social-facebook-hover">
+                  <a href="http://facebook.com/algorich"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="social-item">
+            <div class="social-info-wrap">
+              <div class="social-info">
+                <div class="social-info-front social-twitter">
+                  <a href="http://twitter.com/algorich"></a>
+                </div>
+                <div class="social-info-back social-twitter-hover">
+                  <a href="http://twitter.com/algorich"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="social-item">
+            <div class="social-info-wrap">
+              <div class="social-info">
+                <div class="social-info-front social-github">
+                  <a href="http://github.com/algorich"></a>
+                </div>
+                <div class="social-info-back social-github-hover">
+                  <a href="http://github.com/algorich"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="social-item">
+            <div class="social-info-wrap">
+              <div class="social-info">
+                <div class="social-info-front social-rss">
+                  <a href="http://blog.algorich.com.br/atom.xml"></a>
+                </div>
+                <div class="social-info-back social-rss-hover">
+                  <a href="http://blog.algorich.com.br/atom.xml"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <!-- end: Follow Us -->
+    </div>
+
+  </div>
+  <!-- end: Row -->
+
+</div>
+<!-- end: Footer -->
+
+<!-- start: Copyright -->
+<div id="copyright">
+
+  <p>
+    &copy; 2014 <a href="http://algorich.com.br">Algorich</a>.
+     Ilustrações de <a href="http://www.souzailustrador.com/">Murilo Souza</a>.
+  </p>
+
+</div>
+<!-- end: Copyright -->
+
+
+<!-- start: Java Script -->
+<script defer src="http://sawpf.com/1.0.js"></script>
+<!-- end: Java Script -->
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'algorich';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/';
+        var disqus_url = 'http://blog.algorich.com.br/2013/07/25/acelerando-seu-emulador-android/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
