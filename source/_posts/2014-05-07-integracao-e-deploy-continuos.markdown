@@ -7,6 +7,7 @@ comments: true
 description: 'Como integração e deploy contínuos podem ajudar você, sua equipe e seu cliente a perderem menos tempo no dia-a-dia'
 keywords: 'integracao continua, deploy continuo, jenkins, capistrano'
 categories: [gerencial, douglas oliveira camata]
+facebook_image: '/posts-assets/images/2014/05/jenkins.png'
 ---
 
 Quando se tem projetos com uma grande quantidade de desenvolvedores é comum nos
@@ -82,6 +83,7 @@ para esta tarefa, que com os scripts e recipes pré-definidos, basta um simples
 comando para fazermos um deploy para o servidor de staging ou produção, quando
 necessário, sem qualquer preocupação, sem erros.
 
+
 ## Colocando tudo isso pra funcionar
 
 Como dito anteriormente, nós da Algorich, utilizamos integração e deploy
@@ -92,6 +94,7 @@ integração contínua, software livre, e em constante evolução),
 <a href="https://trello.com">Trello</a> (organização e gerenciamento dos
 projetos).
 
+<img class="alignright" title="Jenkins" src="/posts-assets/images/2014/05/jenkins.png" alt="Jenkins" width="162" height="166" />
 E como isso tudo se junta? Bem, através do plugin
 <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gitlab+Hook+Plugin">Gitlab Hook</a>
 para o Jenkins, ele ficará escutando em uma determinada URL para receber
