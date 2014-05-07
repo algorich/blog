@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gerencial | Blog da Algorich]]></title>
   <link href="http://blog.algorich.com.br/categories/gerencial/atom.xml" rel="self"/>
   <link href="http://blog.algorich.com.br/"/>
-  <updated>2014-05-07T16:35:03-03:00</updated>
+  <updated>2014-05-07T16:45:34-03:00</updated>
   <id>http://blog.algorich.com.br/</id>
   <author>
     <name><![CDATA[Time Algorich]]></name>
@@ -102,7 +102,7 @@ integração contínua, software livre, e em constante evolução),
 <a href="https://trello.com">Trello</a> (organização e gerenciamento dos
 projetos).</p>
 
-<p><img class="alignright" title="Jenkins" src="http://blog.algorich.com.br/posts-assets/images/2014/05/jenkins.png" alt="Jenkins" width="162" height="166" />
+<p><img class="alignright" title="Jenkins" src="http://blog.algorich.com.br/posts-assets/images/2014/05/jenkins.png" alt="Jenkins" width="200" height="200" />
 E como isso tudo se junta? Bem, através do plugin
 <a href="https://wiki.jenkins-ci.org/display/JENKINS/Gitlab+Hook+Plugin">Gitlab Hook</a>
 para o Jenkins, ele ficará escutando em uma determinada URL para receber
