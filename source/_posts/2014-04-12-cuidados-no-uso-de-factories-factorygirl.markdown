@@ -5,7 +5,7 @@ title: 'Boa prática em testes & cuidados com FactoryGirl'
 tags : [teste, spec, rspec, rails, factorygirl]
 description: 'Evitando a lentidão generalizada em testes causada pelo FactoryGirl'
 keywords: 'rails, factorygirl, oswaldo ferreira'
-date: 2014-04-10 23:01
+date: 2014-04-12 10:30
 categories: [testes, oswaldo ferreira]
 comments: true
 published: false
@@ -59,10 +59,13 @@ Benchmark.realtime { 100.times { Event.new } }
 
 Este exemplo mostra a implicação do uso inconsequente da FactoryGirl. Imagine quanto tempo acabamos perdendo em testes unitários que devem ser rodados constantemente. O principal fator causador de problemas de performance no primeiro caso é o acesso ao banco de dados. O FactoryGirl#build, apesar de não salvar o próprio objeto Event, ele possui um comportamento que sempre salva as dependências do objeto passado para este método, neste caso, o objeto Organizer.
 
+Muitas vezes, a melhor opção para os casos em que precisemos do objeto salvo no banco de dados é um simples **#create**.
+
 ----------
 # Alto acoplamento
 ___
-Testes rápidos são sempre bons, porém este não é o argumento principal para evitar o uso do FactoryGirl em testes unitários.
+
+Velocidade nos testes é uma qualidade essencial, porém este não é o principal argumento para evitar o uso do FactoryGirl em testes unitários.
 
 Ambientes de teste crescem, ficam complexos (assim como a aplicação), e chegam no ponto de visível lentidão para a prática de TDD por motivos citados acima. Quando isto acontece em testes unitários, algo está errado. Acabamos aceitando uma certa comodidade criada pelo alto acoplamento dos objetos gerados pelo FactoryGirl, e perdemos a especificidade do teste em questão.
 
