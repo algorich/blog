@@ -5,10 +5,10 @@ title: 'Boa prática em testes & cuidados com FactoryGirl'
 tags : [teste, spec, rspec, rails, factorygirl]
 description: 'Evitando a lentidão generalizada em testes causada pelo FactoryGirl'
 keywords: 'rails, factorygirl, oswaldo ferreira'
-date: 2014-04-12 10:30
+date: 2014-05-13 08:30
 categories: [testes, oswaldo ferreira]
 comments: true
-published: false
+published: true
 ---
 
 *FactoryGirl* é uma das melhores opções para criação de factories no Rails. Seu uso contínuo se torna conveniênte em equipes, já que esta aplicação
