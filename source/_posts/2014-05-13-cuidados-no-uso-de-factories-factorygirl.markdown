@@ -16,6 +16,8 @@ gera objetos carregados de dados de maneira simples, prontos para serem utilizad
 
 Irei mostrar os principais motivos pelo qual devemos ter cuidado ao utilizar o FactoryGirl.
 
+<!-- more -->
+
 **Existiria grande diferença entre estes dois exemplos?**
 
 ```ruby
