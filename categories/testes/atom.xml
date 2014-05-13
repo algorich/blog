@@ -4,7 +4,7 @@
   <title><![CDATA[Category: testes | Blog da Algorich]]></title>
   <link href="http://blog.algorich.com.br/categories/testes/atom.xml" rel="self"/>
   <link href="http://blog.algorich.com.br/"/>
-  <updated>2014-05-07T17:22:11-03:00</updated>
+  <updated>2014-05-13T09:03:22-03:00</updated>
   <id>http://blog.algorich.com.br/</id>
   <author>
     <name><![CDATA[Time Algorich]]></name>
@@ -15,13 +15,16 @@
   
   <entry>
     <title type="html"><![CDATA[Boa prática em testes & cuidados com FactoryGirl]]></title>
-    <link href="http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/"/>
-    <updated>2014-04-10T23:01:00-03:00</updated>
-    <id>http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl</id>
+    <link href="http://blog.algorich.com.br/2014/05/13/cuidados-no-uso-de-factories-factorygirl/"/>
+    <updated>2014-05-13T08:30:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2014/05/13/cuidados-no-uso-de-factories-factorygirl</id>
     <content type="html"><![CDATA[<p><em>FactoryGirl</em> é uma das melhores opções para criação de factories no Rails. Seu uso contínuo se torna conveniênte em equipes, já que esta aplicação
 gera objetos carregados de dados de maneira simples, prontos para serem utilizados num ambiente de teste. No entanto, tal comodidade pode vir a ser a futura dor de cabeça no quesito performance.</p>
 
 <p>Irei mostrar os principais motivos pelo qual devemos ter cuidado ao utilizar o FactoryGirl.</p>
+
+<!-- more -->
+
 
 <p><strong>Existiria grande diferença entre estes dois exemplos?</strong></p>
 
@@ -71,13 +74,15 @@ Benchmark.realtime { 100.times { Event.new } }
 
 <p>Este exemplo mostra a implicação do uso inconsequente da FactoryGirl. Imagine quanto tempo acabamos perdendo em testes unitários que devem ser rodados constantemente. O principal fator causador de problemas de performance no primeiro caso é o acesso ao banco de dados. O FactoryGirl#build, apesar de não salvar o próprio objeto Event, ele possui um comportamento que sempre salva as dependências do objeto passado para este método, neste caso, o objeto Organizer.</p>
 
+<p>Muitas vezes, a melhor opção para os casos em que precisemos do objeto salvo no banco de dados é um simples <strong>#create</strong>.</p>
+
 <hr />
 
 <h1>Alto acoplamento</h1>
 
 <hr />
 
-<p>Testes rápidos são sempre bons, porém este não é o argumento principal para evitar o uso do FactoryGirl em testes unitários.</p>
+<p>Velocidade nos testes é uma qualidade essencial, porém este não é o principal argumento para evitar o uso do FactoryGirl em testes unitários.</p>
 
 <p>Ambientes de teste crescem, ficam complexos (assim como a aplicação), e chegam no ponto de visível lentidão para a prática de TDD por motivos citados acima. Quando isto acontece em testes unitários, algo está errado. Acabamos aceitando uma certa comodidade criada pelo alto acoplamento dos objetos gerados pelo FactoryGirl, e perdemos a especificidade do teste em questão.</p>
 

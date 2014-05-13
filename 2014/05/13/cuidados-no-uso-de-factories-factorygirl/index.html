@@ -23,7 +23,7 @@
   <meta property="og:type" content="article" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:site_name" content="algorich.com.br"/>
-  <meta property="og:url" content="http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/"/>
+  <meta property="og:url" content="http://blog.algorich.com.br/2014/05/13/cuidados-no-uso-de-factories-factorygirl/"/>
   <meta property="og:title" content="Boa prática em testes & cuidados com FactoryGirl - Blog da Algorich"/>
   
     <meta property="og:description" content="Evitando a lentidão generalizada em testes causada pelo FactoryGirl" />
@@ -39,7 +39,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/">
+  <link rel="canonical" href="http://blog.algorich.com.br/2014/05/13/cuidados-no-uso-de-factories-factorygirl/">
   <link href="/favicon.png" rel="icon">
 
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -127,7 +127,7 @@
   
 
 
-<time datetime="2014-04-10T23:01:00-03:00" pubdate data-updated="true">10/04/2014</time>
+<time datetime="2014-05-13T08:30:00-03:00" pubdate data-updated="true">13/05/2014</time>
             </span>
 
             <span>
@@ -155,6 +155,9 @@ Oswaldo Ferreira
 gera objetos carregados de dados de maneira simples, prontos para serem utilizados num ambiente de teste. No entanto, tal comodidade pode vir a ser a futura dor de cabeça no quesito performance.</p>
 
 <p>Irei mostrar os principais motivos pelo qual devemos ter cuidado ao utilizar o FactoryGirl.</p>
+
+<!-- more -->
+
 
 <p><strong>Existiria grande diferença entre estes dois exemplos?</strong></p>
 
@@ -221,13 +224,15 @@ gera objetos carregados de dados de maneira simples, prontos para serem utilizad
 
 <p>Este exemplo mostra a implicação do uso inconsequente da FactoryGirl. Imagine quanto tempo acabamos perdendo em testes unitários que devem ser rodados constantemente. O principal fator causador de problemas de performance no primeiro caso é o acesso ao banco de dados. O FactoryGirl#build, apesar de não salvar o próprio objeto Event, ele possui um comportamento que sempre salva as dependências do objeto passado para este método, neste caso, o objeto Organizer.</p>
 
+<p>Muitas vezes, a melhor opção para os casos em que precisemos do objeto salvo no banco de dados é um simples <strong>#create</strong>.</p>
+
 <hr />
 
 <h1>Alto acoplamento</h1>
 
 <hr />
 
-<p>Testes rápidos são sempre bons, porém este não é o argumento principal para evitar o uso do FactoryGirl em testes unitários.</p>
+<p>Velocidade nos testes é uma qualidade essencial, porém este não é o principal argumento para evitar o uso do FactoryGirl em testes unitários.</p>
 
 <p>Ambientes de teste crescem, ficam complexos (assim como a aplicação), e chegam no ponto de visível lentidão para a prática de TDD por motivos citados acima. Quando isto acontece em testes unitários, algo está errado. Acabamos aceitando uma certa comodidade criada pelo alto acoplamento dos objetos gerados pelo FactoryGirl, e perdemos a especificidade do teste em questão.</p>
 
@@ -320,7 +325,7 @@ tente descobrir a utilização do método Event#can_enroll? pelo primeiro exempl
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/" data-via="algorich" data-counturl="http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.algorich.com.br/2014/05/13/cuidados-no-uso-de-factories-factorygirl/" data-via="algorich" data-counturl="http://blog.algorich.com.br/2014/05/13/cuidados-no-uso-de-factories-factorygirl/" >Tweet</a>
   
   
   
@@ -333,13 +338,9 @@ tente descobrir a utilização do método Event#can_enroll? pelo primeiro exempl
     <ul class="pagination clear">
       
         <div class="alignleft">
-          <a href="/2013/07/25/acelerando-seu-emulador-android/" title="Post anterior: Acelerando seu emulador Android"><li>&laquo; Acelerando seu emulador Android</li></a>
+          <a href="/2014/05/07/integracao-e-deploy-continuos/" title="Post anterior: Integração e Deploy Contínuos (Parte 1)"><li>&laquo; Integração e Deploy Contínuos (Parte 1)</li></a>
         </div>
       
-      
-        <div class="alignright">
-          <a href="/2014/05/07/integracao-e-deploy-continuos/" title="Post posterior: Integração e Deploy Contínuos (Parte 1)"><li>Integração e Deploy Contínuos (Parte 1) &raquo;</li></a>
-        </div>
       
     </ul>
   </footer>
@@ -369,11 +370,11 @@ tente descobrir a utilização do método Event#can_enroll? pelo primeiro exempl
   <ul id="recent_posts">
     
       <li>
-        <a href="/2014/05/07/integracao-e-deploy-continuos/">Integração e Deploy Contínuos (Parte 1)</a>
+        <a href="/2014/05/13/cuidados-no-uso-de-factories-factorygirl/">Boa prática em testes & cuidados com FactoryGirl</a>
       </li>
     
       <li>
-        <a href="/2014/04/10/cuidados-no-uso-de-factories-factorygirl/">Boa prática em testes & cuidados com FactoryGirl</a>
+        <a href="/2014/05/07/integracao-e-deploy-continuos/">Integração e Deploy Contínuos (Parte 1)</a>
       </li>
     
       <li>
@@ -612,8 +613,8 @@ tente descobrir a utilização do método Event#can_enroll? pelo primeiro exempl
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/';
-        var disqus_url = 'http://blog.algorich.com.br/2014/04/10/cuidados-no-uso-de-factories-factorygirl/';
+        var disqus_identifier = 'http://blog.algorich.com.br/2014/05/13/cuidados-no-uso-de-factories-factorygirl/';
+        var disqus_url = 'http://blog.algorich.com.br/2014/05/13/cuidados-no-uso-de-factories-factorygirl/';
         var disqus_script = 'embed.js';
       
     (function () {
