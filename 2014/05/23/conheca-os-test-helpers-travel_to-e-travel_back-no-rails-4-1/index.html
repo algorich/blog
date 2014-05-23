@@ -5,17 +5,17 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="pt-BR"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Dia, horário e local definidos! #horaextra Campos - Blog da Algorich</title>
+  <title>Conheça os test helpers: #travel_to e #travel_back no Rails 4.1 - Blog da Algorich</title>
   
-    <meta name="author" content="Eduardo Hertz">
-  
-
-  
-    <meta name="description" content="Dia, horário e local do #horaextra Campos definido. Venha participar!">
+    <meta name="author" content="Matheus Sales">
   
 
   
-    <meta name="keywords" content="horaextra, campos, computação, desenvolvimento, horaextra campos, reunião">
+    <meta name="description" content="">
+  
+
+  
+    <meta name="keywords" content="rails, testes, matheus sales">
   
 
   <!-- start: Facebook Open Graph -->
@@ -23,13 +23,13 @@
   <meta property="og:type" content="article" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:site_name" content="algorich.com.br"/>
-  <meta property="og:url" content="http://blog.algorich.com.br/2012/05/31/dia-horario-e-local-definidos-horaextra-campos/"/>
-  <meta property="og:title" content="Dia, horário e local definidos! #horaextra Campos - Blog da Algorich"/>
+  <meta property="og:url" content="http://blog.algorich.com.br/2014/05/23/conheca-os-test-helpers-travel_to-e-travel_back-no-rails-4-1/"/>
+  <meta property="og:title" content="Conheça os test helpers: #travel_to e #travel_back no Rails 4.1 - Blog da Algorich"/>
   
-    <meta property="og:description" content="Dia, horário e local do #horaextra Campos definido. Venha participar!" />
+    <meta property="og:description" content="" />
   
   
-    <meta property="og:image" content="http://blog.algorich.com.br/img/facebook_logo.png"/>
+    <meta property="og:image" content="http://blog.algorich.com.br/posts-assets/images/2014/05/back-future.jpg" />
   
   <!-- end: Facebook Open Graph -->
 
@@ -39,7 +39,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.algorich.com.br/2012/05/31/dia-horario-e-local-definidos-horaextra-campos/">
+  <link rel="canonical" href="http://blog.algorich.com.br/2014/05/23/conheca-os-test-helpers-travel_to-e-travel_back-no-rails-4-1/">
   <link href="/favicon.png" rel="icon">
 
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -107,7 +107,7 @@
       <header>
         
           <div class="title">
-            <h2>Dia, horário e local definidos! #horaextra Campos</h2>
+            <h2>Conheça os test helpers: #travel_to e #travel_back no Rails 4.1</h2>
           </div>
         
         
@@ -127,7 +127,7 @@
   
 
 
-<time datetime="2012-05-31T00:00:00-03:00" pubdate data-updated="true">31/05/2012</time>
+<time datetime="2014-05-23T17:00:00-03:00" pubdate data-updated="true">23/05/2014</time>
             </span>
 
             <span>
@@ -135,7 +135,7 @@
               
   
 
-Eduardo Hertz
+Matheus Sales
 
             </span>
 
@@ -151,23 +151,32 @@ Eduardo Hertz
       </header>
     
     
-    <div class="entry-content"><p>O feedback de vocês em relação ao
-<a href="2012/05/28/profissionais-da-regiao-apresentem-se">post passado</a>
-foi sensacional e muita gente está a fim de participar do #horaextra Campos.
-Então ele acontecerá na terça-feira (dia 05/06/12) às 19h no Bar da Boa!</p>
+    <div class="entry-content"><p>Quem trabalha com testes no Ruby on Rails certamente já teve de recorrer a gem <a href="https://github.com/travisjeffery/timecop" target="_blank">timecop</a> para cobrir os testes com dependências de tempo.</p>
+
+<p>Como exemplo, posso citar a regra de negócio de um seguinte cenário:</p>
+
+<p>O pagamento de um aluguel deve ser realizado em uma data específica de cada mês, exceto quando esse data cai em um fim de semana. Nesse caso, o pagamento será realizado na próxima segunda-feira.</p>
 
 <!-- more -->
 
 
-<p>Fala pessoal, tudo certo?</p>
+<p><img class="alignright" title="ilustração: de volta para o futuro" src="/posts-assets/images/2014/05/back-future.jpg" alt="ilustração: de volta para o futuro" width="250" height="250" /></p>
 
-<p>O feedback de vocês em relação ao <a href="http://blog.algorich.com.br/2012/05/28/profissionais-da-regiao-apresentem-se">post passado</a> foi sensacional e muita gente está a fim de participar do #horaextra Campos. Então ele acontecerá!</p>
+<p><strong>Onde a gem timecop atua?</strong></p>
 
-<p>O primeiro #horaextra Campos ocorrerá na terça-feira (dia 05/06/12) às 19h no Bar da Boa. A ideia é manter esse dia da semana, horário e local. Para quem não conhece o local, ele fica em uma esquina da Avenida Pelinca com a Formosa <a href="http://goo.gl/maps/9J03M">mapa no google</a>.</p>
+<p>Timecop é uma gem que provê à nossa aplicação a capacidade de viajar ou parar no tempo, isso permite que consigamos realizar testes com dependência de tempo de forma muito simples, e certamente assegurar os testes para a nossa regra de negócio detalhada acima.</p>
 
-<p>Conto com a presença de TODOS lá!</p>
+<h2>Os test helpers #travel_to e #travel_back</h2>
 
-<p>Abraços!</p>
+<p>Com a <a href="http://guides.rubyonrails.org/4_1_release_notes.html" target="_blank">nova release do Rails 4.1</a>, agora temos os métodos: <em>#travel_to</em> e <em>#travel_back</em>.</p>
+
+<p>Com o <em>#travel_to</em> podemos facilmente alterar o dia e horário fornecendo um valor ou duração de tempo. Já o <em>#travel_back</em> faz com que retornemos ao estágio atual, desfazendo as alterações do <em>#travel_to</em>.</p>
+
+<p>Essa feature teve um destaque muito pequeno (o que não diminui sua importância, na minha opinião), sendo mencionada apenas no final das notas da release:</p>
+
+<p><img title="release notes: travel_to / travel_back" src="/posts-assets/images/2014/05/travel-to.png" alt="Jenkins" width="670" height="389" /></p>
+
+<p>Referência: <a href="http://brandonhilkert.com/blog/rails-4-1-travel-to-test-helper/" target="_blank">http://brandonhilkert.com/blog/rails-4-1-travel-to-test-helper/</a></p>
 </div>
     
   </dib>
@@ -176,7 +185,7 @@ Então ele acontecerá na terça-feira (dia 05/06/12) às 19h no Bar da Boa!</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.algorich.com.br/2012/05/31/dia-horario-e-local-definidos-horaextra-campos/" data-via="algorich" data-counturl="http://blog.algorich.com.br/2012/05/31/dia-horario-e-local-definidos-horaextra-campos/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.algorich.com.br/2014/05/23/conheca-os-test-helpers-travel_to-e-travel_back-no-rails-4-1/" data-via="algorich" data-counturl="http://blog.algorich.com.br/2014/05/23/conheca-os-test-helpers-travel_to-e-travel_back-no-rails-4-1/" >Tweet</a>
   
   
   
@@ -189,13 +198,9 @@ Então ele acontecerá na terça-feira (dia 05/06/12) às 19h no Bar da Boa!</p>
     <ul class="pagination clear">
       
         <div class="alignleft">
-          <a href="/2012/05/28/profissionais-da-regiao-apresentem-se/" title="Post anterior: Profissionais da região, apresentem-se!"><li>&laquo; Profissionais da região, apresentem-se!</li></a>
+          <a href="/2014/05/13/cuidados-no-uso-de-factories-factorygirl/" title="Post anterior: Boa prática em testes & cuidados com FactoryGirl"><li>&laquo; Boa prática em testes & cuidados com FactoryGirl</li></a>
         </div>
       
-      
-        <div class="alignright">
-          <a href="/2012/06/15/configurar-ssh-com-acesso-por-chave-publica/" title="Post posterior: Configurar ssh com acesso por chave pública"><li>Configurar ssh com acesso por chave pública &raquo;</li></a>
-        </div>
       
     </ul>
   </footer>
@@ -468,8 +473,8 @@ Então ele acontecerá na terça-feira (dia 05/06/12) às 19h no Bar da Boa!</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.algorich.com.br/2012/05/31/dia-horario-e-local-definidos-horaextra-campos/';
-        var disqus_url = 'http://blog.algorich.com.br/2012/05/31/dia-horario-e-local-definidos-horaextra-campos/';
+        var disqus_identifier = 'http://blog.algorich.com.br/2014/05/23/conheca-os-test-helpers-travel_to-e-travel_back-no-rails-4-1/';
+        var disqus_url = 'http://blog.algorich.com.br/2014/05/23/conheca-os-test-helpers-travel_to-e-travel_back-no-rails-4-1/';
         var disqus_script = 'embed.js';
       
     (function () {
