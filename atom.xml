@@ -4,7 +4,7 @@
   <title><![CDATA[Blog da Algorich]]></title>
   <link href="http://blog.algorich.com.br/atom.xml" rel="self"/>
   <link href="http://blog.algorich.com.br/"/>
-  <updated>2014-05-23T17:21:20-03:00</updated>
+  <updated>2014-05-23T17:23:06-03:00</updated>
   <id>http://blog.algorich.com.br/</id>
   <author>
     <name><![CDATA[Time Algorich]]></name>
@@ -41,7 +41,7 @@
 
 <p>Essa feature teve um destaque muito pequeno (o que não diminui sua importância, na minha opinião), sendo mencionada apenas no final das notas da release:</p>
 
-<p><img title="release notes: travel_to / travel_back" src="http://blog.algorich.com.br/posts-assets/images/2014/05/travel-to.png" alt="Jenkins" width="670" height="389" /></p>
+<p><img title="release notes: travel_to / travel_back" src="http://blog.algorich.com.br/posts-assets/images/2014/05/travel-to.png" alt="release notes: travel_to / travel_back" width="670" height="389" /></p>
 
 <p>Referência: <a href="http://brandonhilkert.com/blog/rails-4-1-travel-to-test-helper/" target="_blank">http://brandonhilkert.com/blog/rails-4-1-travel-to-test-helper/</a></p>
 ]]></content>
