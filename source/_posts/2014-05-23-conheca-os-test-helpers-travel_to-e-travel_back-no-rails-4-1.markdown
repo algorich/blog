@@ -3,7 +3,7 @@ layout: post
 author: Matheus Sales
 title: 'Conheça os test helpers: #travel_to e #travel_back no Rails 4.1'
 tags : [rails 4.1, travel_to, travel_back, testes, timecop, gem]
-description: ''
+description: 'O Rails 4.1 introduziu novos time helpers para que você possa cobrir os testes da sua aplicação que possuem dependências de tempo.'
 keywords: 'rails, testes, matheus sales'
 date: 2014-05-23 17:00
 categories: [testes, matheus sales]
