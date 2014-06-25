@@ -4,7 +4,7 @@
   <title><![CDATA[Blog da Algorich]]></title>
   <link href="http://blog.algorich.com.br/atom.xml" rel="self"/>
   <link href="http://blog.algorich.com.br/"/>
-  <updated>2014-05-23T17:39:14-03:00</updated>
+  <updated>2014-06-25T16:20:23-03:00</updated>
   <id>http://blog.algorich.com.br/</id>
   <author>
     <name><![CDATA[Time Algorich]]></name>
@@ -12,6 +12,52 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Por que o meu site deve ser responsivo?]]></title>
+    <link href="http://blog.algorich.com.br/2014/06/25/por-que-o-meu-site-deve-ser-responsivo/"/>
+    <updated>2014-06-25T16:00:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2014/06/25/por-que-o-meu-site-deve-ser-responsivo</id>
+    <content type="html"><![CDATA[<h2>Afinal, o que é esse termo tão popular nos dias de hoje?</h2>
+
+<p>Web Design Responsivo é uma abordagem que permite que um site proveja a melhor experiência de navegação e leitura para o usuário, adequando-se à diferentes cenários, baseando-se na resolução do dispositivo que o visualiza, seja um <em>tablet</em>, <em>smartphone</em>, computador, etc&#8230;</p>
+
+<p>Quer ver um exemplo prático? Visite o nosso site: <a href="http://algorich.com.br" target="_blank">http://algorich.com.br</a> utilizando um <em>tablet</em> e/ou <em>smartphone</em>, ou até mesmo, tente redimensionar a janela do seu navegador. Veja como os elementos são redistribuídos na tela e proporcionam fluidez e uma excelente experiência na navegação, adaptando-se a resolução.</p>
+
+<!-- more -->
+
+
+<p><img class="alignright" title="Site da Algorich responsivo" src="http://blog.algorich.com.br/posts-assets/images/2014/06/algorich_responsive.jpg" alt="Site da Algorich responsivo" width="400" height="300" /></p>
+
+<p>Por mais que tudo isso pareça muito novo, esta abordagem começou em 2010, quando Ethan Marcotte publicou o artigo <a href="http://alistapart.com/article/responsive-web-design" target="_blank"><em>Responsive Web Design</em></a> para o site <a href="http://alistapart.com/" target="_blank"><em>A list Apart</em></a>.</p>
+
+<p>Na prática, para os desenvolvedores, este conceito baseia-se no uso do sistema de <em>grids</em>, que usa dimensões relativas em suas unidades de medida, como porcentagens e <em>em</em>, e não mais absolutas como pixels ou pontos. O que isso significa? O conteúdo não fica mais fixo e engessado em containers pré-definidos com 960px de largura por exemplo, e ainda possuem a capacidade de reorganização, de acordo com a largura disponível. As imagens também são flexíveis e se adaptam ao contexto onde estão, previnindo que ela desrespeite e escape das dimensões do elemento HTML em que está inserida.</p>
+
+<p>Outra técnica é o uso das <a href="http://www.w3.org/TR/css3-mediaqueries/" target="_blank">media queries</a> do CSS3, que nada mais é do que uma extensão da regra @media que foi incluída desde a versão 2.1 do CSS. Com ela pode-se definir regras e comportamentos associados ao tamanho, orientação do dispositivo (retrato ou paisagem) ou a resolução de tela.</p>
+
+<p>Os desenvolvedores não estão sozinhos. Hoje podemos contar com frameworks front-end maduros, robustos e com boa documentação disponíveis para uso, como por exemplo o <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>, <a href="http://foundation.zurb.com/" target="_blank">Foundation</a> e <a href="http://gumbyframework.com/" target="_blank">Gumby</a></p>
+
+<h2>Estar pronto para esse mundo é realmente importante?</h2>
+
+<p>Alguns dados segundo pesquisa realizada pelo <a href="http://datafolha.folha.uol.com.br/mercado/2014/01/1400618-43-milhoes-de-brasileiros-acessam-internet-por-dispositivos-moveis.shtml" target="_blank">Datafolha</a>:</p>
+
+<ul>
+<li>&bull; 43 milhões de brasileiros acessam internet por dispositivos móveis;</li>
+<li>&bull; 1 em cada 4 brasileiros pretende adquirir um smartphone no primeiro semestre de 2014;</li>
+</ul>
+
+
+<p><a href="http://olhardigital.uol.com.br/noticia/38311/38311" target="_blank">Pesquisas apontam</a> também que serviços como Facebook, Twitter e Youtube tem sido acessados cada vez mais por dispositivos móveis. O Youtube por exemplo, no final do ano passado já contabilizava 40% de seu acesso derivado de dispositivos móveis.</p>
+
+<p>A NBC News divulgou esta imagem, ilustrada abaixo, que mostra um comparativo da Praça São Pedro, primeiramente no ano de 2005, durante a posse do Papa Bento XVI, e posteriormente em 2013, durante a posse do atual Papa Francisco. Numa diferença de 8 anos pudemos perceber a evolução da tecnologia e o crescimento absurdo do uso de dispositivos móveis.</p>
+
+<p><img title="Comparativo da posse do papa em 2005 e 2013" src="http://blog.algorich.com.br/posts-assets/images/2014/06/posse_papa.jpg" alt="Comparativo da posse do papa em 2005 e 2013" width="670" height="389" /></p>
+
+<p>Esses e outros fatos comprovam que o Web Design Responsivo veio pra ficar, e esse é um caminho sem volta. Vivemos num mundo cada vez mais conectado, hoje carregamos smartphones com grandes poderes de processamento em nosso bolso bastando alguns toques para termos facilmente um mundo de informações disponíveis em tempo real cabendo na palma de nossa mão.</p>
+
+<p>Aqui na <a href="http://algorich.com.br/" target="_blank">Algorich</a> nossos trabalhos incluem as técnicas de web design responsivo. Quer saber mais? <a href="http://algorich.com.br/contato" target="_blank">Entre em contato</a> agora mesmo!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Conheça os test helpers: #travel_to e #travel_back no Rails 4.1]]></title>

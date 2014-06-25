@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: matheus sales | Blog da Algorich]]></title>
-  <link href="http://blog.algorich.com.br/categories/matheus-sales/atom.xml" rel="self"/>
+  <title><![CDATA[Category: design responsivo | Blog da Algorich]]></title>
+  <link href="http://blog.algorich.com.br/categories/design-responsivo/atom.xml" rel="self"/>
   <link href="http://blog.algorich.com.br/"/>
   <updated>2014-06-25T16:20:23-03:00</updated>
   <id>http://blog.algorich.com.br/</id>
@@ -56,40 +56,6 @@
 <p>Esses e outros fatos comprovam que o Web Design Responsivo veio pra ficar, e esse é um caminho sem volta. Vivemos num mundo cada vez mais conectado, hoje carregamos smartphones com grandes poderes de processamento em nosso bolso bastando alguns toques para termos facilmente um mundo de informações disponíveis em tempo real cabendo na palma de nossa mão.</p>
 
 <p>Aqui na <a href="http://algorich.com.br/" target="_blank">Algorich</a> nossos trabalhos incluem as técnicas de web design responsivo. Quer saber mais? <a href="http://algorich.com.br/contato" target="_blank">Entre em contato</a> agora mesmo!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Conheça os test helpers: #travel_to e #travel_back no Rails 4.1]]></title>
-    <link href="http://blog.algorich.com.br/2014/05/23/conheca-os-test-helpers-travel_to-e-travel_back-no-rails-4-1/"/>
-    <updated>2014-05-23T17:00:00-03:00</updated>
-    <id>http://blog.algorich.com.br/2014/05/23/conheca-os-test-helpers-travel_to-e-travel_back-no-rails-4-1</id>
-    <content type="html"><![CDATA[<p>Quem trabalha com testes no Ruby on Rails certamente já teve de recorrer a gem <a href="https://github.com/travisjeffery/timecop" target="_blank">timecop</a> para cobrir os testes com dependências de tempo.</p>
-
-<p>Como exemplo, posso citar a regra de negócio de um seguinte cenário:</p>
-
-<p>O pagamento de um aluguel deve ser realizado em uma data específica de cada mês, exceto quando esse data cai em um fim de semana. Nesse caso, o pagamento será realizado na próxima segunda-feira.</p>
-
-<!-- more -->
-
-
-<p><img class="alignright" title="ilustração: de volta para o futuro" src="http://blog.algorich.com.br/posts-assets/images/2014/05/back-future.jpg" alt="ilustração: de volta para o futuro" width="250" height="250" /></p>
-
-<p><strong>Onde a gem timecop atua?</strong></p>
-
-<p>Timecop é uma gem que provê à nossa aplicação a capacidade de viajar ou parar no tempo, isso permite que consigamos realizar testes com dependência de tempo de forma muito simples, e certamente assegurar os testes para a nossa regra de negócio detalhada acima.</p>
-
-<h2>Os test helpers #travel_to e #travel_back</h2>
-
-<p>Com a <a href="http://guides.rubyonrails.org/4_1_release_notes.html" target="_blank">nova release do Rails 4.1</a>, agora temos os métodos: <em>#travel_to</em> e <em>#travel_back</em>.</p>
-
-<p>Com o <em>#travel_to</em> podemos facilmente alterar o dia e horário fornecendo um valor ou duração de tempo. Já o <em>#travel_back</em> faz com que retornemos ao estágio atual, desfazendo as alterações do <em>#travel_to</em>.</p>
-
-<p>Essa feature teve um destaque muito pequeno (o que não diminui sua importância, na minha opinião), sendo mencionada apenas no final das notas da release:</p>
-
-<p><img title="release notes: travel_to / travel_back" src="http://blog.algorich.com.br/posts-assets/images/2014/05/travel-to.png" alt="release notes: travel_to / travel_back" width="670" height="389" /></p>
-
-<p>Referência: <a href="http://brandonhilkert.com/blog/rails-4-1-travel-to-test-helper/" target="_blank">http://brandonhilkert.com/blog/rails-4-1-travel-to-test-helper/</a></p>
 ]]></content>
   </entry>
   
