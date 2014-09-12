@@ -3,7 +3,7 @@ layout: post
 author: Matheus Sales
 title: 'Previnindo SPAM em formulários Rails utilizando invisible captcha'
 tags: [ruby, rails, spam, captcha, invisible_captcha, formulario]
-description: 'Web Design Responsivo é uma abordagem que permite que um site proveja a melhor experiência de navegação e leitura para o usuário, adequando-se à diferentes cenários, '
+description: 'Qualquer aplicação web com formulários que não exigem autenticação do usuário, sofre do mesmo problema: o SPAM! Em sua maioria, preenchido por spambots.'
 keywords: 'ruby, rails, spam, captcha, invisible_captcha, formulario,  matheus sales'
 date: 2014-09-12 16:00
 categories: [ruby, matheus sales]
