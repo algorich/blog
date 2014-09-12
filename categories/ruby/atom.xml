@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | Blog da Algorich]]></title>
+  <link href="http://blog.algorich.com.br/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://blog.algorich.com.br/"/>
+  <updated>2014-09-12T16:39:32-03:00</updated>
+  <id>http://blog.algorich.com.br/</id>
+  <author>
+    <name><![CDATA[Time Algorich]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Previnindo SPAM em formulários Rails utilizando invisible captcha]]></title>
+    <link href="http://blog.algorich.com.br/2014/09/12/previnindo-spam-em-formularios-rails-utilizando-invisible-captcha/"/>
+    <updated>2014-09-12T16:00:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2014/09/12/previnindo-spam-em-formularios-rails-utilizando-invisible-captcha</id>
+    <content type="html"><![CDATA[<p class="aligncenter">
+  <img class="space" title="SPAM" src="http://blog.algorich.com.br/posts-assets/images/2014/09/spam.jpg" alt="SPAM" width="500" height="360" />
+</p>
+
+
+<p>Qualquer aplicação web com formulários que não exigem autenticação do usuário, sofre do mesmo problema: o SPAM! Em sua maioria, preenchido por <a href="http://pt.wikipedia.org/wiki/Spambot" target="_blank">spambots</a>.</p>
+
+<p>A técnica mais utilizada para a prevenção é o uso do <a href="http://pt.wikipedia.org/wiki/ReCAPTCHA" target="_blank">reCAPTCHA</a>, oficialmente originado do <a href="http://pt.wikipedia.org/wiki/CAPTCHA" target="_blank">CAPTCHA</a>, que foi desenvolvido pioneiramente na universidade de Carnegie-Mellon, nos EUA.</p>
+
+<!-- more -->
+
+
+<p>Um CAPTCHA usual envolve um computador (um servidor) que pede que um usuário termine um teste. Como os bots são incapazes de resolver o CAPTCHA, todo usuário que incorpora uma solução correta é presumidamente humano.</p>
+
+<p>Já o reCAPTCHA pede para usuários digitarem palavras distorcidas exibidas na tela. Além de proteger que os robôs preencham os formulários, <a href="http://bsf.org.br/2010/02/04/recaptcha-digitalizacao-ocr-luis-von-ahn-pop-tech/" target="_blank">ele ajuda a digitalizar o texto de livros</a>.</p>
+
+<p>O problema é que o reCAPTCHA se torna chato para os usuários, o que atrapalha e muito na <a href="http://pt.wikipedia.org/wiki/Experi%C3%AAncia_do_usu%C3%A1rio">UX</a>.</p>
+
+<h2>Utilizando a técnica de honeypot</h2>
+
+<p>A técnica de <a href="http://haacked.com/archive/2007/09/11/honeypot-captcha.aspx/" target="_blank">Honeypot</a> ou Invisible Captcha consiste no uso de um campo invisível no formulário. Os bots em sua maioria não carregam todo o HTML, CSS e Javascript da página. Isso faz com que eles não tenham uma visão da página como ela realmente é, não conseguindo distinguir os campos visíveis dos invisíveis.</p>
+
+<p>Qual o resultado?</p>
+
+<p>Eles vão preencher o nosso honeypot!</p>
+
+<h2>Utilizando a gem Invisible Captcha</h2>
+
+<p>A gem <a href="https://github.com/markets/invisible_captcha" target="_blank">invisible_captcha</a> é muito simples, vamos ao passo a passo:</p>
+
+<p>Adicione ao seu Gemfile:
+<code>ruby
+gem 'invisible_captcha'
+</code></p>
+
+<p>Existe mais de uma forma de implementação, abordaremos aqui a implementação no Modelo.</p>
+
+<p>Baste adicionar um atributo virtual a sua classe, como no exemplo abaixo e setá-lo como ‘invisible_captcha’:</p>
+
+<p><code>ruby
+class Topic &lt; ActiveRecord::Base
+  attr_accessor :subtitle # virtual attribute, the honeypot
+  validates :subtitle, invisible_captcha: true
+end
+</code></p>
+
+<p>Se você estiver usando strong_parameters, não se esqueça de colocar o atributo na hash de parâmetros.</p>
+
+<p><code>ruby
+def topic_params
+  params.require(:topic).permit(:subtitle)
+end
+</code></p>
+
+<h2>Configuração Extra</h2>
+
+<p>Para customizar as configurações, adicione o arquivo invisible_captcha.rb em config/initializers com o seguinte:</p>
+
+<p><code>ruby
+InvisibleCaptcha.setup do |ic|
+  ic.sentence_for_humans = 'Se você é humano, por favor, ignore este campo.'
+  ic.error_message = 'Você é um robô!'
+  ic.fake_fields &lt;&lt; 'fake_field'
+end
+</code></p>
+
+<p>Agora basta colocar o formulário na view:</p>
+
+<p><code>ruby
+&lt;%= form_for(@topic) do |f| %&gt;
+  &lt;%= f.invisible_captcha :subtitle %&gt;
+&lt;% end %&gt;
+</code></p>
+
+<p>Para ver o funcionamento, vá ao seu formulário com o inspetor do elemento do seu navegador e procure pelo honeypot. Veja um exemplo abaixo:</p>
+
+<p><img src="/posts-assets/images/2014/09/code.png" alt="inspecionando elemento do honeypot" /></p>
+]]></content>
+  </entry>
+  
+</feed>

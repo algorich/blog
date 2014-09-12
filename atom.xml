@@ -4,7 +4,7 @@
   <title><![CDATA[Blog da Algorich]]></title>
   <link href="http://blog.algorich.com.br/atom.xml" rel="self"/>
   <link href="http://blog.algorich.com.br/"/>
-  <updated>2014-06-25T16:20:23-03:00</updated>
+  <updated>2014-09-12T16:39:32-03:00</updated>
   <id>http://blog.algorich.com.br/</id>
   <author>
     <name><![CDATA[Time Algorich]]></name>
@@ -12,6 +12,108 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Previnindo SPAM em formulários Rails utilizando invisible captcha]]></title>
+    <link href="http://blog.algorich.com.br/2014/09/12/previnindo-spam-em-formularios-rails-utilizando-invisible-captcha/"/>
+    <updated>2014-09-12T16:00:00-03:00</updated>
+    <id>http://blog.algorich.com.br/2014/09/12/previnindo-spam-em-formularios-rails-utilizando-invisible-captcha</id>
+    <content type="html"><![CDATA[<p class="aligncenter">
+  <img class="space" title="SPAM" src="http://blog.algorich.com.br/posts-assets/images/2014/09/spam.jpg" alt="SPAM" width="500" height="360" />
+</p>
+
+
+<p>Qualquer aplicação web com formulários que não exigem autenticação do usuário, sofre do mesmo problema: o SPAM! Em sua maioria, preenchido por <a href="http://pt.wikipedia.org/wiki/Spambot" target="_blank">spambots</a>.</p>
+
+<p>A técnica mais utilizada para a prevenção é o uso do <a href="http://pt.wikipedia.org/wiki/ReCAPTCHA" target="_blank">reCAPTCHA</a>, oficialmente originado do <a href="http://pt.wikipedia.org/wiki/CAPTCHA" target="_blank">CAPTCHA</a>, que foi desenvolvido pioneiramente na universidade de Carnegie-Mellon, nos EUA.</p>
+
+<!-- more -->
+
+
+<p>Um CAPTCHA usual envolve um computador (um servidor) que pede que um usuário termine um teste. Como os bots são incapazes de resolver o CAPTCHA, todo usuário que incorpora uma solução correta é presumidamente humano.</p>
+
+<p>Já o reCAPTCHA pede para usuários digitarem palavras distorcidas exibidas na tela. Além de proteger que os robôs preencham os formulários, <a href="http://bsf.org.br/2010/02/04/recaptcha-digitalizacao-ocr-luis-von-ahn-pop-tech/" target="_blank">ele ajuda a digitalizar o texto de livros</a>.</p>
+
+<p>O problema é que o reCAPTCHA se torna chato para os usuários, o que atrapalha e muito na <a href="http://pt.wikipedia.org/wiki/Experi%C3%AAncia_do_usu%C3%A1rio">UX</a>.</p>
+
+<h2>Utilizando a técnica de honeypot</h2>
+
+<p>A técnica de <a href="http://haacked.com/archive/2007/09/11/honeypot-captcha.aspx/" target="_blank">Honeypot</a> ou Invisible Captcha consiste no uso de um campo invisível no formulário. Os bots em sua maioria não carregam todo o HTML, CSS e Javascript da página. Isso faz com que eles não tenham uma visão da página como ela realmente é, não conseguindo distinguir os campos visíveis dos invisíveis.</p>
+
+<p>Qual o resultado?</p>
+
+<p>Eles vão preencher o nosso honeypot!</p>
+
+<h2>Utilizando a gem Invisible Captcha</h2>
+
+<p>A gem <a href="https://github.com/markets/invisible_captcha" target="_blank">invisible_captcha</a> é muito simples, vamos ao passo a passo:</p>
+
+<p>Adicione ao seu Gemfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;invisible_captcha&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Existe mais de uma forma de implementação, abordaremos aqui a implementação no Modelo.</p>
+
+<p>Baste adicionar um atributo virtual a sua classe, como no exemplo abaixo e setá-lo como ‘invisible_captcha’:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Topic</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:subtitle</span> <span class="c1"># virtual attribute, the honeypot</span>
+</span><span class='line'>  <span class="n">validates</span> <span class="ss">:subtitle</span><span class="p">,</span> <span class="n">invisible_captcha</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Se você estiver usando strong_parameters, não se esqueça de colocar o atributo na hash de parâmetros.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">topic_params</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:topic</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:subtitle</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Configuração Extra</h2>
+
+<p>Para customizar as configurações, adicione o arquivo invisible_captcha.rb em config/initializers com o seguinte:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">InvisibleCaptcha</span><span class="o">.</span><span class="n">setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">ic</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">ic</span><span class="o">.</span><span class="n">sentence_for_humans</span> <span class="o">=</span> <span class="s1">&#39;Se você é humano, por favor, ignore este campo.&#39;</span>
+</span><span class='line'>  <span class="n">ic</span><span class="o">.</span><span class="n">error_message</span> <span class="o">=</span> <span class="s1">&#39;Você é um robô!&#39;</span>
+</span><span class='line'>  <span class="n">ic</span><span class="o">.</span><span class="n">fake_fields</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;fake_field&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Agora basta colocar o formulário na view:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= form_for(@topic) do |f| %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">invisible_captcha</span> <span class="ss">:subtitle</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;% end %&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Para ver o funcionamento, vá ao seu formulário com o inspetor do elemento do seu navegador e procure pelo honeypot. Veja um exemplo abaixo:</p>
+
+<p><img src="http://blog.algorich.com.br/posts-assets/images/2014/09/code.png" alt="inspecionando elemento do honeypot" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Por que o meu site deve ser responsivo?]]></title>

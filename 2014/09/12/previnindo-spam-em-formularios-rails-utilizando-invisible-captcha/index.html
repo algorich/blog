@@ -5,15 +5,17 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="pt-BR"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: gerencial - Blog da Algorich</title>
+  <title>Previnindo SPAM em formulários Rails utilizando invisible captcha - Blog da Algorich</title>
   
-    <meta name="author" content="Time Algorich" />
+    <meta name="author" content="Matheus Sales">
+  
+
+  
+    <meta name="description" content="Web Design Responsivo é uma abordagem que permite que um site proveja a melhor experiência de navegação e leitura para o usuário, adequando-se à diferentes cenários, ">
   
 
   
-    <meta name="description" content="Category: gerencial">
-  
-
+    <meta name="keywords" content="ruby, rails, spam, captcha, invisible_captcha, formulario,  matheus sales">
   
 
   <!-- start: Facebook Open Graph -->
@@ -21,13 +23,13 @@
   <meta property="og:type" content="article" />
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:site_name" content="algorich.com.br"/>
-  <meta property="og:url" content="http://blog.algorich.com.brcategories/gerencial/index.html"/>
-  <meta property="og:title" content="Category: gerencial - Blog da Algorich"/>
+  <meta property="og:url" content="http://blog.algorich.com.br/2014/09/12/previnindo-spam-em-formularios-rails-utilizando-invisible-captcha/"/>
+  <meta property="og:title" content="Previnindo SPAM em formulários Rails utilizando invisible captcha - Blog da Algorich"/>
   
-    <meta property="og:description" content="Category: gerencial" />
+    <meta property="og:description" content="Web Design Responsivo é uma abordagem que permite que um site proveja a melhor experiência de navegação e leitura para o usuário, adequando-se à diferentes cenários, " />
   
   
-    <meta property="og:image" content="http://blog.algorich.com.br/img/facebook_logo.png"/>
+    <meta property="og:image" content="http://blog.algorich.com.br/posts-assets/images/2014/09/spam.gif" />
   
   <!-- end: Facebook Open Graph -->
 
@@ -37,7 +39,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.algorich.com.brcategories/gerencial/">
+  <link rel="canonical" href="http://blog.algorich.com.br/2014/09/12/previnindo-spam-em-formularios-rails-utilizando-invisible-captcha/">
   <link href="/favicon.png" rel="icon">
 
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -98,118 +100,187 @@
       <div class="row">
         <div class="span7">
           <div>
-<article role="article">
-  
-  <header>
-    <h1 class="entry-title">Category: gerencial</h1>
-    
-  </header>
-  
-  <div id="blog-archives" class="category">
-
-
-
-  
-  <h2>2014</h2>
-
 <article>
+  <div class="post">
+  <div class="post-content">
+    
+      <header>
+        
+          <div class="title">
+            <h2>Previnindo SPAM em formulários Rails utilizando invisible captcha</h2>
+          </div>
+        
+        
+          <!-- start: post meta -->
+          <div class="post-meta">
+            <span>
+              <i class="mini-ico-calendar"></i>
+              
+
+
+
+
+
+
+
+
   
-<h1><a href="/2014/05/07/integracao-e-deploy-continuos/">Integração e Deploy Contínuos (Parte 1)</a></h1>
-<time datetime="2014-05-07T14:00:00-03:00" pubdate><span class='month'>May</span> <span class='day'>07</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/categories/douglas-oliveira-camata/'>douglas oliveira camata</a>, <a class='category' href='/categories/gerencial/'>gerencial</a></span>
-</footer>
 
 
-</article>
+<time datetime="2014-09-12T16:00:00-03:00" pubdate data-updated="true">12/09/2014</time>
+            </span>
 
+            <span>
+              <i class="mini-ico-user"></i>
+              
+  
+
+Matheus Sales
+
+            </span>
+
+            
+            <span>
+               <i class="mini-ico-comment"></i>
+               <a href="#disqus_thread">Comentários</a>
+            </span>
+            
+          </div>
+          <!-- end: post meta -->
+        
+      </header>
+    
+    
+    <div class="entry-content"><p class="aligncenter">
+  <img class="space" title="SPAM" src="/posts-assets/images/2014/09/spam.jpg" alt="SPAM" width="500" height="360" />
+</p>
+
+
+<p>Qualquer aplicação web com formulários que não exigem autenticação do usuário, sofre do mesmo problema: o SPAM! Em sua maioria, preenchido por <a href="http://pt.wikipedia.org/wiki/Spambot" target="_blank">spambots</a>.</p>
+
+<p>A técnica mais utilizada para a prevenção é o uso do <a href="http://pt.wikipedia.org/wiki/ReCAPTCHA" target="_blank">reCAPTCHA</a>, oficialmente originado do <a href="http://pt.wikipedia.org/wiki/CAPTCHA" target="_blank">CAPTCHA</a>, que foi desenvolvido pioneiramente na universidade de Carnegie-Mellon, nos EUA.</p>
+
+<!-- more -->
+
+
+<p>Um CAPTCHA usual envolve um computador (um servidor) que pede que um usuário termine um teste. Como os bots são incapazes de resolver o CAPTCHA, todo usuário que incorpora uma solução correta é presumidamente humano.</p>
+
+<p>Já o reCAPTCHA pede para usuários digitarem palavras distorcidas exibidas na tela. Além de proteger que os robôs preencham os formulários, <a href="http://bsf.org.br/2010/02/04/recaptcha-digitalizacao-ocr-luis-von-ahn-pop-tech/" target="_blank">ele ajuda a digitalizar o texto de livros</a>.</p>
+
+<p>O problema é que o reCAPTCHA se torna chato para os usuários, o que atrapalha e muito na <a href="http://pt.wikipedia.org/wiki/Experi%C3%AAncia_do_usu%C3%A1rio">UX</a>.</p>
+
+<h2>Utilizando a técnica de honeypot</h2>
+
+<p>A técnica de <a href="http://haacked.com/archive/2007/09/11/honeypot-captcha.aspx/" target="_blank">Honeypot</a> ou Invisible Captcha consiste no uso de um campo invisível no formulário. Os bots em sua maioria não carregam todo o HTML, CSS e Javascript da página. Isso faz com que eles não tenham uma visão da página como ela realmente é, não conseguindo distinguir os campos visíveis dos invisíveis.</p>
+
+<p>Qual o resultado?</p>
+
+<p>Eles vão preencher o nosso honeypot!</p>
+
+<h2>Utilizando a gem Invisible Captcha</h2>
+
+<p>A gem <a href="https://github.com/markets/invisible_captcha" target="_blank">invisible_captcha</a> é muito simples, vamos ao passo a passo:</p>
+
+<p>Adicione ao seu Gemfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;invisible_captcha&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Existe mais de uma forma de implementação, abordaremos aqui a implementação no Modelo.</p>
+
+<p>Baste adicionar um atributo virtual a sua classe, como no exemplo abaixo e setá-lo como ‘invisible_captcha’:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Topic</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:subtitle</span> <span class="c1"># virtual attribute, the honeypot</span>
+</span><span class='line'>  <span class="n">validates</span> <span class="ss">:subtitle</span><span class="p">,</span> <span class="n">invisible_captcha</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Se você estiver usando strong_parameters, não se esqueça de colocar o atributo na hash de parâmetros.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">topic_params</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:topic</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:subtitle</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Configuração Extra</h2>
+
+<p>Para customizar as configurações, adicione o arquivo invisible_captcha.rb em config/initializers com o seguinte:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">InvisibleCaptcha</span><span class="o">.</span><span class="n">setup</span> <span class="k">do</span> <span class="o">|</span><span class="n">ic</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">ic</span><span class="o">.</span><span class="n">sentence_for_humans</span> <span class="o">=</span> <span class="s1">&#39;Se você é humano, por favor, ignore este campo.&#39;</span>
+</span><span class='line'>  <span class="n">ic</span><span class="o">.</span><span class="n">error_message</span> <span class="o">=</span> <span class="s1">&#39;Você é um robô!&#39;</span>
+</span><span class='line'>  <span class="n">ic</span><span class="o">.</span><span class="n">fake_fields</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;fake_field&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Agora basta colocar o formulário na view:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= form_for(@topic) do |f| %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">invisible_captcha</span> <span class="ss">:subtitle</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;% end %&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Para ver o funcionamento, vá ao seu formulário com o inspetor do elemento do seu navegador e procure pelo honeypot. Veja um exemplo abaixo:</p>
+
+<p><img src="/posts-assets/images/2014/09/code.png" alt="inspecionando elemento do honeypot" /></p>
+</div>
+    
+  </dib>
+</dib>
+  <footer>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.algorich.com.br/2014/09/12/previnindo-spam-em-formularios-rails-utilizando-invisible-captcha/" data-via="algorich" data-counturl="http://blog.algorich.com.br/2014/09/12/previnindo-spam-em-formularios-rails-utilizando-invisible-captcha/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
 
-  
+    
+
+    <ul class="pagination clear">
+      
+        <div class="alignleft">
+          <a href="/2014/06/25/por-que-o-meu-site-deve-ser-responsivo/" title="Post anterior: Por que o meu site deve ser responsivo?"><li>&laquo; Por que o meu site deve ser responsivo?</li></a>
+        </div>
+      
+      
+    </ul>
+  </footer>
 </article>
 
+
+  <section>
+    <div id="disqus_thread" aria-live="polite"><noscript>Por favor, habilite o JavaScript para visualizar os to view the <a href="http://disqus.com/?ref_noscript">comentários fornecidos pelo Disqus.</a></noscript>
 </div>
+  </section>
 
-<aside class="sidebar">
-  
-    <section>
-  <div class="title"><h3>Posts recentes</h3></div>
-  <ul id="recent_posts">
-    
-      <li>
-        <a href="/2014/09/12/previnindo-spam-em-formularios-rails-utilizando-invisible-captcha/">Previnindo SPAM em formulários Rails utilizando invisible captcha</a>
-      </li>
-    
-      <li>
-        <a href="/2014/06/25/por-que-o-meu-site-deve-ser-responsivo/">Por que o meu site deve ser responsivo?</a>
-      </li>
-    
-      <li>
-        <a href="/2014/05/23/conheca-os-test-helpers-travel_to-e-travel_back-no-rails-4-1/">Conheça os test helpers: #travel_to e #travel_back no Rails 4.1</a>
-      </li>
-    
-      <li>
-        <a href="/2014/05/13/cuidados-no-uso-de-factories-factorygirl/">Boa prática em testes & cuidados com FactoryGirl</a>
-      </li>
-    
-      <li>
-        <a href="/2014/05/07/integracao-e-deploy-continuos/">Integração e Deploy Contínuos (Parte 1)</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <div class="title"><h3>GitHub</h3></div>
-  <ul id="gh_repos">
-    <li class="loading">Atualizando status...</li>
-  </ul>
-  
-  <a href="https://github.com/algorich">@algorich</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'algorich',
-            count: 4,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <div class="title"><h3>Tweets recentes</h3></div>
-  <ul id="tweets">
-    <li class="loading">Atualizando status...</li>
-  </ul>
-  <script type="text/javascript">
-    $(function(){
-      getTwitterFeed("algorich", 4, false);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/algorich" class="twitter-follow-button" data-show-count="false">Siga @algorich</a>
-  
-</section>
-
-  
-</aside>
-
-
+</div>
         </div>
 
         <div class="span3 hidden-phone sidebar">
@@ -469,7 +540,10 @@
       var disqus_shortname = 'algorich';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.algorich.com.br/2014/09/12/previnindo-spam-em-formularios-rails-utilizando-invisible-captcha/';
+        var disqus_url = 'http://blog.algorich.com.br/2014/09/12/previnindo-spam-em-formularios-rails-utilizando-invisible-captcha/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
