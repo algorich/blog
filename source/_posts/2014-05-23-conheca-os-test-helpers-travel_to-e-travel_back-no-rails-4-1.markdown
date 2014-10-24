@@ -36,4 +36,23 @@ Essa feature teve um destaque muito pequeno (o que não diminui sua importância
 
 <img title="release notes: travel_to / travel_back" src="/posts-assets/images/2014/05/travel-to.png" alt="release notes: travel_to / travel_back" width="670" height="389" />
 
+####Editado em 24/10/2014
+
+##Exemplo de uso
+
+``` ruby
+describe SomeObject do
+  include ActiveSupport::Testing::TimeHelpers
+
+  it 'works with the new stuff' do
+    the_thing = SomeObject.new
+
+  # Executes travel back after the block yields
+    travel_to(1.day.ago) do
+      expect(the_thing.works_with_new_stuff?).to eq true
+    end
+  end
+end
+```
+
 Referência: <a href="http://brandonhilkert.com/blog/rails-4-1-travel-to-test-helper/" target="_blank">http://brandonhilkert.com/blog/rails-4-1-travel-to-test-helper/</a>
