@@ -4,7 +4,7 @@
   <title><![CDATA[Blog da Algorich]]></title>
   <link href="http://blog.algorich.com.br/atom.xml" rel="self"/>
   <link href="http://blog.algorich.com.br/"/>
-  <updated>2014-09-12T17:04:04-03:00</updated>
+  <updated>2014-10-24T14:44:35-02:00</updated>
   <id>http://blog.algorich.com.br/</id>
   <author>
     <name><![CDATA[Time Algorich]]></name>
@@ -190,6 +190,37 @@
 <p>Essa feature teve um destaque muito pequeno (o que não diminui sua importância, na minha opinião), sendo mencionada apenas no final das notas da release:</p>
 
 <p><img title="release notes: travel_to / travel_back" src="http://blog.algorich.com.br/posts-assets/images/2014/05/travel-to.png" alt="release notes: travel_to / travel_back" width="670" height="389" /></p>
+
+<h4>Editado em 24/10/2014</h4>
+
+<h2>Exemplo de uso</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">SomeObject</span> <span class="k">do</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="ss">ActiveSupport</span><span class="p">:</span><span class="ss">:Testing</span><span class="o">::</span><span class="no">TimeHelpers</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;works with the new stuff&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">the_thing</span> <span class="o">=</span> <span class="no">SomeObject</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Executes travel back after the block yields</span>
+</span><span class='line'>    <span class="n">travel_to</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">day</span><span class="o">.</span><span class="n">ago</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">the_thing</span><span class="o">.</span><span class="n">works_with_new_stuff?</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Referência: <a href="http://brandonhilkert.com/blog/rails-4-1-travel-to-test-helper/" target="_blank">http://brandonhilkert.com/blog/rails-4-1-travel-to-test-helper/</a></p>
 ]]></content>
